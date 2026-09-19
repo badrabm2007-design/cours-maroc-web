@@ -48,7 +48,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Offset? _contextMenuOffset;
 
   bool _isToolbarDocked = true;
-  Offset _toolbarOffset = const Offset(200, 35);
+  Offset? _toolbarOffset;
 
   bool _showTranslationCard = false;
   Offset _translationCardPosition = const Offset(100, 100);
@@ -86,6 +86,9 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     final isFav = favService.isFavorite(widget.document.id);
     final isDownloaded = downloadService.isDownloaded(widget.document.id);
 
+    final screenW = MediaQuery.of(context).size.width;
+    final isMobile = screenW < 700;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
@@ -100,26 +103,16 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             ),
           ),
           child: SafeArea(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // 1. Left side: Back button & Document details
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
+            child: isMobile
+                ? Row(
                     children: [
                       const SizedBox(width: 4),
                       IconButton(
                         icon: const Icon(Icons.arrow_back),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
-                      const SizedBox(width: 6),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: (MediaQuery.of(context).size.width * 0.28)
-                              .clamp(100.0, 320.0),
-                        ),
+                      const SizedBox(width: 4),
+                      Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +120,9 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                             Text(
                               widget.document.title,
                               style: const TextStyle(
-                                  fontSize: 14.5, fontWeight: FontWeight.w700),
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.w700,
+                              ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -143,89 +138,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-
-                // 2. Exact True Center: Docked Toolbar
-                if (_isToolbarDocked)
-                  Center(
-                    child: PdfAnnotationToolbar(
-                      activeTool: _activeTool,
-                      onToolChanged: (tool) {
-                        setState(() {
-                          _activeTool = tool;
-                          if (tool == PdfTool.textNote) {
-                            final screenW = MediaQuery.of(context).size.width;
-                            final screenH = MediaQuery.of(context).size.height;
-                            _stickyNoteCardPosition = Offset(
-                              ((screenW - 300) / 2).clamp(10.0, double.infinity),
-                              screenH * 0.22,
-                            );
-                            _showStickyNoteCard = true;
-                          }
-                        });
-                      },
-                      penColor: _penColor,
-                      onPenColorChanged: (c) => setState(() => _penColor = c),
-                      penWidth: _penWidth,
-                      onPenWidthChanged: (w) => setState(() => _penWidth = w),
-                      highlighterColor: _highlighterColor,
-                      onHighlighterColorChanged: (c) =>
-                          setState(() => _highlighterColor = c),
-                      highlighterWidth: _highlighterWidth,
-                      onHighlighterWidthChanged: (w) =>
-                          setState(() => _highlighterWidth = w),
-                      hasAnnotations: _strokes.isNotEmpty ||
-                          _notes.isNotEmpty ||
-                          _draggableNotes.isNotEmpty,
-                      isDockedInAppBar: true,
-                      onDetach: () {
-                        final screenW = MediaQuery.of(context).size.width;
-                        setState(() {
-                          _isToolbarDocked = false;
-                          _toolbarOffset = Offset(
-                            ((screenW - 470) / 2).clamp(10.0, double.infinity),
-                            35.0,
-                          );
-                        });
-                      },
-                      onClearAll: () => setState(() {
-                        _strokes.clear();
-                        _notes.clear();
-                        _draggableNotes.clear();
-                      }),
-                      onZoomIn: () => _pdfViewerController.zoomLevel =
-                          (_pdfViewerController.zoomLevel + 0.25).clamp(1.0, 4.0),
-                      onZoomOut: () => _pdfViewerController.zoomLevel =
-                          (_pdfViewerController.zoomLevel - 0.25).clamp(1.0, 4.0),
-                      onTranslate: () {
-                        final screenW = MediaQuery.of(context).size.width;
-                        setState(() {
-                          _translationCardText = _selectedText ?? '';
-                          _translationCardPosition = Offset(
-                            ((screenW - 320) / 2).clamp(10.0, double.infinity),
-                            10.0,
-                          );
-                          _showTranslationCard = true;
-                        });
-                      },
-                    ),
-                  ),
-
-                // 3. Right side: Action buttons
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (!_isToolbarDocked)
-                        IconButton(
-                          icon: const Icon(Icons.vertical_align_top_rounded,
-                              color: Color(0xFF2563EB)),
-                          tooltip: 'Replacer les outils en haut',
-                          onPressed: () => setState(() => _isToolbarDocked = true),
-                        ),
                       IconButton(
                         icon: Icon(
                           isDownloaded
@@ -236,6 +148,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                         tooltip: isDownloaded
                             ? langService.tr('pdf_offline_badge')
                             : 'Télécharger le PDF',
+                        visualDensity: VisualDensity.compact,
                         onPressed: () async {
                           await downloadService.downloadDocument(
                             document: widget.document,
@@ -254,26 +167,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                         },
                       ),
                       IconButton(
-                        icon: const Icon(Icons.g_translate_rounded),
-                        tooltip: 'Traduction / ترجمة',
-                        onPressed: () {
-                          final screenW = MediaQuery.of(context).size.width;
-                          setState(() {
-                            _translationCardText = _selectedText ?? '';
-                            _translationCardPosition = Offset(
-                              (screenW - 325).clamp(10.0, double.infinity),
-                              55,
-                            );
-                            _showTranslationCard = true;
-                          });
-                        },
-                      ),
-                      IconButton(
                         icon: Icon(
                           isFav ? Icons.star_rounded : Icons.star_outline_rounded,
                           color: isFav ? const Color(0xFFF59E0B) : null,
                         ),
                         tooltip: isFav ? 'Retirer des favoris' : 'Ajouter aux favoris',
+                        visualDensity: VisualDensity.compact,
                         onPressed: () {
                           favService.toggleFavorite(
                             document: widget.document,
@@ -281,51 +180,242 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                           );
                         },
                       ),
-                      if (_totalPages > 0) ...[
-                        Center(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? Colors.white10
-                                  : Colors.black.withValues(alpha: 0.05),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              '$_currentPage / $_totalPages',
-                              style: const TextStyle(
-                                fontSize: 12.5,
-                                fontWeight: FontWeight.w700,
-                              ),
+                      if (_totalPages > 0)
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 7, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? Colors.white10
+                                : Colors.black.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '$_currentPage/$_totalPages',
+                            style: const TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.zoom_out_rounded),
-                          tooltip: 'Zoom -',
-                          onPressed: () {
-                            _pdfViewerController.zoomLevel =
-                                (_pdfViewerController.zoomLevel - 0.25)
-                                    .clamp(1.0, 4.0);
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.zoom_in_rounded),
-                          tooltip: 'Zoom +',
-                          onPressed: () {
-                            _pdfViewerController.zoomLevel =
-                                (_pdfViewerController.zoomLevel + 0.25)
-                                    .clamp(1.0, 4.0);
-                          },
-                        ),
-                      ],
                       const SizedBox(width: 4),
                     ],
+                  )
+                : Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // 1. Left side: Back button & Document details
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(width: 4),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            const SizedBox(width: 6),
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: (screenW * 0.28).clamp(100.0, 320.0),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.document.title,
+                                    style: const TextStyle(
+                                        fontSize: 14.5,
+                                        fontWeight: FontWeight.w700),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    '${widget.subjectName} • ${widget.document.categoryDisplayName}',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: isDark
+                                          ? Colors.white60
+                                          : Colors.black54,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // 2. Exact True Center: Docked Toolbar
+                      if (_isToolbarDocked)
+                        Center(
+                          child: PdfAnnotationToolbar(
+                            activeTool: _activeTool,
+                            onToolChanged: (tool) {
+                              setState(() {
+                                _activeTool = tool;
+                                if (tool == PdfTool.textNote) {
+                                  final screenH =
+                                      MediaQuery.of(context).size.height;
+                                  _stickyNoteCardPosition = Offset(
+                                    ((screenW - 300) / 2)
+                                        .clamp(10.0, double.infinity),
+                                    screenH * 0.22,
+                                  );
+                                  _showStickyNoteCard = true;
+                                }
+                              });
+                            },
+                            penColor: _penColor,
+                            onPenColorChanged: (c) =>
+                                setState(() => _penColor = c),
+                            penWidth: _penWidth,
+                            onPenWidthChanged: (w) =>
+                                setState(() => _penWidth = w),
+                            highlighterColor: _highlighterColor,
+                            onHighlighterColorChanged: (c) =>
+                                setState(() => _highlighterColor = c),
+                            highlighterWidth: _highlighterWidth,
+                            onHighlighterWidthChanged: (w) =>
+                                setState(() => _highlighterWidth = w),
+                            hasAnnotations: _strokes.isNotEmpty ||
+                                _notes.isNotEmpty ||
+                                _draggableNotes.isNotEmpty,
+                            isDockedInAppBar: true,
+                            onDetach: () {
+                              setState(() {
+                                _isToolbarDocked = false;
+                                _toolbarOffset = Offset(
+                                  ((screenW - 470) / 2)
+                                      .clamp(10.0, double.infinity),
+                                  35.0,
+                                );
+                              });
+                            },
+                            onClearAll: () => setState(() {
+                              _strokes.clear();
+                              _notes.clear();
+                              _draggableNotes.clear();
+                            }),
+                            onZoomIn: () => _pdfViewerController.zoomLevel =
+                                (_pdfViewerController.zoomLevel + 0.25)
+                                    .clamp(1.0, 4.0),
+                            onZoomOut: () => _pdfViewerController.zoomLevel =
+                                (_pdfViewerController.zoomLevel - 0.25)
+                                    .clamp(1.0, 4.0),
+                            onTranslate: () {
+                              setState(() {
+                                _translationCardText = _selectedText ?? '';
+                                _translationCardPosition = Offset(
+                                  ((screenW - 320) / 2)
+                                      .clamp(10.0, double.infinity),
+                                  10.0,
+                                );
+                                _showTranslationCard = true;
+                              });
+                            },
+                          ),
+                        ),
+
+                      // 3. Right side: Action buttons
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                isDownloaded
+                                    ? Icons.check_circle_rounded
+                                    : Icons.download_rounded,
+                                color: isDownloaded
+                                    ? const Color(0xFF10B981)
+                                    : null,
+                              ),
+                              tooltip: isDownloaded
+                                  ? langService.tr('pdf_offline_badge')
+                                  : 'Télécharger le PDF',
+                              onPressed: () async {
+                                await downloadService.downloadDocument(
+                                  document: widget.document,
+                                  subjectName: widget.subjectName,
+                                );
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Téléchargement lancé dans votre navigateur.'),
+                                      backgroundColor: Color(0xFF10B981),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.g_translate_rounded),
+                              tooltip: 'Traduction / ترجمة',
+                              onPressed: () {
+                                setState(() {
+                                  _translationCardText = _selectedText ?? '';
+                                  _translationCardPosition = Offset(
+                                    (screenW - 325)
+                                        .clamp(10.0, double.infinity),
+                                    55,
+                                  );
+                                  _showTranslationCard = true;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                isFav
+                                    ? Icons.star_rounded
+                                    : Icons.star_outline_rounded,
+                                color: isFav ? const Color(0xFFF59E0B) : null,
+                              ),
+                              tooltip: isFav
+                                  ? 'Retirer des favoris'
+                                  : 'Ajouter aux favoris',
+                              onPressed: () {
+                                favService.toggleFavorite(
+                                  document: widget.document,
+                                  subjectName: widget.subjectName,
+                                );
+                              },
+                            ),
+                            if (_totalPages > 0) ...[
+                              Center(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: isDark
+                                        ? Colors.white10
+                                        : Colors.black.withValues(alpha: 0.05),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '$_currentPage / $_totalPages',
+                                    style: const TextStyle(
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                            const SizedBox(width: 4),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
@@ -386,44 +476,74 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       builder: (context, constraints) {
         final double screenW = constraints.maxWidth;
         final double screenH = constraints.maxHeight;
+        final bool isMobile = screenW < 700;
+
+        // Compact horizontal toolbar width: ~310px
+        const double toolbarWidthEst = 310.0;
+        final double mobileDefaultX =
+            ((screenW - toolbarWidthEst) / 2).clamp(8.0, double.infinity);
+        final double mobileDefaultY =
+            (screenH - 52.0).clamp(8.0, double.infinity);
 
         double toolbarX;
         double toolbarY;
         bool isToolbarVertical;
         bool isToolbarDockedLeft;
 
-        if (_isToolbarDocked) {
+        if (isMobile) {
+          // On mobile: never docked in AppBar; default is bottom center
+          final currentOffset =
+              _toolbarOffset ?? Offset(mobileDefaultX, mobileDefaultY);
+          toolbarX = currentOffset.dx;
+          toolbarY = currentOffset.dy;
+
           isToolbarVertical = false;
           isToolbarDockedLeft = false;
-          toolbarX = ((screenW - 470) / 2).clamp(10.0, screenW - 480.0);
-          toolbarY = 12.0;
-        } else {
-          toolbarX = _toolbarOffset.dx;
-          toolbarY = _toolbarOffset.dy;
-
-          if (toolbarX <= 75) {
-            isToolbarVertical = true;
-            isToolbarDockedLeft = true;
-            toolbarX = 12.0;
-          } else if (toolbarX >= screenW - 115) {
-            isToolbarVertical = true;
-            isToolbarDockedLeft = false;
-            toolbarX = screenW - 55.0;
-          } else {
-            isToolbarVertical = false;
-            isToolbarDockedLeft = false;
-          }
 
           toolbarX = toolbarX.clamp(
-            8.0,
-            (screenW - (isToolbarVertical ? 55.0 : 470.0))
-                .clamp(8.0, double.infinity),
+            6.0,
+            (screenW - toolbarWidthEst).clamp(6.0, double.infinity),
           );
           toolbarY = toolbarY.clamp(
-            8.0,
-            (screenH - (isToolbarVertical ? 460.0 : 60.0))
-                .clamp(8.0, double.infinity),
+            6.0,
+            (screenH - 50.0).clamp(6.0, double.infinity),
           );
+        } else {
+          // Desktop mode
+          if (_isToolbarDocked) {
+            isToolbarVertical = false;
+            isToolbarDockedLeft = false;
+            toolbarX = ((screenW - 470) / 2).clamp(10.0, screenW - 480.0);
+            toolbarY = 12.0;
+          } else {
+            final currentOffset = _toolbarOffset ?? const Offset(200, 35);
+            toolbarX = currentOffset.dx;
+            toolbarY = currentOffset.dy;
+
+            if (toolbarX <= 75) {
+              isToolbarVertical = true;
+              isToolbarDockedLeft = true;
+              toolbarX = 12.0;
+            } else if (toolbarX >= screenW - 115) {
+              isToolbarVertical = true;
+              isToolbarDockedLeft = false;
+              toolbarX = screenW - 55.0;
+            } else {
+              isToolbarVertical = false;
+              isToolbarDockedLeft = false;
+            }
+
+            toolbarX = toolbarX.clamp(
+              8.0,
+              (screenW - (isToolbarVertical ? 55.0 : 470.0))
+                  .clamp(8.0, double.infinity),
+            );
+            toolbarY = toolbarY.clamp(
+              8.0,
+              (screenH - (isToolbarVertical ? 460.0 : 60.0))
+                  .clamp(8.0, double.infinity),
+            );
+          }
         }
 
         return Stack(
@@ -634,14 +754,14 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                 ),
               ),
 
-            // 4. Draggable Floating Annotation Toolbar (only when detached from AppBar)
-            if (!_isToolbarDocked)
+            // 4. Draggable Floating Annotation Toolbar (when detached or on mobile)
+            if (!_isToolbarDocked || isMobile)
               Positioned(
                 left: toolbarX,
                 top: toolbarY,
                 child: GestureDetector(
                   onPanStart: (_) {
-                    if (_isToolbarDocked) {
+                    if (_isToolbarDocked && !isMobile) {
                       setState(() {
                         _isToolbarDocked = false;
                         _toolbarOffset = Offset(toolbarX, toolbarY);
@@ -650,10 +770,17 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                   },
                   onPanUpdate: (details) {
                     setState(() {
-                      _isToolbarDocked = false;
-                      _toolbarOffset += details.delta;
-                      // Magnetic auto-docking when intentionally pushed upwards to top edge
-                      if (details.delta.dy < -0.5 && _toolbarOffset.dy <= 5.0) {
+                      if (!isMobile) {
+                        _isToolbarDocked = false;
+                      }
+                      _toolbarOffset = Offset(
+                        toolbarX + details.delta.dx,
+                        toolbarY + details.delta.dy,
+                      );
+                      // Magnetic auto-docking when intentionally pushed upwards to top edge (DESKTOP ONLY!)
+                      if (!isMobile &&
+                          details.delta.dy < -0.5 &&
+                          _toolbarOffset!.dy <= 5.0) {
                         _isToolbarDocked = true;
                       }
                     });
@@ -667,8 +794,10 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                           _stickyNoteCardPosition = Offset(
                             toolbarX.clamp(10.0,
                                 (screenW - 310.0).clamp(10.0, double.infinity)),
-                            (toolbarY + 45.0).clamp(10.0,
-                                (screenH - 260.0).clamp(10.0, double.infinity)),
+                            isMobile
+                                ? 20.0
+                                : (toolbarY + 45.0).clamp(10.0,
+                                    (screenH - 260.0).clamp(10.0, double.infinity)),
                           );
                           _showStickyNoteCard = true;
                         }
@@ -698,7 +827,14 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                     },
                     onClose: () {
                       setState(() {
-                        _isToolbarDocked = true;
+                        if (isMobile) {
+                          // On mobile, reset position back to the bottom initial position!
+                          _toolbarOffset =
+                              Offset(mobileDefaultX, mobileDefaultY);
+                        } else {
+                          // On desktop, dock back into AppBar
+                          _isToolbarDocked = true;
+                        }
                       });
                     },
                     onZoomIn: () {
@@ -717,8 +853,10 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                         _translationCardPosition = Offset(
                           toolbarX.clamp(10.0,
                               (screenW - 325.0).clamp(10.0, double.infinity)),
-                          (toolbarY + 45.0).clamp(10.0,
-                              (screenH - 240.0).clamp(10.0, double.infinity)),
+                          isMobile
+                              ? 20.0
+                              : (toolbarY + 45.0).clamp(10.0,
+                                  (screenH - 240.0).clamp(10.0, double.infinity)),
                         );
                         _showTranslationCard = true;
                       });

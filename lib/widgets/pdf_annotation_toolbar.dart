@@ -336,34 +336,26 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
 
       _buildDivider(isDark),
 
-      // 8. Translation Action Button
-      if (widget.isVertical)
-        IconButton(
-          icon: const Icon(Icons.g_translate_rounded, size: 18, color: Color(0xFF2563EB)),
-          tooltip: 'Traduire un texte',
-          visualDensity: VisualDensity.compact,
-          padding: const EdgeInsets.all(4),
-          constraints: const BoxConstraints(),
-          onPressed: widget.onTranslate,
-        )
-      else
-        ElevatedButton.icon(
-          icon: const Icon(Icons.g_translate_rounded, size: 14),
-          label: const Text(
-            'Traduire',
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+      // 8. Translation Action Button (Compact icon-only)
+      IconButton(
+        icon: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: const Color(0xFF2563EB),
+            borderRadius: BorderRadius.circular(7),
           ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF2563EB),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-            minimumSize: const Size(0, 28),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7),
-            ),
+          child: const Icon(
+            Icons.g_translate_rounded,
+            size: 16,
+            color: Colors.white,
           ),
-          onPressed: widget.onTranslate,
         ),
+        tooltip: 'Traduire un texte',
+        visualDensity: VisualDensity.compact,
+        padding: const EdgeInsets.all(2),
+        constraints: const BoxConstraints(),
+        onPressed: widget.onTranslate,
+      ),
 
       if (widget.hasAnnotations) ...[
         const SizedBox(width: 3, height: 3),
@@ -378,14 +370,14 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
         ),
       ],
 
-      // 9. Close Button (re-docks to AppBar)
+      // 9. Close Button (re-docks to AppBar on desktop, or returns to bottom on mobile)
       if (!widget.isDockedInAppBar) ...[
         _buildDivider(isDark),
 
         if (widget.onClose != null)
           IconButton(
             icon: const Icon(Icons.close_rounded, size: 17),
-            tooltip: 'Replacer dans la barre en haut',
+            tooltip: 'Replacer à l\'emplacement initial',
             visualDensity: VisualDensity.compact,
             padding: const EdgeInsets.all(4),
             constraints: const BoxConstraints(),
