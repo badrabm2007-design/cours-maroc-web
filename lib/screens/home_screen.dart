@@ -34,7 +34,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final Set<String> _prefetchedSubjectIds = {};
   String? _lastBranchId;
-  bool _showWindowsBanner = true;
 
   Future<void> _openWindowsDownload() async {
     const url =
@@ -280,34 +279,34 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ],
         ),
         actions: [
-          // On PC/Desktop: Show Windows App CTA button
+          // On PC/Desktop: Show Windows App Download CTA button
           if (MediaQuery.of(context).size.width >= 700) ...[
-            TextButton.icon(
+            FilledButton.icon(
               onPressed: _openWindowsDownload,
               icon: const Icon(
-                Icons.laptop_windows_rounded,
+                Icons.download_rounded,
                 size: 17,
-                color: Color(0xFF0F5132),
+                color: Colors.white,
               ),
               label: Text(
-                langService.isArabic ? 'تطبيق الحاسوب' : 'Version PC',
+                langService.isArabic ? 'تحميل تطبيق الويندوز' : 'Télécharger PC',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 12.5,
-                  color: Color(0xFF0F5132),
+                  color: Colors.white,
                 ),
               ),
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xFF0F5132).withValues(
-                  alpha: isDark ? 0.25 : 0.08,
-                ),
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF0F5132),
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                elevation: 0,
               ),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: 6),
           ],
 
           // On PC/Desktop: Show Offline and Favorites in AppBar
@@ -427,12 +426,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               child: CustomScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  // Windows App Download Announcement Banner
-                  SliverToBoxAdapter(
-                    child: _buildWindowsAppDownloadBanner(
-                        context, isDark, isDesktop),
-                  ),
-
                   // Level & Branch selector (Only on mobile phone screens)
                   if (!isDesktop)
                     const SliverToBoxAdapter(
@@ -853,9 +846,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: const Icon(
-                  Icons.lightbulb_rounded,
+                  Icons.laptop_windows_rounded,
                   color: Color(0xFF0F5132),
-                  size: 19,
+                  size: 20,
                 ),
               ),
               const SizedBox(width: 9),
@@ -864,7 +857,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isAr ? 'نصائح ومنهجية' : 'Conseil & Méthode',
+                      isAr ? 'تطبيق الحاسوب' : 'Application PC Windows',
                       style: const TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w800,
@@ -872,7 +865,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      isAr ? 'تنظيم وتفوق' : 'Organisation & Réussite',
+                      isAr ? 'دروس المغرب لويندوز' : 'Cours Maroc pour Windows',
                       style: TextStyle(
                         fontSize: 10.5,
                         fontWeight: FontWeight.w600,
@@ -888,11 +881,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
           const SizedBox(height: 10),
 
-          // Clear, concise advice
+          // Promo Description
           Text(
             isAr
-                ? 'اعتمد منهجية مراجعة منظمة وثابتة لتحقيق أفضل النتائج والتقدم بثقة.'
-                : 'Adoptez une méthode de révision structurée et régulière pour progresser sereinement.',
+                ? 'استمتع بمذاكرة مريحة على شاشة حاسوبك بدون إنترنت، بتصفح سريع وأدوات متقدمة.'
+                : 'Installez l\'application officielle sur votre PC pour réviser sur grand écran, 100% hors-ligne et avec fluidité.',
             style: TextStyle(
               fontSize: 11.5,
               height: 1.35,
@@ -901,97 +894,95 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
           const SizedBox(height: 10),
 
-          // 2 Key Method Highlights
+          // Feature Highlights
           _buildBulletItem(
-            icon: Icons.timer_outlined,
+            icon: Icons.offline_pin_rounded,
             iconColor: const Color(0xFF0F5132),
             text: isAr
-                ? 'قاعدة 25/5: 25 دقيقة تركيز + 5 دقائق راحة'
-                : 'Règle 25/5 : 25 min d\'effort + 5 min de pause',
+                ? 'مراجعة كاملة بدون إنترنت (100% Hors-ligne)'
+                : '100% Hors-ligne : vos cours partout sans réseau',
             isDark: isDark,
           ),
           _buildBulletItem(
-            icon: Icons.edit_note_rounded,
+            icon: Icons.speed_rounded,
             iconColor: const Color(0xFF0F5132),
             text: isAr
-                ? 'بطاقات تلخيصية: لخص القوانين والصيغ'
-                : 'Fiches clés : résumez les formules essentielles',
+                ? 'تصفح وفتح سريع للمستندات والامتحانات'
+                : 'Navigation ultra-rapide sur grand écran',
+            isDark: isDark,
+          ),
+          _buildBulletItem(
+            icon: Icons.draw_rounded,
+            iconColor: const Color(0xFF0F5132),
+            text: isAr
+                ? 'أدوات قراءة متقدمة، زوم وتكبير ذكي'
+                : 'Lecture fluide, zoom et outils de révision',
             isDark: isDark,
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
 
-          // Compact Memory Tip Box
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF4338CA)
-                  .withValues(alpha: isDark ? 0.15 : 0.07),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: const Color(0xFF4338CA).withValues(alpha: 0.22),
-              ),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 2),
-                  child: Icon(
-                    Icons.bedtime_outlined,
-                    color: Color(0xFF4338CA),
-                    size: 14,
-                  ),
-                ),
-                const SizedBox(width: 7),
-                Expanded(
-                  child: Text(
-                    isAr
-                        ? 'تثبيت الذاكرة: النوم الكافي يرسخ 80% من المعلومات.'
-                        : 'Mémoire : un bon sommeil consolide 80% de vos acquis.',
-                    style: TextStyle(
-                      fontSize: 10.5,
-                      height: 1.3,
-                      fontWeight: FontWeight.w500,
-                      color: isDark
-                          ? const Color(0xFFC7D2FE)
-                          : const Color(0xFF3730A3),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 12),
-
-          // Action Button
+          // Primary Download Action Button
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              icon: const Icon(Icons.analytics_outlined, size: 15),
+              icon: const Icon(Icons.download_rounded, size: 16),
               label: Text(
-                isAr ? 'مساحة المتابعة' : 'Mon Espace Suivi',
+                isAr ? 'تحميل للويندوز (.zip)' : 'Télécharger pour Windows (.zip)',
                 style: const TextStyle(
                   fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0F5132),
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                elevation: 2,
               ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileAnalyticsScreen(),
+              onPressed: _openWindowsDownload,
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          // Android Closed Test Status Card
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF59E0B).withValues(alpha: isDark ? 0.18 : 0.09),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: const Color(0xFFF59E0B).withValues(alpha: isDark ? 0.4 : 0.25),
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.android_rounded,
+                  size: 15,
+                  color: Color(0xFFD97706),
+                ),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: Text(
+                    isAr
+                        ? 'تطبيق أندرويد : في مرحلة الاختبار المغلق'
+                        : 'App Android : En test fermé actuellement',
+                    style: TextStyle(
+                      fontSize: 10.5,
+                      height: 1.25,
+                      fontWeight: FontWeight.w600,
+                      color: isDark
+                          ? const Color(0xFFFDE68A)
+                          : const Color(0xFFB45309),
+                    ),
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
         ],
@@ -1078,187 +1069,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildWindowsAppDownloadBanner(
-      BuildContext context, bool isDark, bool isDesktop) {
-    if (!_showWindowsBanner) return const SizedBox.shrink();
-
-    final langService = context.watch<AppLanguageService>();
-    final isAr = langService.isArabic;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: isDark
-              ? [
-                  const Color(0xFF0F3A27),
-                  const Color(0xFF142B20),
-                ]
-              : [
-                  const Color(0xFFE8F5E9),
-                  const Color(0xFFF1F8F4),
-                ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: const Color(0xFF0F5132).withValues(alpha: isDark ? 0.6 : 0.25),
-          width: 1.2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: -4,
-            right: isAr ? null : -4,
-            left: isAr ? -4 : null,
-            child: IconButton(
-              icon: const Icon(Icons.close_rounded, size: 18),
-              visualDensity: VisualDensity.compact,
-              tooltip: isAr ? 'إغلاق' : 'Masquer',
-              onPressed: () {
-                setState(() {
-                  _showWindowsBanner = false;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0F5132),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: const Icon(
-                    Icons.laptop_windows_rounded,
-                    color: Colors.white,
-                    size: 26,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        isAr
-                            ? '🎉 متوفر الآن : تطبيق دروس المغرب للحاسوب (Windows) !'
-                            : '🎉 Nouveau : Application Cours Maroc pour PC Windows !',
-                        style: TextStyle(
-                          fontSize: isDesktop ? 15.5 : 14,
-                          fontWeight: FontWeight.w800,
-                          color: isDark ? Colors.white : const Color(0xFF0F5132),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        isAr
-                            ? 'حمّل النسخة الرسمية للكمبيوتر لتصفح الدروس والملخصات بسرعة فائقة، وحفظها للمراجعة بدون إنترنت.'
-                            : 'Téléchargez la version PC pour consulter vos cours ultra-rapidement, prendre des notes et réviser hors-ligne sur grand écran.',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          color: isDark ? Colors.white70 : const Color(0xFF334155),
-                          height: 1.35,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 8,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: _openWindowsDownload,
-                            icon: const Icon(Icons.download_rounded, size: 18),
-                            label: Text(
-                              isAr
-                                  ? 'تحميل للويندوز (.zip مجاناً)'
-                                  : 'Télécharger pour Windows (.zip)',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 13,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF0F5132),
-                              foregroundColor: Colors.white,
-                              elevation: 2,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 10,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF59E0B).withValues(
-                                alpha: isDark ? 0.25 : 0.15,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: const Color(0xFFF59E0B).withValues(
-                                  alpha: isDark ? 0.6 : 0.4,
-                                ),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.android_rounded,
-                                  size: 16,
-                                  color: Color(0xFFD97706),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  isAr
-                                      ? 'تطبيق الهاتف (أندرويد) : في مرحلة الاختبار المغلق حالياً'
-                                      : 'App Android : En test fermé actuellement',
-                                  style: TextStyle(
-                                    fontSize: 11.5,
-                                    fontWeight: FontWeight.w700,
-                                    color: isDark
-                                        ? const Color(0xFFFDE68A)
-                                        : const Color(0xFFB45309),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 extension on BranchOption {

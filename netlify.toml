@@ -1,0 +1,22 @@
+[build]
+  publish = "build/web"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/pdf"
+  query = {id = ":id"}
+  to = "https://drive.usercontent.google.com/download?id=:id&export=download&confirm=t"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/api/pdf*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Content-Type = "application/pdf"
+    Cache-Control = "public, max-age=86400"

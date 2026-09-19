@@ -1,0 +1,4 @@
+/api/pdf*
+  Access-Control-Allow-Origin: *
+  Content-Type: application/pdf
+  Cache-Control: public, max-age=86400

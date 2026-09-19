@@ -1,1 +1,2 @@
+/api/pdf id=:id https://drive.usercontent.google.com/download?id=:id&export=download&confirm=t 200!
 /*    /index.html   200
