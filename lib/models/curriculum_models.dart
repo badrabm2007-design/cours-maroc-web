@@ -431,6 +431,29 @@ class LevelOption {
 
   static const List<LevelOption> allLevels = [
     LevelOption(
+      id: '3eme-annee-college',
+      nameFr: '3ème Année Collège',
+      shortName: '3ème Collège',
+      nameAr: 'الثالثة إعدادي',
+      nameEn: '3rd Year Middle School',
+      branches: [
+        BranchOption(
+          id: 'biof',
+          nameFr: 'Parcours International (BIOF)',
+          nameAr: 'المسلك الدولي (خيار فرنسية)',
+          nameEn: 'International Track (BIOF)',
+          levelId: '3eme-annee-college',
+        ),
+        BranchOption(
+          id: 'general',
+          nameFr: 'Parcours Général',
+          nameAr: 'المسلك العام',
+          nameEn: 'General Track',
+          levelId: '3eme-annee-college',
+        ),
+      ],
+    ),
+    LevelOption(
       id: 'tronc-commun',
       nameFr: 'Tronc Commun',
       shortName: 'Tronc Commun',

@@ -43,6 +43,8 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
 
   IconData _getLevelIcon(String id) {
     switch (id) {
+      case '3eme-annee-college':
+        return Icons.auto_stories_rounded;
       case 'tronc-commun':
         return Icons.foundation_rounded;
       case '1ere-bac':
@@ -83,37 +85,34 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                 const SizedBox(height: 10),
                 Center(
                   child: Container(
-                    width: isDesktop ? 76 : 68,
-                    height: isDesktop ? 76 : 68,
+                    width: isDesktop ? 78 : 70,
+                    height: isDesktop ? 78 : 70,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF0F5132), Color(0xFF15803D)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
                       borderRadius: BorderRadius.circular(22),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF0F5132).withValues(alpha: 0.35),
+                          color: const Color(0xFF0F5132).withValues(alpha: 0.25),
                           blurRadius: 18,
                           offset: const Offset(0, 6),
                         ),
                       ],
                     ),
-                    child: Icon(
-                      Icons.school_rounded,
-                      color: Colors.white,
-                      size: isDesktop ? 42 : 38,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 Center(
                   child: Text(
                     langService.tr('app_title'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: isDesktop ? 24 : 22,
+                      fontSize: isDesktop ? 25 : 22,
                       fontWeight: FontWeight.w800,
                       letterSpacing: -0.5,
                     ),
@@ -125,9 +124,53 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                     langService.tr('app_subtitle'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: isDesktop ? 15 : 14,
+                      fontSize: isDesktop ? 14.5 : 13.5,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF0F5132),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? const Color(0xFF1E293B)
+                          : const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: isDark
+                            ? const Color(0xFF334155)
+                            : const Color(0xFFCBD5E1),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.verified_user_outlined,
+                          size: 14,
+                          color: isDark
+                              ? const Color(0xFF94A3B8)
+                              : const Color(0xFF64748B),
+                        ),
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            langService.tr('app_disclaimer_badge'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: isDesktop ? 12 : 11,
+                              fontWeight: FontWeight.w600,
+                              color: isDark
+                                  ? const Color(0xFF94A3B8)
+                                  : const Color(0xFF475569),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -138,11 +181,12 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                     langService.tr('level_selection_desc'),
                     style: TextStyle(
                       fontSize: isDesktop ? 14 : 13,
-                      color: isDark ? Colors.white70 : const Color(0xFF64748B),
+                      color:
+                          isDark ? Colors.white70 : const Color(0xFF64748B),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
               ],
 
               // Title: Choix du Niveau

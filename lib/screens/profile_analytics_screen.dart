@@ -224,7 +224,11 @@ class ProfileAnalyticsScreen extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      const Text('🔥', style: TextStyle(fontSize: 16)),
+                      const Icon(
+                        Icons.local_fire_department_rounded,
+                        color: Color(0xFFFBBF24),
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(

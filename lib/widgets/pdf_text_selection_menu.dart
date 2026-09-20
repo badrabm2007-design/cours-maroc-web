@@ -7,6 +7,7 @@ class PdfTextSelectionContextMenu extends StatelessWidget {
   final VoidCallback onUnderline;
   final VoidCallback onStrikethrough;
   final VoidCallback onSquiggly;
+  final Color highlighterColor;
 
   const PdfTextSelectionContextMenu({
     super.key,
@@ -16,6 +17,7 @@ class PdfTextSelectionContextMenu extends StatelessWidget {
     required this.onUnderline,
     required this.onStrikethrough,
     required this.onSquiggly,
+    this.highlighterColor = const Color(0xFFEAB308),
   });
 
   @override
@@ -84,7 +86,7 @@ class PdfTextSelectionContextMenu extends StatelessWidget {
                 _buildMenuItem(
                   icon: Icons.highlight_rounded,
                   label: 'Surligner',
-                  iconColor: const Color(0xFFEAB308),
+                  iconColor: highlighterColor,
                   textColor: textColor,
                   onTap: onHighlight,
                 ),

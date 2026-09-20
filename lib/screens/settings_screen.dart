@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/app_language_service.dart';
+import '../services/auth_service.dart';
 import '../services/curriculum_service.dart';
 import 'level_selection_screen.dart';
 
@@ -32,6 +33,17 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         children: [
+          // 0. Account & Cloud Sync Section
+          _buildSectionHeader(
+            context: context,
+            title: langService.tr('auth_section_title'),
+            icon: Icons.account_circle_rounded,
+            isDark: isDark,
+          ),
+          const SizedBox(height: 10),
+          _buildAccountCard(context, isDark, langService),
+          const SizedBox(height: 24),
+
           // 1. Language Section
           _buildSectionHeader(
             context: context,
@@ -458,6 +470,141 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAccountCard(
+    BuildContext context,
+    bool isDark,
+    AppLanguageService langService,
+  ) {
+    final auth = context.watch<AuthService>();
+    final isAr = langService.isArabic;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF162032) : Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: isDark ? const Color(0xFF1F2E45) : const Color(0xFFE2E8F0),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: auth.isAuthenticated
+          ? Row(
+              children: [
+                CircleAvatar(
+                  radius: 24,
+                  backgroundColor: const Color(0xFF0F5132),
+                  child: Text(
+                    auth.currentUser!.displayName.isNotEmpty
+                        ? auth.currentUser!.displayName[0].toUpperCase()
+                        : 'U',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              auth.currentUser!.displayName,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF10B981)
+                                  .withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              isAr ? 'متصل' : 'Connecté',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF10B981),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        auth.currentUser!.email,
+                        style: TextStyle(
+                          fontSize: 12.5,
+                          color: isDark ? Colors.white60 : Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.logout_rounded, color: Colors.red),
+                  tooltip: langService.tr('auth_sign_out'),
+                  onPressed: () => auth.signOut(),
+                ),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  isAr
+                      ? 'سجل دخولك لحفظ المفضلة والملاحظات ومزامنة تقدمك الدراسي عبر جميع أجهزتك.'
+                      : 'Connectez-vous pour sauvegarder vos favoris, annotations et synchroniser votre progression.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    height: 1.4,
+                    color: isDark ? Colors.white70 : const Color(0xFF475569),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.g_mobiledata_rounded, size: 26),
+                    label: Text(
+                      langService.tr('auth_google_signin'),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xFF0F5132),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () async {
+                      await auth.signInWithGoogle();
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

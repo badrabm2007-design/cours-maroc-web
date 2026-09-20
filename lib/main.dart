@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/app_language_service.dart';
+import 'services/auth_service.dart';
 import 'services/curriculum_service.dart';
 import 'services/download_service.dart';
 import 'services/favorites_service.dart';
@@ -27,6 +28,7 @@ void main() async {
   final isDarkMode = prefs.getBool('is_dark_mode') ?? false;
 
   final appLanguageService = AppLanguageService();
+  final authService = AuthService();
   final userProfileService = UserProfileService();
   final curriculumService = CurriculumService();
   final downloadService = DownloadService();
@@ -36,6 +38,7 @@ void main() async {
   // Initialize all services in parallel
   await Future.wait([
     appLanguageService.init(),
+    authService.init(),
     userProfileService.init(),
     curriculumService.init(),
     downloadService.init(),
@@ -54,6 +57,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: appLanguageService),
+        ChangeNotifierProvider.value(value: authService),
         ChangeNotifierProvider.value(value: userProfileService),
         ChangeNotifierProvider.value(value: curriculumService),
         ChangeNotifierProvider.value(value: downloadService),

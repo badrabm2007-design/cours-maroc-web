@@ -77,6 +77,46 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     super.dispose();
   }
 
+  void _handleToolSelected(
+    PdfTool tool, {
+    double? toolbarX,
+    double? toolbarY,
+    bool isMobile = false,
+  }) {
+    setState(() {
+      _activeTool = tool;
+      if (tool == PdfTool.highlighter) {
+        final lines = _pdfViewerKey.currentState?.getSelectedTextLines() ?? [];
+        if (lines.isNotEmpty) {
+          final annotation =
+              HighlightAnnotation(textBoundsCollection: lines)
+                ..color = _highlighterColor;
+          _pdfViewerController.addAnnotation(annotation);
+          _pdfViewerController.clearSelection();
+          _contextMenuOffset = null;
+          _selectedText = null;
+        }
+      } else if (tool == PdfTool.textNote) {
+        final screenW = MediaQuery.of(context).size.width;
+        final screenH = MediaQuery.of(context).size.height;
+        if (toolbarX != null && toolbarY != null) {
+          _stickyNoteCardPosition = Offset(
+            toolbarX.clamp(10.0, (screenW - 310.0).clamp(10.0, double.infinity)),
+            isMobile
+                ? 20.0
+                : (toolbarY + 45.0).clamp(10.0, (screenH - 260.0).clamp(10.0, double.infinity)),
+          );
+        } else {
+          _stickyNoteCardPosition = Offset(
+            ((screenW - 300) / 2).clamp(10.0, double.infinity),
+            screenH * 0.22,
+          );
+        }
+        _showStickyNoteCard = true;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -256,21 +296,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                         Center(
                           child: PdfAnnotationToolbar(
                             activeTool: _activeTool,
-                            onToolChanged: (tool) {
-                              setState(() {
-                                _activeTool = tool;
-                                if (tool == PdfTool.textNote) {
-                                  final screenH =
-                                      MediaQuery.of(context).size.height;
-                                  _stickyNoteCardPosition = Offset(
-                                    ((screenW - 300) / 2)
-                                        .clamp(10.0, double.infinity),
-                                    screenH * 0.22,
-                                  );
-                                  _showStickyNoteCard = true;
-                                }
-                              });
-                            },
+                            onToolChanged: (tool) => _handleToolSelected(tool),
                             penColor: _penColor,
                             onPenColorChanged: (c) =>
                                 setState(() => _penColor = c),
@@ -666,11 +692,13 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                 left: _contextMenuOffset!.dx,
                 top: _contextMenuOffset!.dy,
                 child: PdfTextSelectionContextMenu(
+                  highlighterColor: _highlighterColor,
                   onCopy: () {
                     Clipboard.setData(ClipboardData(text: _selectedText!));
                     _pdfViewerController.clearSelection();
                     setState(() {
                       _contextMenuOffset = null;
+                      _selectedText = null;
                     });
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -702,11 +730,13 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                     _pdfViewerController.clearSelection();
                     setState(() {
                       _contextMenuOffset = null;
+                      _selectedText = null;
                     });
                     if (lines.isNotEmpty) {
-                      _pdfViewerController.addAnnotation(
-                        HighlightAnnotation(textBoundsCollection: lines),
-                      );
+                      final annotation =
+                          HighlightAnnotation(textBoundsCollection: lines)
+                            ..color = _highlighterColor;
+                      _pdfViewerController.addAnnotation(annotation);
                     }
                   },
                   onUnderline: () {
@@ -787,22 +817,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                   },
                   child: PdfAnnotationToolbar(
                     activeTool: _activeTool,
-                    onToolChanged: (tool) {
-                      setState(() {
-                        _activeTool = tool;
-                        if (tool == PdfTool.textNote) {
-                          _stickyNoteCardPosition = Offset(
-                            toolbarX.clamp(10.0,
-                                (screenW - 310.0).clamp(10.0, double.infinity)),
-                            isMobile
-                                ? 20.0
-                                : (toolbarY + 45.0).clamp(10.0,
-                                    (screenH - 260.0).clamp(10.0, double.infinity)),
-                          );
-                          _showStickyNoteCard = true;
-                        }
-                      });
-                    },
+                    onToolChanged: (tool) => _handleToolSelected(
+                      tool,
+                      toolbarX: toolbarX,
+                      toolbarY: toolbarY,
+                      isMobile: isMobile,
+                    ),
                     penColor: _penColor,
                     onPenColorChanged: (c) => setState(() => _penColor = c),
                     penWidth: _penWidth,

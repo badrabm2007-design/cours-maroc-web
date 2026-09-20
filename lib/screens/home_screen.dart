@@ -15,6 +15,7 @@ import 'favorites_screen.dart';
 import 'search_screen.dart';
 import 'settings_screen.dart';
 import '../services/app_language_service.dart';
+import '../services/auth_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,6 +45,107 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  void _checkAndPromptGoogleAuth() {
+    final authService = context.read<AuthService>();
+    if (!authService.hasShownPrompt && !authService.isAuthenticated) {
+      _showGoogleSignInDialog();
+    }
+  }
+
+  void _showGoogleSignInDialog() {
+    final langService = context.read<AppLanguageService>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (ctx) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
+          title: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0F5132).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.account_circle_rounded,
+                  color: Color(0xFF0F5132),
+                  size: 26,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  langService.tr('auth_google_prompt_title'),
+                  style: const TextStyle(
+                      fontSize: 16.5, fontWeight: FontWeight.w800),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            langService.tr('auth_google_prompt_desc'),
+            style: TextStyle(
+              fontSize: 13.5,
+              height: 1.45,
+              color: isDark ? Colors.white70 : const Color(0xFF475569),
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actions: [
+            TextButton(
+              onPressed: () {
+                context.read<AuthService>().markPromptShown();
+                Navigator.of(ctx).pop();
+              },
+              child: Text(
+                langService.tr('auth_google_later'),
+                style: TextStyle(
+                  color: isDark ? Colors.white60 : const Color(0xFF64748B),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+            FilledButton.icon(
+              icon: const Icon(Icons.g_mobiledata_rounded, size: 26),
+              label: Text(
+                langService.tr('auth_google_signin'),
+                style:
+                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+              ),
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF0F5132),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: () async {
+                Navigator.of(ctx).pop();
+                await context.read<AuthService>().signInWithGoogle();
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(langService.tr('auth_sync_active')),
+                      backgroundColor: const Color(0xFF0F5132),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<CurriculumService>().checkForRemoteUpdate();
+        _checkAndPromptGoogleAuth();
       }
     });
   }
@@ -347,6 +450,101 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
           ],
 
+          // Google Auth profile / sign in button
+          Consumer<AuthService>(
+            builder: (context, auth, _) {
+              if (auth.isAuthenticated) {
+                final user = auth.currentUser!;
+                return PopupMenuButton<String>(
+                  tooltip: user.displayName,
+                  offset: const Offset(0, 45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: const Color(0xFF0F5132),
+                      child: Text(
+                        user.displayName.isNotEmpty
+                            ? user.displayName[0].toUpperCase()
+                            : 'U',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      enabled: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.displayName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13.5,
+                            ),
+                          ),
+                          Text(
+                            user.email,
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              color: isDark ? Colors.white60 : Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuDivider(),
+                    PopupMenuItem(
+                      value: 'logout',
+                      child: Row(
+                        children: [
+                          const Icon(Icons.logout_rounded,
+                              size: 18, color: Colors.red),
+                          const SizedBox(width: 8),
+                          Text(
+                            langService.tr('auth_sign_out'),
+                            style:
+                                const TextStyle(color: Colors.red, fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  onSelected: (val) {
+                    if (val == 'logout') {
+                      auth.signOut();
+                    }
+                  },
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: TextButton.icon(
+                    onPressed: () => _showGoogleSignInDialog(),
+                    icon: const Icon(Icons.account_circle_outlined, size: 18),
+                    label: Text(
+                      langService.isArabic ? 'دخول' : 'Connexion',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 12),
+                    ),
+                    style: TextButton.styleFrom(
+                      foregroundColor: const Color(0xFF0F5132),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+
           // Student analytics / profile data button
           IconButton(
             icon: const Icon(Icons.analytics_outlined),
@@ -634,6 +832,68 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     AppLanguageService langService,
   ) {
     final isAr = langService.isArabic;
+    final curriculum = context.watch<CurriculumService>();
+    final levelId = curriculum.selectedLevelId;
+
+    String title;
+    String subtitle;
+    String description;
+    String bullet1;
+    String bullet2;
+    String tipText;
+
+    switch (levelId) {
+      case '3eme-annee-college':
+        title = isAr ? 'امتحانات 3 إعدادي' : 'Examens 3ème Collège';
+        subtitle = isAr ? 'محلي (د1) وجهوي (د2)' : 'Local (S1) & Régional (S2)';
+        description = isAr
+            ? 'نماذج الامتحانات الموحدة المحلية والجهوية بجميع جهات المملكة مع عناصر الإجابة الرسمية.'
+            : 'Épreuves normalisées locales (S1) et régionales (S2) avec corrigés détaillés conformes.';
+        bullet1 = isAr ? 'الامتحان الموحد المحلي (دورة يناير)' : 'Examen Local Normalisé (Janvier)';
+        bullet2 = isAr ? 'الامتحان الجهوي الموحد (دورة يونيو)' : 'Examen Régional Normalisé (Juin)';
+        tipText = isAr
+            ? 'نصيحة: ابدأ بحل مواضيع الامتحان المحلي فور إنهاء دروس الدورة 1 لضمان أعلى معدل.'
+            : 'Astuce : commencez l\'entraînement sur les épreuves locales dès la fin du semestre 1.';
+        break;
+      case '1ere-bac':
+        title = isAr ? 'الامتحان الجهوي (1 باك)' : 'Examen Régional (1BAC)';
+        subtitle = isAr ? 'المواد المعنية بالجهوي' : 'Matières du Régional';
+        description = isAr
+            ? 'مواضيع الامتحانات الجهوية الموحدة لجميع أكاديميات المملكة مع أطر التصحيح.'
+            : 'Sujets récents d\'examens régionaux avec corrigés officiels et barèmes détaillés.';
+        bullet1 = isAr ? 'الفرنسية، التربية الإسلامية، الاجتماعيات، العربية' : 'Français, Éduc. Islamique, Arabe, Hist-Géo';
+        bullet2 = isAr ? 'نماذج محينة وفق الأطر المرجعية' : 'Conformes aux cadres de référence';
+        tipText = isAr
+            ? 'نصيحة: ركز على تحليل مؤلفات الفرنسية والتربية الإسلامية لرفع معدل الجهوي.'
+            : 'Astuce : maîtrisez les œuvres de Français et les axes d\'Éducation Islamique.';
+        break;
+      case 'tronc-commun':
+        title = isAr ? 'فروض المراقبة (جذع مشترك)' : 'Contrôles Tronc Commun';
+        subtitle = isAr ? 'فروض وتمارين الدورة 1 و 2' : 'Préparation continue S1 & S2';
+        description = isAr
+            ? 'سلاسل الفروض المحروسة والتمارين النموذجية مع التصحيح لتثبيت المعارف.'
+            : 'Modèles de devoirs surveillés et exercices corrigés pour consolider vos bases.';
+        bullet1 = isAr ? 'فروض محروسة نموذجية مع التصحيح' : 'Contrôles continus 1, 2 et 3 corrigés';
+        bullet2 = isAr ? 'تمارين تدريبية تطبيقية محددة' : 'Exercices d\'application ciblés';
+        tipText = isAr
+            ? 'نصيحة: ضبط دروس الجذع المشترك هو أساس تفوقك في سلك البكالوريا.'
+            : 'Conseil : le Tronc Commun forge les fondations de votre cursus du Baccalauréat.';
+        break;
+      case '2eme-bac':
+      default:
+        title = isAr ? 'الامتحان الوطني (2 باك)' : 'Examen National (2BAC)';
+        subtitle = isAr ? 'التحضير الرسمي للباكالوريا' : 'Préparation officielle';
+        description = isAr
+            ? 'مواضيع الامتحانات الوطنية الموحدة وفروض المراقبة مع عناصر الإجابة وسلالم التنقيط.'
+            : 'Sujets d\'examens nationaux, régionaux et contrôles avec leurs corrigés officiels.';
+        bullet1 = isAr ? 'عناصر إجابة مفصلة وسلالم تنقيط' : 'Corrigés détaillés & barèmes officiels';
+        bullet2 = isAr ? 'مطابقة للأطر المرجعية المحينة' : 'Conformes aux cadres de référence';
+        tipText = isAr
+            ? 'نصيحة: تدرب في نفس المدة الزمنية المحددة للامتحان الوطني.'
+            : 'Astuce : simulez l\'épreuve en temps réel pour gérer votre timing.';
+        break;
+    }
+
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 10, 6, 16),
       padding: const EdgeInsets.all(14),
@@ -676,7 +936,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isAr ? 'الامتحانات والفروض' : 'Épreuves & Examens',
+                      title,
                       style: const TextStyle(
                         fontSize: 13.5,
                         fontWeight: FontWeight.w800,
@@ -684,7 +944,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      isAr ? 'التحضير الرسمي' : 'Préparation officielle',
+                      subtitle,
                       style: TextStyle(
                         fontSize: 10.5,
                         fontWeight: FontWeight.w600,
@@ -702,9 +962,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
           // Clear, concise description
           Text(
-            isAr
-                ? 'مواضيع الامتحانات الوطنية والجهوية وفروض المراقبة مع عناصر الإجابة الرسمية.'
-                : 'Sujets récents d\'examens régionaux, nationaux et contrôles avec leurs corrigés détaillés.',
+            description,
             style: TextStyle(
               fontSize: 11.5,
               height: 1.35,
@@ -717,17 +975,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           _buildBulletItem(
             icon: Icons.check_circle_outline_rounded,
             iconColor: const Color(0xFF16A34A),
-            text: isAr
-                ? 'عناصر إجابة مفصلة وسلالم تنقيط'
-                : 'Corrigés détaillés & barèmes officiels',
+            text: bullet1,
             isDark: isDark,
           ),
           _buildBulletItem(
             icon: Icons.verified_outlined,
             iconColor: const Color(0xFF2563EB),
-            text: isAr
-                ? 'مطابقة للأطر المرجعية المحينة'
-                : 'Conformes aux cadres de référence',
+            text: bullet2,
             isDark: isDark,
           ),
 
@@ -758,9 +1012,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 const SizedBox(width: 7),
                 Expanded(
                   child: Text(
-                    isAr
-                        ? 'نصيحة: تدرب في نفس المدة الزمنية المحددة للامتحان.'
-                        : 'Astuce : simulez l\'épreuve en temps réel pour gérer votre timing.',
+                    tipText,
                     style: TextStyle(
                       fontSize: 10.5,
                       height: 1.3,
