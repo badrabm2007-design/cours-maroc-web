@@ -93,6 +93,16 @@ class AppLanguageService extends ChangeNotifier {
     }
   }
 
+  String exportData() => _currentLanguageCode;
+
+  Future<void> importCloudData(String? langCode) async {
+    if (langCode != null &&
+        ['fr', 'ar', 'en'].contains(langCode) &&
+        _currentLanguageCode != langCode) {
+      await setLanguage(langCode);
+    }
+  }
+
   String tr(String key) {
     return AppStrings.get(key, _currentLanguageCode);
   }

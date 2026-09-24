@@ -1,0 +1,134 @@
+{
+  "id": "est_maroc",
+  "nom_fr": "Réseau des Écoles Supérieures de Technologie",
+  "nom_ar": "المدارس العليا للتكنولوجيا",
+  "abreviation": "EST Maroc",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation",
+  "type_etablissement": "Établissements publics universitaires technologiques professionnalisants",
+  "duree_etudes": "2 ans (4 semestres)",
+  "diplome_delivre": "Diplôme Universitaire de Technologie (DUT)",
+  "nombre_places_national": 14015,
+  "villes": [
+    { "ville": "Casablanca", "internat": true },
+    { "ville": "Fès", "internat": true },
+    { "ville": "Agadir", "internat": true },
+    { "ville": "Oujda", "internat": true },
+    { "ville": "Salé", "internat": false },
+    { "ville": "Meknès", "internat": false },
+    { "ville": "Safi", "internat": false },
+    { "ville": "Essaouira", "internat": false },
+    { "ville": "Béni Mellal", "internat": false },
+    { "ville": "Kénitra", "internat": false },
+    { "ville": "Khénifra", "internat": false },
+    { "ville": "Guelmim", "internat": false },
+    { "ville": "Laâyoune", "internat": false },
+    { "ville": "Dakhla", "internat": false },
+    { "ville": "Sidi Bennour", "internat": false },
+    { "ville": "Fquih Ben Salah", "internat": false },
+    { "ville": "Nador", "internat": false },
+    { "ville": "Kelâa des Sraghna", "internat": false },
+    { "ville": "Ouarzazate", "internat": false },
+    { "ville": "Tétouan", "internat": false },
+    { "ville": "Al Hoceima", "internat": false },
+    { "ville": "Taounate", "internat": false }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Expérimentales (PC, SVT, Agronomie)",
+      "Sciences Économiques et Gestion Comptable",
+      "Sciences et Technologies (STE, STM)",
+      "Baccalauréats Professionnels industriels, commerciaux et de services"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat 2026", "Baccalauréat 2025"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit"
+  },
+  "modalites_selection": {
+    "principe": "Admission directe sans concours écrit, par ordre de mérite informatisé sur CursusSup",
+    "formule_calcul": "Moyenne de sélection = (75% Note Examen National + 25% Note Examen Régional) × Coefficient de pondération selon la filière"
+  },
+  "coefficients_de_ponderation_officiels": {
+    "filieres_economie_gestion_commerce": {
+      "intitules": "Finance, Banque, Assurance, GRH, Logistique et Transport, Techniques de Commercialisation, E-Business, Web Marketing",
+      "coefficients": {
+        "sciences_economiques": 1.3,
+        "sciences_gestion_comptable": 1.3,
+        "sciences_maths_a_et_b": 1.3,
+        "sciences_physiques": 1.2,
+        "svt": 1.2,
+        "sciences_agronomiques": 1.1,
+        "bac_pro_tertiaire": 1.1
+      }
+    },
+    "filieres_informatique_reseaux_ia": {
+      "intitules": "Génie Informatique, Réseaux et Télécoms, Intelligence Artificielle, Cybersécurité, Développement Web et Mobile, Science des Données",
+      "coefficients": {
+        "sciences_maths_a_et_b": 1.5,
+        "sciences_physiques": 1.3,
+        "sciences_technologiques_ste_stm": 1.0,
+        "svt": 1.0,
+        "sciences_agronomiques": 1.0,
+        "bac_pro_informatique_et_systemes": 1.0
+      }
+    },
+    "filieres_genie_electrique_industriel_mecanique": {
+      "intitules": "Génie Électrique, Énergies Renouvelables, Génie Industriel et Maintenance, Mécatronique, Systèmes Embarqués, Industrie 4.0",
+      "coefficients": {
+        "sciences_technologiques_ste": 1.5,
+        "sciences_technologiques_stm": 1.4,
+        "sciences_maths_a_et_b": 1.4,
+        "sciences_physiques": 1.3,
+        "svt": 1.2,
+        "bac_pro_industriel": 1.1
+      }
+    },
+    "filieres_genie_mecanique_productique": {
+      "intitules": "Génie Mécanique et Productique, Industrie Navale, Systèmes Électriques",
+      "coefficients": {
+        "sciences_technologiques_stm": 1.5,
+        "sciences_maths_a_et_b": 1.4,
+        "sciences_physiques": 1.1,
+        "bac_pro_mecanique_aeronautique": 1.0
+      }
+    },
+    "filieres_agroalimentaire_biotechnologie": {
+      "intitules": "Agro-industrie, Bioanalyses et Contrôle, Biotechnologie Végétale, Génie de l'Eau et de l'Environnement, Génie Biomédical",
+      "coefficients": {
+        "svt": 1.2,
+        "sciences_agronomiques": 1.2,
+        "sciences_physiques": 1.0,
+        "sciences_maths": 1.0,
+        "bac_pro_agricole": 1.0
+      }
+    },
+    "filieres_genie_civil": {
+      "intitules": "Génie Civil et Construction Durable",
+      "coefficients": {
+        "sciences_technologiques_stm": 1.3,
+        "sciences_maths_a_et_b": 1.3,
+        "sciences_physiques": 1.2,
+        "svt": 1.0,
+        "bac_pro_batiment": 1.0
+      }
+    }
+  },
+  "passerelles_et_poursuite_etudes": [
+    "Accès sur concours passerelle aux Grandes Écoles d'Ingénieurs (ENSA, ENSAM, EMI, EHTP, ENSIAS, AIAC) en 3ème année après un DUT avec mention Bien ou Très Bien",
+    "Accès aux Écoles Nationales de Commerce et de Gestion (ENCG) et à l'ISCAE via le concours d'accès direct en 3ème année",
+    "Poursuite en Licence Professionnelle (LP) au sein des universités marocaines dans la continuité de la spécialité",
+    "Possibilité de poursuivre des études d'ingénieur ou de master à l'international (France, Canada, Allemagne, etc.)"
+  ],
+  "debouches_professionnels": [
+    "Technicien supérieur / Agent de maîtrise dans les grandes industries chimiques, minières, mécaniques et électroniques",
+    "Développeur full-stack, administrateur système, technicien réseaux et cybersécurité",
+    "Gestionnaire comptable, chargé de clientèle bancaire, gestionnaire logistique et supply chain",
+    "Superviseur de chantiers de génie civil et contrôleur qualité BTP",
+    "Conducteur d'installations énergétiques et technicien de maintenance photovoltaïque / éolien"
+  ],
+  "conseils_candidats": [
+    "Le DUT est un diplôme professionnalisant très recherché par les entreprises grâce aux stages obligatoires en entreprise dès la 1ère et la 2ème année.",
+    "La procédure d'amélioration des choix sur CursusSup permet à de très nombreux candidats de monter vers leur vœu prioritaire au fil des désistements.",
+    "Si vous visez une école d'ingénieurs par passerelle, maintenez un classement dans le top 5% de votre promotion dès le premier semestre."
+  ]
+}

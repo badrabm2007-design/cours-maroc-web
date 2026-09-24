@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/curriculum_models.dart';
 import '../services/app_language_service.dart';
 import '../services/download_service.dart';
 import '../services/favorites_service.dart';
+import '../services/focus_timer_service.dart';
 import '../services/user_profile_service.dart';
 import '../widgets/compact_sticky_note_card.dart';
 import '../widgets/compact_translation_card.dart';
@@ -35,6 +38,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   final GlobalKey _stackKey = GlobalKey();
   bool _hasLoadError = false;
+  bool _useDirectDriveUrl = false;
 
   PdfTool _activeTool = PdfTool.none;
   Color _penColor = const Color(0xFF0F172A);
@@ -48,7 +52,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Offset? _contextMenuOffset;
 
   bool _isToolbarDocked = true;
-  Offset? _toolbarOffset;
 
   bool _showTranslationCard = false;
   Offset _translationCardPosition = const Offset(100, 100);
@@ -63,6 +66,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     _pdfViewerController = PdfViewerController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
+        context.read<FocusTimerService>().pushDockingScreen(ActiveDockingScreen.pdfViewer);
         context.read<UserProfileService>().recordDocumentView(
               widget.document,
               widget.subjectName,
@@ -73,6 +77,9 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
   @override
   void dispose() {
+    try {
+      context.read<FocusTimerService>().popDockingScreen(ActiveDockingScreen.pdfViewer);
+    } catch (_) {}
     _pdfViewerController.dispose();
     super.dispose();
   }
@@ -130,20 +137,21 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     final isMobile = screenW < 700;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(56),
-        child: Container(
-          height: 56,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            border: Border(
-              bottom: BorderSide(
-                color: Theme.of(context).dividerColor.withValues(alpha: 0.12),
-              ),
-            ),
+      appBar: AppBar(
+        toolbarHeight: 56,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: Theme.of(context).dividerColor.withValues(alpha: 0.12),
+            height: 1.0,
           ),
-          child: SafeArea(
-            child: isMobile
+        ),
+        title: isMobile
                 ? Row(
                     children: [
                       const SizedBox(width: 4),
@@ -316,11 +324,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                             onDetach: () {
                               setState(() {
                                 _isToolbarDocked = false;
-                                _toolbarOffset = Offset(
-                                  ((screenW - 470) / 2)
-                                      .clamp(10.0, double.infinity),
-                                  35.0,
-                                );
                               });
                             },
                             onClearAll: () => setState(() {
@@ -442,8 +445,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                       ),
                     ],
                   ),
-          ),
-        ),
       ),
       body: _buildBody(context),
     );
@@ -481,14 +482,29 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                 style: TextStyle(fontSize: 13, color: Colors.grey),
               ),
               const SizedBox(height: 18),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.refresh_rounded),
-                label: const Text('Réessayer'),
-                onPressed: () {
-                  setState(() {
-                    _hasLoadError = false;
-                  });
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.refresh_rounded),
+                    label: const Text('Réessayer'),
+                    onPressed: () {
+                      setState(() {
+                        _hasLoadError = false;
+                        _useDirectDriveUrl = false;
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.open_in_new_rounded),
+                    label: const Text('Ouvrir Drive'),
+                    onPressed: () {
+                      final url = 'https://drive.google.com/file/d/${widget.document.id}/view';
+                      launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -496,81 +512,17 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       );
     }
 
-    final pdfUrl = '/api/pdf?id=${widget.document.id}';
+    final String pdfUrl = _useDirectDriveUrl
+        ? 'https://drive.usercontent.google.com/download?id=${widget.document.id}&export=download&confirm=t'
+        : (kIsWeb
+            ? Uri.base.resolve('/api/pdf?id=${widget.document.id}').toString()
+            : 'https://drive.usercontent.google.com/download?id=${widget.document.id}&export=download&confirm=t');
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final double screenW = constraints.maxWidth;
         final double screenH = constraints.maxHeight;
         final bool isMobile = screenW < 700;
-
-        // Compact horizontal toolbar width: ~310px
-        const double toolbarWidthEst = 310.0;
-        final double mobileDefaultX =
-            ((screenW - toolbarWidthEst) / 2).clamp(8.0, double.infinity);
-        final double mobileDefaultY =
-            (screenH - 52.0).clamp(8.0, double.infinity);
-
-        double toolbarX;
-        double toolbarY;
-        bool isToolbarVertical;
-        bool isToolbarDockedLeft;
-
-        if (isMobile) {
-          // On mobile: never docked in AppBar; default is bottom center
-          final currentOffset =
-              _toolbarOffset ?? Offset(mobileDefaultX, mobileDefaultY);
-          toolbarX = currentOffset.dx;
-          toolbarY = currentOffset.dy;
-
-          isToolbarVertical = false;
-          isToolbarDockedLeft = false;
-
-          toolbarX = toolbarX.clamp(
-            6.0,
-            (screenW - toolbarWidthEst).clamp(6.0, double.infinity),
-          );
-          toolbarY = toolbarY.clamp(
-            6.0,
-            (screenH - 50.0).clamp(6.0, double.infinity),
-          );
-        } else {
-          // Desktop mode
-          if (_isToolbarDocked) {
-            isToolbarVertical = false;
-            isToolbarDockedLeft = false;
-            toolbarX = ((screenW - 470) / 2).clamp(10.0, screenW - 480.0);
-            toolbarY = 12.0;
-          } else {
-            final currentOffset = _toolbarOffset ?? const Offset(200, 35);
-            toolbarX = currentOffset.dx;
-            toolbarY = currentOffset.dy;
-
-            if (toolbarX <= 75) {
-              isToolbarVertical = true;
-              isToolbarDockedLeft = true;
-              toolbarX = 12.0;
-            } else if (toolbarX >= screenW - 115) {
-              isToolbarVertical = true;
-              isToolbarDockedLeft = false;
-              toolbarX = screenW - 55.0;
-            } else {
-              isToolbarVertical = false;
-              isToolbarDockedLeft = false;
-            }
-
-            toolbarX = toolbarX.clamp(
-              8.0,
-              (screenW - (isToolbarVertical ? 55.0 : 470.0))
-                  .clamp(8.0, double.infinity),
-            );
-            toolbarY = toolbarY.clamp(
-              8.0,
-              (screenH - (isToolbarVertical ? 460.0 : 60.0))
-                  .clamp(8.0, double.infinity),
-            );
-          }
-        }
 
         return Stack(
           key: _stackKey,
@@ -600,10 +552,17 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                 }
               },
               onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
+                debugPrint('PDF load failed (${_useDirectDriveUrl ? "direct" : "proxy"}): ${details.error} - ${details.description}');
                 if (mounted) {
-                  setState(() {
-                    _hasLoadError = true;
-                  });
+                  if (!_useDirectDriveUrl) {
+                    setState(() {
+                      _useDirectDriveUrl = true;
+                    });
+                  } else {
+                    setState(() {
+                      _hasLoadError = true;
+                    });
+                  }
                 }
               },
               onTextSelectionChanged: (PdfTextSelectionChangedDetails details) {
@@ -786,103 +745,64 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
             // 4. Draggable Floating Annotation Toolbar (when detached or on mobile)
             if (!_isToolbarDocked || isMobile)
-              Positioned(
-                left: toolbarX,
-                top: toolbarY,
-                child: GestureDetector(
-                  onPanStart: (_) {
-                    if (_isToolbarDocked && !isMobile) {
-                      setState(() {
-                        _isToolbarDocked = false;
-                        _toolbarOffset = Offset(toolbarX, toolbarY);
-                      });
-                    }
-                  },
-                  onPanUpdate: (details) {
-                    setState(() {
-                      if (!isMobile) {
-                        _isToolbarDocked = false;
-                      }
-                      _toolbarOffset = Offset(
-                        toolbarX + details.delta.dx,
-                        toolbarY + details.delta.dy,
-                      );
-                      // Magnetic auto-docking when intentionally pushed upwards to top edge (DESKTOP ONLY!)
-                      if (!isMobile &&
-                          details.delta.dy < -0.5 &&
-                          _toolbarOffset!.dy <= 5.0) {
-                        _isToolbarDocked = true;
-                      }
-                    });
-                  },
-                  child: PdfAnnotationToolbar(
-                    activeTool: _activeTool,
-                    onToolChanged: (tool) => _handleToolSelected(
-                      tool,
-                      toolbarX: toolbarX,
-                      toolbarY: toolbarY,
-                      isMobile: isMobile,
-                    ),
-                    penColor: _penColor,
-                    onPenColorChanged: (c) => setState(() => _penColor = c),
-                    penWidth: _penWidth,
-                    onPenWidthChanged: (w) => setState(() => _penWidth = w),
-                    highlighterColor: _highlighterColor,
-                    onHighlighterColorChanged: (c) =>
-                        setState(() => _highlighterColor = c),
-                    highlighterWidth: _highlighterWidth,
-                    onHighlighterWidthChanged: (w) =>
-                        setState(() => _highlighterWidth = w),
-                    hasAnnotations: _strokes.isNotEmpty ||
-                        _notes.isNotEmpty ||
-                        _draggableNotes.isNotEmpty,
-                    isVertical: isToolbarVertical,
-                    isDockedLeft: isToolbarDockedLeft,
-                    onClearAll: () {
-                      setState(() {
-                        _strokes.clear();
-                        _notes.clear();
-                        _draggableNotes.clear();
-                      });
-                    },
-                    onClose: () {
-                      setState(() {
-                        if (isMobile) {
-                          // On mobile, reset position back to the bottom initial position!
-                          _toolbarOffset =
-                              Offset(mobileDefaultX, mobileDefaultY);
-                        } else {
-                          // On desktop, dock back into AppBar
-                          _isToolbarDocked = true;
-                        }
-                      });
-                    },
-                    onZoomIn: () {
-                      _pdfViewerController.zoomLevel =
-                          (_pdfViewerController.zoomLevel + 0.25)
-                              .clamp(1.0, 4.0);
-                    },
-                    onZoomOut: () {
-                      _pdfViewerController.zoomLevel =
-                          (_pdfViewerController.zoomLevel - 0.25)
-                              .clamp(1.0, 4.0);
-                    },
-                    onTranslate: () {
-                      setState(() {
-                        _translationCardText = _selectedText ?? '';
-                        _translationCardPosition = Offset(
-                          toolbarX.clamp(10.0,
-                              (screenW - 325.0).clamp(10.0, double.infinity)),
-                          isMobile
-                              ? 20.0
-                              : (toolbarY + 45.0).clamp(10.0,
-                                  (screenH - 240.0).clamp(10.0, double.infinity)),
-                        );
-                        _showTranslationCard = true;
-                      });
-                    },
-                  ),
+              _FloatingDraggableToolbar(
+                screenW: screenW,
+                screenH: screenH,
+                isMobile: isMobile,
+                activeTool: _activeTool,
+                onToolChanged: (tool, tx, ty) => _handleToolSelected(
+                  tool,
+                  toolbarX: tx,
+                  toolbarY: ty,
+                  isMobile: isMobile,
                 ),
+                penColor: _penColor,
+                onPenColorChanged: (c) => setState(() => _penColor = c),
+                penWidth: _penWidth,
+                onPenWidthChanged: (w) => setState(() => _penWidth = w),
+                highlighterColor: _highlighterColor,
+                onHighlighterColorChanged: (c) =>
+                    setState(() => _highlighterColor = c),
+                highlighterWidth: _highlighterWidth,
+                onHighlighterWidthChanged: (w) =>
+                    setState(() => _highlighterWidth = w),
+                hasAnnotations: _strokes.isNotEmpty ||
+                    _notes.isNotEmpty ||
+                    _draggableNotes.isNotEmpty,
+                onClearAll: () {
+                  setState(() {
+                    _strokes.clear();
+                    _notes.clear();
+                    _draggableNotes.clear();
+                  });
+                },
+                onZoomIn: () {
+                  _pdfViewerController.zoomLevel =
+                      (_pdfViewerController.zoomLevel + 0.25).clamp(1.0, 4.0);
+                },
+                onZoomOut: () {
+                  _pdfViewerController.zoomLevel =
+                      (_pdfViewerController.zoomLevel - 0.25).clamp(1.0, 4.0);
+                },
+                onTranslate: (tx, ty) {
+                  setState(() {
+                    _translationCardText = _selectedText ?? '';
+                    _translationCardPosition = Offset(
+                      tx.clamp(10.0,
+                          (screenW - 325.0).clamp(10.0, double.infinity)),
+                      isMobile
+                          ? 20.0
+                          : (ty + 45.0).clamp(10.0,
+                              (screenH - 240.0).clamp(10.0, double.infinity)),
+                    );
+                    _showTranslationCard = true;
+                  });
+                },
+                onDockInAppBar: () {
+                  setState(() {
+                    _isToolbarDocked = true;
+                  });
+                },
               ),
 
             // 5. Translucent barrier to dismiss translation card on tap outside
@@ -995,6 +915,210 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           ],
         );
       },
+    );
+  }
+}
+
+class _FloatingDraggableToolbar extends StatefulWidget {
+  final double screenW;
+  final double screenH;
+  final bool isMobile;
+  final PdfTool activeTool;
+  final void Function(PdfTool tool, double toolbarX, double toolbarY) onToolChanged;
+  final Color penColor;
+  final ValueChanged<Color> onPenColorChanged;
+  final double penWidth;
+  final ValueChanged<double> onPenWidthChanged;
+  final Color highlighterColor;
+  final ValueChanged<Color> onHighlighterColorChanged;
+  final double highlighterWidth;
+  final ValueChanged<double> onHighlighterWidthChanged;
+  final bool hasAnnotations;
+  final VoidCallback onClearAll;
+  final VoidCallback onZoomIn;
+  final VoidCallback onZoomOut;
+  final void Function(double toolbarX, double toolbarY) onTranslate;
+  final VoidCallback onDockInAppBar;
+
+  const _FloatingDraggableToolbar({
+    required this.screenW,
+    required this.screenH,
+    required this.isMobile,
+    required this.activeTool,
+    required this.onToolChanged,
+    required this.penColor,
+    required this.onPenColorChanged,
+    required this.penWidth,
+    required this.onPenWidthChanged,
+    required this.highlighterColor,
+    required this.onHighlighterColorChanged,
+    required this.highlighterWidth,
+    required this.onHighlighterWidthChanged,
+    required this.hasAnnotations,
+    required this.onClearAll,
+    required this.onZoomIn,
+    required this.onZoomOut,
+    required this.onTranslate,
+    required this.onDockInAppBar,
+  });
+
+  @override
+  State<_FloatingDraggableToolbar> createState() =>
+      _FloatingDraggableToolbarState();
+}
+
+class _FloatingDraggableToolbarState extends State<_FloatingDraggableToolbar> {
+  late double _x;
+  late double _y;
+  bool _isVertical = false;
+  bool _isDockedLeft = false;
+
+  static const double _kHorizontalWidthEst = 300.0;
+  static const double _kHorizontalHeightEst = 44.0;
+  static const double _kVerticalWidthEst = 46.0;
+  static const double _kVerticalHeightEst = 310.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _resetPosition();
+  }
+
+  void _resetPosition() {
+    if (widget.isMobile) {
+      final double centeredX = (widget.screenW - _kHorizontalWidthEst) / 2;
+      // Shift left by 22px so the right end (the X close button) has generous room and is completely visible!
+      _x = (centeredX - 22.0)
+          .clamp(8.0, (widget.screenW - _kHorizontalWidthEst - 16.0).clamp(8.0, double.infinity));
+      _y = (widget.screenH - _kHorizontalHeightEst - 14.0)
+          .clamp(8.0, double.infinity);
+      _isVertical = false;
+      _isDockedLeft = false;
+    } else {
+      _x = ((widget.screenW - 470.0) / 2).clamp(10.0, widget.screenW - 480.0);
+      _y = 60.0;
+      _isVertical = false;
+      _isDockedLeft = false;
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant _FloatingDraggableToolbar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.screenW != widget.screenW ||
+        oldWidget.screenH != widget.screenH) {
+      _clampPosition();
+    }
+  }
+
+  void _clampPosition() {
+    final double maxW = _isVertical
+        ? _kVerticalWidthEst
+        : (widget.isMobile ? _kHorizontalWidthEst : 470.0);
+    final double maxH =
+        _isVertical ? _kVerticalHeightEst : _kHorizontalHeightEst;
+    final double safeRightMargin = (!_isVertical && widget.isMobile) ? 16.0 : 6.0;
+    _x = _x.clamp(6.0, (widget.screenW - maxW - safeRightMargin).clamp(6.0, double.infinity));
+    _y = _y.clamp(6.0, (widget.screenH - maxH - 8.0).clamp(6.0, double.infinity));
+  }
+
+  void _handlePanUpdate(DragUpdateDetails details) {
+    setState(() {
+      _x += details.delta.dx;
+      _y += details.delta.dy;
+
+      final double currentToolbarW = _isVertical
+          ? _kVerticalWidthEst
+          : (widget.isMobile ? _kHorizontalWidthEst : 470.0);
+
+      // 1. Magnetic docking to left edge -> rotates vertically
+      if (!_isVertical && _x <= 20.0) {
+        _isVertical = true;
+        _isDockedLeft = true;
+        _x = 8.0;
+        // Center vertically along edge so all buttons (including X) are visible
+        _y = ((widget.screenH - _kVerticalHeightEst) / 2)
+            .clamp(10.0, (widget.screenH - _kVerticalHeightEst - 16.0).clamp(10.0, double.infinity));
+      }
+      // 2. Magnetic docking to right edge -> rotates vertically
+      else if (!_isVertical && (_x + currentToolbarW >= widget.screenW - 20.0)) {
+        _isVertical = true;
+        _isDockedLeft = false;
+        _x = (widget.screenW - _kVerticalWidthEst - 6.0)
+            .clamp(8.0, double.infinity);
+        // Center vertically along edge so all buttons (including X) are visible
+        _y = ((widget.screenH - _kVerticalHeightEst) / 2)
+            .clamp(10.0, (widget.screenH - _kVerticalHeightEst - 16.0).clamp(10.0, double.infinity));
+      }
+      // 3. Undocking from left edge back to horizontal
+      else if (_isVertical && _isDockedLeft && _x > 55.0) {
+        _isVertical = false;
+        _isDockedLeft = false;
+        _x = 12.0;
+      }
+      // 4. Undocking from right edge back to horizontal
+      else if (_isVertical && !_isDockedLeft && _x < widget.screenW - 85.0) {
+        _isVertical = false;
+        _isDockedLeft = false;
+        final double targetW =
+            widget.isMobile ? _kHorizontalWidthEst : 470.0;
+        _x = (widget.screenW - targetW - 24.0).clamp(8.0, double.infinity);
+      }
+
+      // 5. On desktop, dragging to top edge docks back into AppBar
+      if (!widget.isMobile && details.delta.dy < -0.5 && _y <= 5.0) {
+        widget.onDockInAppBar();
+        return;
+      }
+
+      _clampPosition();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isNearBottom = !_isVertical && _y > (widget.screenH * 0.55);
+
+    return Positioned(
+      left: _x,
+      top: isNearBottom ? null : _y,
+      bottom: isNearBottom
+          ? (widget.screenH - _y - _kHorizontalHeightEst)
+              .clamp(6.0, double.infinity)
+          : null,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onPanUpdate: _handlePanUpdate,
+        child: PdfAnnotationToolbar(
+          activeTool: widget.activeTool,
+          onToolChanged: (tool) => widget.onToolChanged(tool, _x, _y),
+          penColor: widget.penColor,
+          onPenColorChanged: widget.onPenColorChanged,
+          penWidth: widget.penWidth,
+          onPenWidthChanged: widget.onPenWidthChanged,
+          highlighterColor: widget.highlighterColor,
+          onHighlighterColorChanged: widget.onHighlighterColorChanged,
+          highlighterWidth: widget.highlighterWidth,
+          onHighlighterWidthChanged: widget.onHighlighterWidthChanged,
+          hasAnnotations: widget.hasAnnotations,
+          isVertical: _isVertical,
+          isDockedLeft: _isDockedLeft,
+          optionsPanelAbove: isNearBottom,
+          onClearAll: widget.onClearAll,
+          onClose: () {
+            if (widget.isMobile) {
+              setState(() {
+                _resetPosition();
+              });
+            } else {
+              widget.onDockInAppBar();
+            }
+          },
+          onZoomIn: widget.onZoomIn,
+          onZoomOut: widget.onZoomOut,
+          onTranslate: () => widget.onTranslate(_x, _y),
+        ),
+      ),
     );
   }
 }

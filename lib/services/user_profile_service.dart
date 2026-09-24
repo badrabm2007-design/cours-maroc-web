@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/curriculum_models.dart';
@@ -44,6 +45,7 @@ class UserProfileService extends ChangeNotifier {
   static const String _keySubjectStats = 'user_subject_stats_v1';
   static const String _keyCategoryStats = 'user_category_stats_v1';
   static const String _keyLastLessons = 'user_last_lessons_v1';
+  static const String _keyBannerClicks = 'user_banner_clicks_v1';
 
   bool _initialized = false;
   bool _hasSelectedGrade = false;
@@ -54,6 +56,7 @@ class UserProfileService extends ChangeNotifier {
   final Map<String, int> _subjectConsultationCounts = {};
   final Map<String, int> _categoryStats = {};
   final Map<String, String> _lastStudiedLessons = {};
+  final Map<String, int> _bannerClicks = {};
 
   bool get isInitialized => _initialized;
   bool get hasSelectedGrade => _hasSelectedGrade;
@@ -63,6 +66,7 @@ class UserProfileService extends ChangeNotifier {
   Map<String, int> get subjectStats => Map.unmodifiable(_subjectConsultationCounts);
   Map<String, int> get categoryStats => Map.unmodifiable(_categoryStats);
   Map<String, String> get lastStudiedLessons => Map.unmodifiable(_lastStudiedLessons);
+  Map<String, int> get bannerClicks => Map.unmodifiable(_bannerClicks);
 
   Future<void> init() async {
     if (_initialized) return;
@@ -112,6 +116,16 @@ class UserProfileService extends ChangeNotifier {
           _lastStudiedLessons[entry.key] = entry.value.toString();
         }
       }
+
+      // Load banner clicks
+      final rawBannerClicks = prefs.getString(_keyBannerClicks);
+      if (rawBannerClicks != null && rawBannerClicks.isNotEmpty) {
+        final Map<String, dynamic> map = json.decode(rawBannerClicks);
+        _bannerClicks.clear();
+        for (final entry in map.entries) {
+          _bannerClicks[entry.key] = (entry.value as num?)?.toInt() ?? 0;
+        }
+      }
     } catch (e) {
       debugPrint('Error loading user profile: $e');
     } finally {
@@ -149,6 +163,56 @@ class UserProfileService extends ChangeNotifier {
 
   int getCategoryConsultationCount(String subjectName, String category) {
     return _categoryStats['$subjectName:$category'] ?? 0;
+  }
+
+  Map<String, int> getGlobalCategoryCounts() {
+    final Map<String, int> totals = {
+      'cours': 0,
+      'resumes': 0,
+      'exercices': 0,
+      'controles': 0,
+      'examens': 0,
+    };
+    for (final entry in _categoryStats.entries) {
+      final parts = entry.key.split(':');
+      if (parts.length >= 2) {
+        final cat = parts.last;
+        if (totals.containsKey(cat)) {
+          totals[cat] = (totals[cat] ?? 0) + entry.value;
+        }
+      }
+    }
+    return totals;
+  }
+
+  String getTopCategory({List<String>? allowedCategories}) {
+    final counts = getGlobalCategoryCounts();
+    final candidates = allowedCategories ?? ['cours', 'resumes', 'exercices', 'controles', 'examens'];
+    String topCat = candidates.first;
+    int maxCount = -1;
+    for (final cat in candidates) {
+      final c = counts[cat] ?? 0;
+      if (c > maxCount) {
+        maxCount = c;
+        topCat = cat;
+      }
+    }
+    return topCat;
+  }
+
+  Future<void> recordBannerClick({
+    required String bannerId,
+    required String bannerType,
+    String? category,
+  }) async {
+    final key = bannerType;
+    _bannerClicks[key] = (_bannerClicks[key] ?? 0) + 1;
+    if (category != null && category.isNotEmpty) {
+      final catKey = 'banner:$category';
+      _bannerClicks[catKey] = (_bannerClicks[catKey] ?? 0) + 1;
+    }
+    notifyListeners();
+    await _saveData();
   }
 
   String? getLastStudiedLessonTitle(String subjectName, String category) {
@@ -199,6 +263,8 @@ class UserProfileService extends ChangeNotifier {
           _keyCategoryStats, json.encode(_categoryStats));
       await prefs.setString(
           _keyLastLessons, json.encode(_lastStudiedLessons));
+      await prefs.setString(
+          _keyBannerClicks, json.encode(_bannerClicks));
     } catch (e) {
       debugPrint('Error saving analytics: $e');
     }
@@ -210,5 +276,109 @@ class UserProfileService extends ChangeNotifier {
       sum += v;
     }
     return sum;
+  }
+
+  Map<String, dynamic> exportData() {
+    return {
+      'hasSelectedGrade': _hasSelectedGrade,
+      'savedLevelId': _savedLevelId,
+      'savedBranchId': _savedBranchId,
+      'history': _history.map((h) => h.toJson()).toList(),
+      'subjectStats': _subjectConsultationCounts,
+      'categoryStats': _categoryStats,
+      'lastStudiedLessons': _lastStudiedLessons,
+      'bannerClicks': _bannerClicks,
+    };
+  }
+
+  Future<void> importCloudData(Map<String, dynamic> data) async {
+    try {
+      if (data['hasSelectedGrade'] == true &&
+          (data['savedLevelId'] as String? ?? '').isNotEmpty) {
+        _hasSelectedGrade = true;
+        _savedLevelId = data['savedLevelId'] as String;
+        _savedBranchId = data['savedBranchId'] as String? ?? _savedBranchId;
+      }
+
+      // History: Intelligent union by docId and timestamp
+      if (data['history'] is List) {
+        final Map<String, HistoryEntry> mergedHistory = {};
+        for (final h in _history) {
+          final key = '${h.docId}_${h.viewedAt.toIso8601String()}';
+          mergedHistory[key] = h;
+        }
+        for (final item in data['history'] as List) {
+          HistoryEntry? entry;
+          if (item is Map<String, dynamic>) {
+            entry = HistoryEntry.fromJson(item);
+          } else if (item is Map) {
+            entry = HistoryEntry.fromJson(Map<String, dynamic>.from(item));
+          }
+          if (entry != null) {
+            final key = '${entry.docId}_${entry.viewedAt.toIso8601String()}';
+            mergedHistory[key] = entry;
+          }
+        }
+        final sortedList = mergedHistory.values.toList()
+          ..sort((a, b) => b.viewedAt.compareTo(a.viewedAt));
+        _history.clear();
+        _history.addAll(sortedList.take(50));
+      }
+
+      // Subject Stats: Take max(local, cloud) for each subject
+      if (data['subjectStats'] is Map) {
+        final map = data['subjectStats'] as Map;
+        for (final entry in map.entries) {
+          final key = entry.key.toString();
+          final cloudVal = (entry.value as num?)?.toInt() ?? 0;
+          final localVal = _subjectConsultationCounts[key] ?? 0;
+          _subjectConsultationCounts[key] = math.max(localVal, cloudVal);
+        }
+      }
+
+      // Category Stats: Take max(local, cloud)
+      if (data['categoryStats'] is Map) {
+        final map = data['categoryStats'] as Map;
+        for (final entry in map.entries) {
+          final key = entry.key.toString();
+          final cloudVal = (entry.value as num?)?.toInt() ?? 0;
+          final localVal = _categoryStats[key] ?? 0;
+          _categoryStats[key] = math.max(localVal, cloudVal);
+        }
+      }
+
+      // Banner Clicks: Take max(local, cloud)
+      if (data['bannerClicks'] is Map) {
+        final map = data['bannerClicks'] as Map;
+        for (final entry in map.entries) {
+          final key = entry.key.toString();
+          final cloudVal = (entry.value as num?)?.toInt() ?? 0;
+          final localVal = _bannerClicks[key] ?? 0;
+          _bannerClicks[key] = math.max(localVal, cloudVal);
+        }
+      }
+
+      // Last Studied Lessons: Merge
+      if (data['lastStudiedLessons'] is Map) {
+        final map = data['lastStudiedLessons'] as Map;
+        for (final entry in map.entries) {
+          final key = entry.key.toString();
+          final title = entry.value.toString();
+          if (title.isNotEmpty) {
+            _lastStudiedLessons[key] = title;
+          }
+        }
+      }
+
+      notifyListeners();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_keyHasSelectedGrade, _hasSelectedGrade);
+      await prefs.setString(_keyLevelId, _savedLevelId);
+      await prefs.setString(_keyBranchId, _savedBranchId);
+      await _saveData();
+    } catch (e) {
+      debugPrint('UserProfileService importCloudData error: $e');
+    }
   }
 }

@@ -1,0 +1,73 @@
+{
+  "id": "iav_hassan_2",
+  "nom_fr": "Institut Agronomique et Vétérinaire Hassan II",
+  "nom_ar": "معهد الحسن الثاني للزراعة والبيطرة",
+  "abreviation": "IAV Hassan II Rabat",
+  "tutelle": "Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts",
+  "type_etablissement": "Grande école d'ingénieurs et de médecine vétérinaire",
+  "localisation": "Madinat Al Irfane, Rabat (et Complexe Horticole d'Agadir)",
+  "annee_preparatoire": {
+    "intitule": "Année Préparatoire aux Études Supérieures Agronomiques (APESA)",
+    "duree": "1 an (2 semestres)",
+    "fonction": "Tronc commun préparatoire d'accès aux différentes filières de l'IAV et de l'ENFI Salé"
+  },
+  "cursus_et_diplomes": [
+    {
+      "filiere": "Docteur en Médecine Vétérinaire (DMV)",
+      "duree_totale": "6 ans (1 an APESA + 5 ans études vétérinaires)",
+      "diplome_delivre": "Diplôme National de Docteur en Médecine Vétérinaire",
+      "debouches": "Cabinets vétérinaires privés, cliniques des animaux de rente et de compagnie, abattoirs municipaux, ONSSA, recherche zootechnique"
+    },
+    {
+      "filiere": "Ingénieur en Sciences Géodésiques et Ingénierie Topographique (SGIT)",
+      "duree_totale": "5 ans (1 an APESA + 4 ans cycle ingénieur)",
+      "diplome_delivre": "Diplôme d'Ingénieur Géomètre-Topographe d'État (IGT)",
+      "debouches": "Agence Nationale de la Conservation Foncière du Cadastre et de la Cartographie (ANCFCC), cabinets d'ingénieurs géomètres topographes, grands chantiers d'infrastructures et cadastre"
+    },
+    {
+      "filiere": "Ingénieur Agronome",
+      "duree_totale": "5 ans (1 an APESA + 4 ans cycle ingénieur)",
+      "diplome_delivre": "Diplôme d'Ingénieur Agronome d'État",
+      "specialites": "Agronomie, Horticulture, Protection des plantes, Sciences du sol, Économie rurale, Halieutique"
+    },
+    {
+      "filiere": "Ingénieur en Génie Rural (GR)",
+      "duree_totale": "5 ans (1 an APESA + 4 ans cycle ingénieur)",
+      "diplome_delivre": "Diplôme d'Ingénieur en Génie Rural",
+      "debouches": "Aménagements hydrauliques, barrages, périmètres irrigués, gestion des ressources en eau, énergies renouvelables rurales"
+    },
+    {
+      "filiere": "Ingénieur des Industries Agroalimentaires (IAA)",
+      "duree_totale": "5 ans (1 an APESA + 4 ans cycle ingénieur)",
+      "diplome_delivre": "Diplôme d'Ingénieur des Industries Agroalimentaires",
+      "debouches": "Usines de transformation agroalimentaire, management de la qualité et sécurité sanitaire (HACCP), R&D alimentaire"
+    }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Physiques et Chimie (PC)",
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences Agronomiques"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026) exclusivement"],
+    "age_limite": "Moins de 23 ans au 1er septembre de l'année de sélection",
+    "plateforme_candidature": "https://www.iav.ac.ma (Portail APESA)",
+    "frais_dossier": "150 DH (frais d'examen du dossier)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection rigoureuse calculée selon la formule nationale : 75% Examen National + 25% Examen Régional",
+    "etape_2": "Test écrit ou sélection directe sur liste principale selon les quotas par province et par filière de Bac"
+  },
+  "seuils_historiques_preselection_apesa": {
+    "sciences_physiques": 16.50,
+    "sciences_vie_et_terre": 17.00,
+    "sciences_maths_a_et_b": 15.00,
+    "sciences_agronomiques": 13.50
+  },
+  "conseils_candidats": [
+    "L'APESA est une année éliminatoire exigeante : environ 30% des étudiants ne franchissent pas le cap de la 1ère année. La rigueur en chimie organique, biologie végétale et mathématiques est capitale dès le premier semestre.",
+    "La filière SGIT (Sciences Géodésiques et Topographie) est la seule formation publique d'ingénieurs géomètres topographes au Maroc ouvrant droit à l'exercice de la profession assermentée.",
+    "Pour la médecine vétérinaire, l'admission après l'APESA s'effectue selon le classement général de fin de 1ère année."
+  ]
+}

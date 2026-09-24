@@ -62,22 +62,49 @@ class LevelBranchSelector extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0F5132).withValues(alpha: isDark ? 0.35 : 0.14),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          curriculum.shortLevelAndBranchCode,
+                          style: const TextStyle(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xFF0F5132),
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          currentBranch.localizedName(currentLang),
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w700,
+                            color: isDark ? Colors.white : const Color(0xFF0F172A),
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 3),
                   Text(
                     '${currentLevel.localizedName(currentLang)} • ${currentLang == 'ar' ? currentLevel.nameFr : currentLevel.nameAr}',
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
                       color: isDark ? Colors.white60 : const Color(0xFF64748B),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    currentBranch.localizedName(currentLang),
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: isDark ? Colors.white : const Color(0xFF0F172A),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -86,7 +113,7 @@ class LevelBranchSelector extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(10),
@@ -95,14 +122,14 @@ class LevelBranchSelector extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    langService.tr('btn_change'),
+                    langService.isArabic ? 'تغيير' : 'Changer',
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       color: isDark ? Colors.white70 : const Color(0xFF475569),
                     ),
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 3),
                   const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
                 ],
               ),

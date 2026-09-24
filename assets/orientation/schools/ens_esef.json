@@ -1,0 +1,123 @@
+{
+  "id": "ens_esef_cle",
+  "nom_fr": "Réseau des Licences en Éducation (ENS & ESEF)",
+  "nom_ar": "شبكة الإجازة في التربية - المدارس العليا للأساتذة والمدارس العليا للتربية والتكوين",
+  "abreviation": "ENS / ESEF - CLE",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation & Ministère de l'Éducation Nationale, du Préscolaire et des Sports",
+  "type_etablissement": "Établissements publics universitaires dédiés aux métiers de l'enseignement et des sciences de l'éducation",
+  "duree_etudes": "3 ans (6 semestres)",
+  "diplome_delivre": "Licence en Éducation (CLE)",
+  "nombre_places_national": 18108,
+  "incitation_financiere": "Bourse mensuelle de 1 000 DH (sur 10 mois par an) accordée aux étudiants inscrits en Licence d'Éducation s'engageant dans les activités pédagogiques",
+  "reseau_etablissements": {
+    "ecoles_normales_superieures_ens": [
+      { "etablissement": "ENS Rabat", "ville": "Rabat", "universite": "Université Mohammed V" },
+      { "etablissement": "ENS Casablanca", "ville": "Casablanca", "universite": "Université Hassan II" },
+      { "etablissement": "ENS Fès", "ville": "Fès", "universite": "Université Sidi Mohamed Ben Abdellah" },
+      { "etablissement": "ENS Marrakech", "ville": "Marrakech", "universite": "Université Cadi Ayyad" },
+      { "etablissement": "ENS Tétouan / Martil", "ville": "Tétouan", "universite": "Université Abdelmalek Essaâdi" },
+      { "etablissement": "FSE Rabat (Faculté des Sciences de l'Éducation)", "ville": "Rabat", "universite": "Université Mohammed V" }
+    ],
+    "ecoles_superieures_education_formation_esef": [
+      { "etablissement": "ESEF Kénitra", "ville": "Kénitra", "universite": "Université Ibn Tofail" },
+      { "etablissement": "ESEF El Jadida", "ville": "El Jadida", "universite": "Université Chouaïb Doukkali" },
+      { "etablissement": "ESEF Agadir", "ville": "Agadir", "universite": "Université Ibn Zohr" },
+      { "etablissement": "ESEF Béni Mellal", "ville": "Béni Mellal", "universite": "Université Sultan Moulay Slimane" },
+      { "etablissement": "ESEF Oujda", "ville": "Oujda", "universite": "Université Mohammed 1er" },
+      { "etablissement": "ESEF Berrechid", "ville": "Berrechid", "universite": "Université Hassan 1er" }
+    ]
+  },
+  "conditions_admission": {
+    "age_limite": "Avoir moins de 21 ans au 31 décembre de l'année de candidature",
+    "annees_bac_acceptees": ["Baccalauréat 2026", "Baccalauréat 2025"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit"
+  },
+  "modalites_selection": {
+    "etape_1_preselection": {
+      "formule_calcul": "Note de présélection = (75% Note Examen National + 25% Note Examen Régional) × Coefficient de pondération",
+      "poids_note": "75% dans le calcul de la note finale globale"
+    },
+    "etape_2_epreuve_orale": {
+      "poids_note": "25% dans le calcul de la note finale globale",
+      "criteres_evaluation": [
+        "Capacité d'expression et communication dans la ou les langues d'enseignement",
+        "Aptitudes pédagogiques et motivation sincère pour le métier d'enseignant",
+        "Équilibre psychologique, prestance et sens de l'écoute",
+        "Culture générale et curiosité intellectuelle"
+      ]
+    },
+    "formule_note_definitive": "Note Finale = (Note Présélection × 0.75) + (Note Entretien Oral × 0.25)"
+  },
+  "coefficients_de_ponderation_par_filiere": {
+    "enseignement_primaire_bilingue": {
+      "sciences_maths": 1.4,
+      "sciences_experimentales_pc_svt": 1.3,
+      "lettres_sciences_humaines": 1.1,
+      "sciences_economiques_gestion": 1.1,
+      "autres": 1.0
+    },
+    "secondaire_mathematiques": {
+      "sciences_maths": 1.5,
+      "sciences_physiques": 1.1,
+      "svt": 1.0,
+      "autres": 0.8
+    },
+    "secondaire_physique_chimie": {
+      "sciences_physiques": 1.5,
+      "sciences_maths": 1.4,
+      "svt": 1.1,
+      "autres": 0.8
+    },
+    "secondaire_sciences_de_la_vie_et_de_la_terre": {
+      "svt": 1.5,
+      "sciences_physiques": 1.2,
+      "sciences_maths": 1.1,
+      "sciences_agronomiques": 1.3
+    },
+    "secondaire_informatique": {
+      "sciences_maths": 1.4,
+      "sciences_technologiques_ste_stm": 1.3,
+      "sciences_physiques": 1.2,
+      "bac_pro_informatique": 1.3
+    },
+    "secondaire_francais": {
+      "lettres_et_sciences_humaines": 1.5,
+      "sciences_maths_et_exp": 1.2,
+      "economie_gestion": 1.2
+    },
+    "secondaire_arabe": {
+      "lettres_et_sciences_humaines": 1.5,
+      "enseignement_originel": 1.5,
+      "sciences": 1.0
+    },
+    "secondaire_anglais": {
+      "lettres_et_sciences_humaines": 1.5,
+      "sciences_maths_et_exp": 1.2
+    },
+    "secondaire_philosophie": {
+      "lettres_et_sciences_humaines": 1.5,
+      "sciences": 1.1
+    },
+    "secondaire_histoire_geographie": {
+      "lettres_et_sciences_humaines": 1.5,
+      "sciences": 1.0
+    },
+    "secondaire_economie_gestion": {
+      "sciences_economiques_et_gestion": 1.5,
+      "sciences_maths": 1.2
+    }
+  },
+  "debouches_professionnels": [
+    "Accès privilégié aux Centres Régionaux des Métiers de l'Éducation et de la Formation (CRMEF) pour devenir Professeur titulaire du Primaire ou du Secondaire (Collège et Lycée)",
+    "Enseignement dans les établissements scolaires privés homologués et d'excellence",
+    "Poursuite d'études en Master en Sciences de l'Éducation, Didactique des Disciplines ou Ingénierie Pédagogique",
+    "Concepteur de contenus pédagogiques, de manuels scolaires et de plateformes d'e-learning",
+    "Encadrement éducatif, animation socio-pédagogique et tutorat scolaire"
+  ],
+  "conseils_candidats": [
+    "L'entretien oral est déterminant (25% du total) : préparez une présentation personnelle claire et entraînez-vous à parler avec fluidité en français et en arabe.",
+    "L'âge limite strict est de 21 ans : les candidats plus âgés ne peuvent pas être retenus par la plateforme.",
+    "Le coefficient de pondération avantage fortement les filières de bac correspondant directement à la discipline d'enseignement choisie."
+  ]
+}

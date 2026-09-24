@@ -1,0 +1,123 @@
+{
+  "id": "ensa",
+  "nom_fr": "Réseau des Écoles Nationales des Sciences Appliquées",
+  "nom_ar": "المدارس الوطنية للعلوم التطبيقية",
+  "abreviation": "ENSA Maroc",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation",
+  "type_etablissement": "Établissement public d'enseignement supérieur d'ingénieurs",
+  "duree_etudes": "5 ans (10 semestres) répartis en deux cycles consécutifs : Cycle Préparatoire Intégré (2 ans / 4 semestres) et Cycle Ingénieur (3 ans / 6 semestres)",
+  "diplome_delivre": "Diplôme d'Ingénieur d'État",
+  "nombre_etablissements": 13,
+  "villes": [
+    { "ville": "Tanger", "universite": "Université Abdelmalek Essaâdi" },
+    { "ville": "Agadir", "universite": "Université Ibn Zohr" },
+    { "ville": "Oujda", "universite": "Université Mohammed 1er" },
+    { "ville": "Marrakech", "universite": "Université Cadi Ayyad" },
+    { "ville": "Safi", "universite": "Université Cadi Ayyad" },
+    { "ville": "Fès", "universite": "Université Sidi Mohamed Ben Abdellah" },
+    { "ville": "Khouribga", "universite": "Université Sultan Moulay Slimane" },
+    { "ville": "Kénitra", "universite": "Université Ibn Tofail" },
+    { "ville": "Tétouan", "universite": "Université Abdelmalek Essaâdi" },
+    { "ville": "El Jadida", "universite": "Université Chouaïb Doukkali" },
+    { "ville": "Al Hoceima", "universite": "Université Abdelmalek Essaâdi" },
+    { "ville": "Berrechid", "universite": "Université Hassan 1er" },
+    { "ville": "Béni Mellal", "universite": "Université Sultan Moulay Slimane" }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Physiques et Chimie (PC)",
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences Agronomiques",
+      "Sciences et Technologies Électriques (STE)",
+      "Sciences et Technologies Mécaniques (STM)",
+      "Baccalauréat Professionnel Industriel (Construction aéronautique, Fabrication mécanique, Électrotechnique, Systèmes numériques, Maintenance industrielle, Énergies renouvelables)"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026)", "Baccalauréat de l'année précédente (2025)"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit (Plateforme nationale)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection nationale informatisée calculée selon la formule : 75% Examen National + 25% Examen Régional",
+    "etape_2": "Concours écrit commun national (Épreuve de Mathématiques et Épreuve de Physique-Chimie / Sciences pour l'ingénieur)",
+    "nature_epreuves": "Questions à Choix Multiples (QCM) portant sur le programme des filières scientifiques du baccalauréat marocain"
+  },
+  "seuils_historiques_preselection": {
+    "annee_2025": {
+      "sciences_maths": 12.00,
+      "sciences_physiques": 14.00,
+      "svt": 14.40,
+      "sciences_technologiques_ste_stm": 14.40,
+      "bac_professionnel": 14.40
+    },
+    "annee_2024": {
+      "sciences_maths": 12.00,
+      "sciences_physiques": 14.25,
+      "svt": 14.75,
+      "sciences_technologiques_ste_stm": 14.50,
+      "bac_professionnel": 14.50
+    },
+    "annee_2023": {
+      "sciences_maths": 12.50,
+      "sciences_physiques": 14.50,
+      "svt": 15.00,
+      "sciences_technologiques_ste_stm": 15.00,
+      "bac_professionnel": 15.00
+    },
+    "annee_2022": {
+      "sciences_maths": 12.50,
+      "sciences_physiques": 14.00,
+      "svt": 14.80,
+      "sciences_technologiques_ste_stm": 14.80,
+      "bac_professionnel": 14.80
+    }
+  },
+  "filières_et_specialisations": [
+    {
+      "filiere": "Génie Informatique & Intelligence Artificielle",
+      "competences": "Développement logiciel, Cloud computing, Machine learning, Big data, Cybersécurité"
+    },
+    {
+      "filiere": "Génie Télécommunications et Réseaux",
+      "competences": "Infrastructures 5G/IoT, Réseaux d'opérateurs, Protocoles de communication, Systèmes distribués"
+    },
+    {
+      "filiere": "Génie Industriel et Logistique",
+      "competences": "Optimisation des processus industriels, Lean manufacturing, Supply chain management, Qualité industrielle"
+    },
+    {
+      "filiere": "Génie Électrique et Systèmes Embarqués",
+      "competences": "Automatismes industriels, Électronique de puissance, Robotique, Systèmes temps réel"
+    },
+    {
+      "filiere": "Génie Mécatronique et Automobile",
+      "competences": "Véhicules connectés et autonomes, Modélisation multiphysique, Actionneurs et capteurs"
+    },
+    {
+      "filiere": "Génie Civil et Bâtiment",
+      "competences": "Calcul des structures, Gestion de chantiers de BTP, Éco-construction, Matériaux innovants"
+    },
+    {
+      "filiere": "Génie Énergétique et Environnement",
+      "competences": "Énergies renouvelables (solaire, éolien, hydrogène vert), Efficacité énergétique, Gestion de l'eau"
+    },
+    {
+      "filiere": "Génie des Procédés et Matériaux Avancés",
+      "competences": "Métallurgie, Polymères, Traitement physico-chimique, Industrie chimique et minière"
+    }
+  ],
+  "debouches_professionnels": [
+    "Secteurs industriels de pointe : Automobile (Tanger Med, Atlantic Free Zone), Aéronautique (Midparc Casa)",
+    "Établissements et grands offices publics : OCP, ONEE, ONCF, MASEN, Ports et Régies autonomes",
+    "Entreprises de services numériques (ESN) et éditeurs de logiciels nationaux et internationaux",
+    "Opérateurs de télécommunications et fournisseurs d'infrastructures (Maroc Telecom, Orange, Inwi)",
+    "Bureaux d'études techniques, ingénierie-conseil et contrôle qualité",
+    "Carrières dans la recherche scientifique appliquée et doctorat en sciences pour l'ingénieur"
+  ],
+  "conseils_candidats": [
+    "Le concours écrit requiert une maîtrise rigoureuse des fondamentaux de Terminale (Mathématiques et Physique).",
+    "Les épreuves QCM sanctionnent souvent les réponses hasardeuses : évaluez avec discernement chaque choix.",
+    "L'affectation finale dans une ENSA spécifique dépend de votre classement général et de vos choix prioritaires sur CursusSup.",
+    "Une fois admis en cycle préparatoire, un travail soutenu et régulier est indispensable pour valider chaque module sans session de rattrapage."
+  ]
+}

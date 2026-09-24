@@ -1,0 +1,110 @@
+{
+  "titre": "Tableau Comparatif National des Seuils de Présélection Post-Bac au Maroc",
+  "source_officielle": "Données compilées des notes ministérielles et résultats de présélection des établissements d'enseignement supérieur marocains",
+  "derniere_mise_a_jour": "Session 2025-2026",
+  "note_methodologique": "Le calcul de la note de présélection s'effectue dans la majorité des réseaux nationaux (ENSA, ENCG, ENSAM, FMP, ENA, FST, EST, IAV) selon la formule officielle : Note = (75% Note Examen National du Bac) + (25% Note Examen Régional du Bac). Les seuils définitifs sont arrêtés après les résultats de la session de rattrapage en fonction du nombre de candidats et du classement national.",
+  "comparatif_par_etablissement": [
+    {
+      "etablissement": "ENCG Maroc (12 écoles)",
+      "type_concours": "Présélection nationale + Concours écrit commun (TAFEM)",
+      "seuils_par_branche": {
+        "sciences_mathematiques": "12.00 (2025) | 12.00 (2024) | 12.00 (2023)",
+        "sciences_economiques_et_gestion": "12.00 (2025) | 12.00 (2024) | 12.00 (2023)",
+        "sciences_physiques_chimie": "14.00 (2025) | 14.00 (2024) | 14.00 (2023)",
+        "sciences_vie_et_terre": "14.00 (2025) | 14.00 (2024) | 14.00 (2023)",
+        "baccalaureat_professionnel": "14.00 (2025) | 14.00 (2024) | 14.00 (2023)"
+      }
+    },
+    {
+      "etablissement": "ENSA Maroc (13 écoles)",
+      "type_concours": "Présélection nationale + Concours écrit commun (Maths & Physique)",
+      "seuils_par_branche": {
+        "sciences_mathematiques": "12.00 (2025) | 12.00 (2024) | 12.50 (2023)",
+        "sciences_physiques_chimie": "14.00 (2025) | 14.25 (2024) | 14.50 (2023)",
+        "sciences_vie_et_terre": "14.40 (2025) | 14.75 (2024) | 15.00 (2023)",
+        "sciences_technologiques_ste_stm": "14.40 (2025) | 14.50 (2024) | 15.00 (2023)",
+        "baccalaureat_professionnel": "14.40 (2025) | 14.50 (2024) | 15.00 (2023)"
+      }
+    },
+    {
+      "etablissement": "ENSAM Maroc (Meknès, Casablanca, Rabat)",
+      "type_concours": "Présélection nationale + Concours écrit commun",
+      "seuils_par_branche": {
+        "sciences_mathematiques": "12.25 (2025) | 12.50 (2024) | 12.50 (2023)",
+        "sciences_physiques_chimie": "15.40 (2025) | 15.80 (2024) | 16.25 (2023)",
+        "sciences_vie_et_terre": "16.17 (2025) | 16.40 (2024) | 16.50 (2023)",
+        "sciences_technologiques_ste_stm": "15.00 (2025) | 15.25 (2024) | 15.50 (2023)",
+        "baccalaureat_professionnel": "16.17 (2025) | 16.40 (2024) | 16.50 (2023)"
+      }
+    },
+    {
+      "etablissement": "Facultés de Médecine, Pharmacie et Médecine Dentaire (FMP / FMD)",
+      "type_concours": "Présélection unifiée + Concours écrit commun (SVT, Chimie, Physique, Maths)",
+      "seuils_par_branche": {
+        "sciences_mathematiques": "12.00 (2025) | 13.00 (2024) | 12.00 (2023)",
+        "sciences_physiques_chimie": "12.00 (2025) | 13.00 (2024) | 12.00 (2023)",
+        "sciences_vie_et_terre": "12.00 (2025) | 13.00 (2024) | 12.00 (2023)"
+      }
+    },
+    {
+      "etablissement": "IAV Hassan II (APESA Rabat)",
+      "type_concours": "Présélection nationale d'excellence",
+      "seuils_par_branche": {
+        "sciences_mathematiques": "15.00 à 15.50",
+        "sciences_physiques_chimie": "16.50 à 17.00",
+        "sciences_vie_et_terre": "17.00 à 17.50",
+        "sciences_agronomiques": "13.50"
+      }
+    },
+    {
+      "etablissement": "ENA (Écoles Nationales d'Architecture - Rabat, Fès, Tétouan, Agadir, Oujda, Marrakech)",
+      "type_concours": "Présélection par ville + Épreuve d'expression écrite et dessin",
+      "seuils_par_branche": {
+        "sciences_mathematiques": "12.80 à 13.75 selon le site (Rabat: 13.75 | Marrakech: 13.50 | Fès: 13.25 | Agadir: 13.00)",
+        "sciences_physiques_et_svt": "14.50 à 15.80 selon le site (Rabat: 15.80 | Marrakech: 15.25 | Fès: 15.00 | Agadir: 14.80)"
+      }
+    },
+    {
+      "etablissement": "ENAM Meknès (Agronomie)",
+      "type_concours": "Présélection sur note de l'Examen National + Épreuves écrites",
+      "seuils_par_branche": {
+        "sciences_physiques_chimie": "16.43 (Moyenne nationale)",
+        "sciences_vie_et_terre": "15.90 (Moyenne nationale)",
+        "sciences_mathematiques": "15.61 (Moyenne nationale)",
+        "sciences_agronomiques": "12.02 (Moyenne nationale)"
+      }
+    },
+    {
+      "etablissement": "ISCAE Casablanca & Rabat (Licence en Gestion)",
+      "type_concours": "Présélection sur dossier + Épreuves écrites + Grand Oral d'admission",
+      "seuils_par_branche": {
+        "sciences_physiques_chimie": "18.60",
+        "sciences_technologiques_ste_stm": "18.40",
+        "sciences_vie_et_terre": "18.10",
+        "sciences_maths": "17.70",
+        "sciences_economiques_gestion": "17.30"
+      }
+    },
+    {
+      "etablissement": "ISTP (Instituts Spécialisés des Travaux Publics - Marrakech, Fès, Agadir, Oujda)",
+      "type_concours": "Sélection sur dossier selon coefficients ministériels",
+      "seuils_par_branche": {
+        "sciences_techniques_et_scientifiques": "Moyenne comprise entre 14.00 et 15.75 selon le centre et la filière"
+      }
+    },
+    {
+      "etablissement": "Écoles Militaires (ARM Meknès, ERA Marrakech, ERN Casablanca, ERSSM Rabat)",
+      "type_concours": "Présélection sur dossier scolaire + Visite médicale approfondie + Tests psychotechniques + Épreuves d'aptitude physique (dispense des épreuves écrites)",
+      "seuils_par_branche": {
+        "sciences_mathematiques_et_experimentales": "Sélection basée sur le classement des dossiers du Baccalauréat (généralement supérieur à 14.50 - 16.00 selon le corps d'armée)"
+      }
+    },
+    {
+      "etablissement": "EST & FST (Écoles Supérieures de Technologie et Facultés des Sciences et Techniques)",
+      "type_concours": "Sélection directe sans concours écrit via la plateforme nationale CursusSup",
+      "seuils_par_branche": {
+        "principe_selection": "Calcul automatisé avec coefficients de pondération disciplinaires : Formule = (75% National + 25% Régional) × Coeff Filière. Les listes d'attente s'étendent de 11.50 à 16.00 selon l'attractivité de la filière (Génie Informatique, Génie Industriel, Procédés, etc.)"
+      }
+    }
+  ]
+}

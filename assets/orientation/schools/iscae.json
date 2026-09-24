@@ -1,0 +1,66 @@
+{
+  "id": "iscae_groupe",
+  "nom_fr": "Groupe Institut Supérieur de Commerce et d'Administration des Entreprises",
+  "nom_ar": "المعهد العالي للتجارة وإدارة المقاولات",
+  "abreviation": "Groupe ISCAE",
+  "tutelle": "Ministère de l'Industrie et du Commerce",
+  "type_etablissement": "Première business school publique d'excellence du Maroc",
+  "sites": [
+    { "campus": "ISCAE Casablanca (Campus principal historique)", "ville": "Casablanca" },
+    { "campus": "ISCAE Rabat", "ville": "Rabat" }
+  ],
+  "cursus_post_bac": {
+    "diplome_delivre": "Licence en Gestion et Sciences du Management",
+    "duree_etudes": "3 ans (avec possibilité de poursuivre vers le Master Grande École en 2 ans supplémentaires)"
+  },
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Physiques et Chimie (PC)",
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences Économiques",
+      "Sciences de Gestion Comptable (SGC)",
+      "Sciences et Technologies (STE/STM)"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026)"],
+    "plateforme_candidature": "Portail officiel de candidature du Groupe ISCAE (iscae.ma)",
+    "frais_concours": "500 DH (frais d'examen du dossier et épreuves)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection nationale ultra-sélective basée sur les notes d'excellence du baccalauréat",
+    "etape_2": "Épreuves écrites d'admissibilité :",
+    "epreuves_ecrites": [
+      { "matiere": "Mathématiques appliquées et Logique", "duree": "1h30" },
+      { "matiere": "Culture générale et Actualité économique", "duree": "1h30" },
+      { "matiere": "Anglais des affaires et compréhension", "duree": "1h00" }
+    ],
+    "etape_3": "Grand Entretien Oral d'Admission devant un jury de professeurs universitaires et de chefs d'entreprises (évaluation de la personnalité, des valeurs managériales, de l'aisance en langues et du projet professionnel)"
+  },
+  "seuils_historiques_preselection": {
+    "sciences_physiques": 18.60,
+    "sciences_technologiques_ste_stm": 18.40,
+    "sciences_vie_et_terre": 18.10,
+    "sciences_maths": 17.70,
+    "sciences_economiques_gestion": 17.30
+  },
+  "filieres_et_specialisations_cycle_superieur": [
+    { "specialite": "Finance de Marché et Finance d'Entreprise" },
+    { "specialite": "Audit, Comptabilité et Contrôle de Gestion" },
+    { "specialite": "Marketing Stratégique et Digital" },
+    { "specialite": "Management International et Supply Chain" },
+    { "specialite": "Conseil en Stratégie et Organisation" }
+  ],
+  "debouches_professionnels": [
+    "Banques d'affaires et fonds d'investissement (Private Equity, Venture Capital, M&A)",
+    "Cabinets d'audit internationaux (PwC, Deloitte, EY, KPMG)",
+    "Cabinets de conseil en stratégie de premier plan (McKinsey, BCG, Roland Berger)",
+    "Directions financières et générales de multinationales",
+    "Trading, gestion d'actifs et marchés de capitaux",
+    "Responsables marketing et développement commercial à l'international"
+  ],
+  "conseils_candidats": [
+    "L'ISCAE applique les seuils de présélection les plus élevés du Maroc (dépassant 17.30 à 18.60 selon les filières).",
+    "L'entretien oral accorde un coefficient décisif : soignez votre posture, démontrez une excellente culture des affaires internationales et une aisance parfaite en français et en anglais.",
+    "Pour les bacheliers n'ayant pas atteint le seuil post-bac, la voie royale des Classes Préparatoires Commerciales (ECT / ECS) permet d'intégrer le cycle Grande École de l'ISCAE via le concours CNAEM."
+  ]
+}

@@ -4,9 +4,14 @@ import 'package:url_launcher/url_launcher.dart';
 import '../services/app_language_service.dart';
 import '../services/auth_service.dart';
 import '../services/curriculum_service.dart';
+import '../services/user_profile_service.dart';
+import '../services/favorites_service.dart';
+import '../services/focus_timer_service.dart';
+import '../services/user_sync_service.dart';
+import 'focus_mode_screen.dart';
 import 'level_selection_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   final VoidCallback? onToggleTheme;
   final bool isDarkMode;
 
@@ -15,6 +20,13 @@ class SettingsScreen extends StatelessWidget {
     this.onToggleTheme,
     this.isDarkMode = false,
   });
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -292,12 +304,95 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               secondary: Icon(
-                isDarkMode ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                widget.isDarkMode ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                 color: const Color(0xFF0F5132),
               ),
-              value: isDarkMode,
+              value: widget.isDarkMode,
               activeThumbColor: const Color(0xFF0F5132),
-              onChanged: onToggleTheme != null ? (_) => onToggleTheme!() : null,
+              onChanged: widget.onToggleTheme != null ? (_) => widget.onToggleTheme!() : null,
+            ),
+          ),
+
+          const SizedBox(height: 28),
+
+          // 3b. Mode Concentration (Focus Mode)
+          _buildSectionHeader(
+            context: context,
+            title: langService.isArabic ? 'وضع التركيز (Focus Mode)' : 'Mode Concentration',
+            icon: Icons.self_improvement_rounded,
+            isDark: isDark,
+          ),
+          const SizedBox(height: 10),
+
+          Container(
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF162032) : Colors.white,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: isDark ? const Color(0xFF1F2E45) : const Color(0xFFE2E8F0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                SwitchListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  title: Text(
+                    langService.isArabic
+                        ? 'أيقونة التركيز في الشاشة الرئيسية'
+                        : 'Afficher le mode concentration à l\'accueil',
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(
+                    langService.isArabic
+                        ? 'إظهار زر الوصول السريع لتقنيات بومودورو وفلو تايم في الشريط العلوي'
+                        : 'Affiche l\'icône de concentration dans la barre supérieure de l\'accueil',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? Colors.white60 : const Color(0xFF64748B),
+                    ),
+                  ),
+                  secondary: const Icon(
+                    Icons.self_improvement_rounded,
+                    color: Color(0xFF0F5132),
+                  ),
+                  value: context.watch<FocusTimerService>().showHomeIcon,
+                  activeThumbColor: const Color(0xFF0F5132),
+                  onChanged: (val) => context.read<FocusTimerService>().setShowHomeIcon(val),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  leading: const Icon(Icons.timer_outlined, color: Color(0xFF0F5132)),
+                  title: Text(
+                    langService.isArabic
+                        ? 'فتح مساحة التركيز الآن'
+                        : 'Ouvrir l\'espace concentration',
+                    style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(
+                    langService.isArabic
+                        ? '5 تقنيات مراجعة، أهداف الحصة، ومؤثرات صوتية هادئة'
+                        : '5 techniques (Pomodoro, Flowtime), to-do list & ambiances sonores',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? Colors.white60 : const Color(0xFF64748B),
+                    ),
+                  ),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const FocusModeScreen()),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
 
@@ -503,16 +598,21 @@ class SettingsScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 24,
                   backgroundColor: const Color(0xFF0F5132),
-                  child: Text(
-                    auth.currentUser!.displayName.isNotEmpty
-                        ? auth.currentUser!.displayName[0].toUpperCase()
-                        : 'U',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  backgroundImage: auth.currentUser!.photoUrl != null
+                      ? NetworkImage(auth.currentUser!.photoUrl!)
+                      : null,
+                  child: auth.currentUser!.photoUrl == null
+                      ? Text(
+                          auth.currentUser!.displayName.isNotEmpty
+                              ? auth.currentUser!.displayName[0].toUpperCase()
+                              : 'U',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -585,23 +685,65 @@ class SettingsScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: FilledButton.icon(
-                    icon: const Icon(Icons.g_mobiledata_rounded, size: 26),
-                    label: Text(
-                      langService.tr('auth_google_signin'),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF0F5132),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () async {
-                      await auth.signInWithGoogle();
-                    },
-                  ),
+                  child: auth.isSigningIn
+                      ? const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: CircularProgressIndicator(color: Color(0xFF0F5132)),
+                          ),
+                        )
+                      : FilledButton.icon(
+                          icon: const Icon(Icons.g_mobiledata_rounded, size: 26),
+                          label: Text(
+                            langService.tr('auth_google_signin'),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: const Color(0xFF0F5132),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () async {
+                            final syncService = context.read<UserSyncService>();
+                            final profileService = context.read<UserProfileService>();
+                            final favService = context.read<FavoritesService>();
+                            final curriculumService = context.read<CurriculumService>();
+
+                            final success = await auth.signInWithGoogle();
+                            if (context.mounted && success && auth.currentUser != null) {
+                              final token = await auth.getIdToken();
+                              if (token != null) {
+                                final res = await syncService.syncOnLogin(
+                                  userId: auth.currentUser!.id,
+                                  idToken: token,
+                                  profileService: profileService,
+                                  favService: favService,
+                                  platform: 'android',
+                                );
+                                if (res.hasSelectedGrade) {
+                                  await curriculumService.selectLevelAndBranch(
+                                    profileService.savedLevelId,
+                                    profileService.savedBranchId,
+                                  );
+                                }
+                              }
+                            }
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    success
+                                        ? langService.tr('auth_sync_active')
+                                        : (isAr ? 'تعذر تسجيل الدخول' : 'Connexion annulée ou échouée'),
+                                  ),
+                                  backgroundColor: success ? const Color(0xFF0F5132) : Colors.red,
+                                ),
+                              );
+                            }
+                          },
+                        ),
                 ),
               ],
             ),

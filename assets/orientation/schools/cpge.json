@@ -1,0 +1,95 @@
+{
+  "id": "cpge_maroc",
+  "nom_fr": "Classes Préparatoires aux Grandes Écoles",
+  "nom_ar": "الأقسام التحضيرية للمدارس العليا",
+  "abreviation": "CPGE Maroc",
+  "tutelle": "Ministère de l'Éducation Nationale, du Préscolaire et des Sports (Direction des CPGE)",
+  "type_etablissement": "Centres publics et privés de formation supérieure intensive en 2 ans",
+  "duree_etudes": "2 ans (4 semestres)",
+  "vocation": "Préparation aux concours d'entrée aux Grandes Écoles d'Ingénieurs et aux Écoles Supérieures de Commerce et Management au Maroc et à l'étranger",
+  "centres_publics_maroc": [
+    { "nom": "Lycée Moulay Youssef", "ville": "Rabat" },
+    { "nom": "Lycée Mohammed V", "ville": "Casablanca" },
+    { "nom": "Lycée Moulay Idriss", "ville": "Fès" },
+    { "nom": "Lycée Ibn Timiya", "ville": "Marrakech" },
+    { "nom": "Lycée Reda Slaoui", "ville": "Agadir" },
+    { "nom": "Lycée Omar Ibn Abdelaziz", "ville": "Oujda" },
+    { "nom": "Lycée Moulay El Hassan", "ville": "Tanger" },
+    { "nom": "Lycée Mohammed VI d'Excellence (LM6E)", "ville": "Benguerir" },
+    { "nom": "Lycée Technique", "ville": "Settat" },
+    { "nom": "Lycée Salmane El Farissi", "ville": "Salé" },
+    { "nom": "Lycée Ibn Sina", "ville": "Béni Mellal" },
+    { "nom": "Lycée Technique", "ville": "Taza" },
+    { "nom": "Lycée Bab Essahara", "ville": "Guelmim" },
+    { "nom": "Lycée Charif Al Idrissi", "ville": "Safi" },
+    { "nom": "Lycée Ibn Abdoun", "ville": "Khouribga" },
+    { "nom": "Lycée Abdelkrim El Khattabi", "ville": "Nador" },
+    { "nom": "Lycée Moulay Ismail", "ville": "Meknès" },
+    { "nom": "Lycée Ibn Ghazi", "ville": "Rabat" }
+  ],
+  "filieres": [
+    {
+      "code": "MPSI",
+      "intitule_1ere_annee": "Mathématiques, Physique et Sciences de l'Ingénieur",
+      "debouche_2eme_annee": "MP (Maths-Physique) ou PSI (Physique-Sciences de l'Ingénieur)",
+      "bacs_admissibles": ["Sciences Mathématiques A", "Sciences Mathématiques B"],
+      "concours_cibles": "Concours National Commun (CNC Maroc), X/ENS, Mines-Ponts, CentraleSupélec, CCINP"
+    },
+    {
+      "code": "PCSI",
+      "intitule_1ere_annee": "Physique, Chimie et Sciences de l'Ingénieur",
+      "debouche_2eme_annee": "PSI (Physique et Sciences de l'Ingénieur)",
+      "bacs_admissibles": ["Sciences Physiques (PC)", "Sciences Mathématiques (A et B)"],
+      "concours_cibles": "Concours National Commun (CNC Maroc), Mines-Ponts, CentraleSupélec, CCINP"
+    },
+    {
+      "code": "TSI",
+      "intitule": "Technologies et Sciences Industrielles",
+      "debouche_2eme_annee": "TSI (2ème année)",
+      "bacs_admissibles": ["Sciences et Technologies Électriques (STE)", "Sciences et Technologies Mécaniques (STM)"],
+      "concours_cibles": "Places réservées au Concours National Commun (CNC), Concours TSI France"
+    },
+    {
+      "code": "ECS",
+      "intitule": "Économique et Commerciale option Scientifique",
+      "bacs_admissibles": ["Sciences Mathématiques (A et B)", "Sciences Expérimentales (PC, SVT)"],
+      "concours_cibles": "CNAEM Maroc (accès ENCG 3ème année, ISCAE), BCE et Ecricome France (HEC, ESSEC, ESCP, EM Lyon, EDHEC)"
+    },
+    {
+      "code": "ECT",
+      "intitule": "Économique et Commerciale option Technologique",
+      "bacs_admissibles": ["Sciences Économiques", "Sciences de Gestion Comptable (SGC)"],
+      "concours_cibles": "CNAEM Maroc (accès ENCG 3ème année, ISCAE), Grandes Écoles de Commerce françaises"
+    }
+  ],
+  "conditions_admission": {
+    "annee_bac": "Baccalauréat obtenu obligatoirement dans l'année en cours (2026)",
+    "mention_minimale": "Mention Assez Bien au minimum",
+    "age_limite": "Moins de 21 ans au 31 décembre de l'année de sélection",
+    "plateforme_candidature": "https://www.cpge.ac.ma (Portail e-CPGE du Ministère)",
+    "formule_classement": "Moyenne M = N1 + (N2 - 10) + N3 (calculée avec pondération des matières scientifiques selon la filière)"
+  },
+  "passerelles_universitaires_systeme_lmd": {
+    "regles_redoublement": "Le redoublement de la 1ère année est strictement interdit. Le redoublement de la 2ème année ('faire 5/2') est conditionné par l'avis favorable du conseil des professeurs.",
+    "equivalence_l2": "Les étudiants ayant validé les 4 semestres ou ayant été déclarés admissibles au Concours National Commun (CNC) obtiennent l'équivalence des deux premières années universitaires (120 crédits ECTS).",
+    "acces_direct_s5": "Possibilité d'inscription directe au 5ème semestre (S5 - Licence 3ème année) des Facultés des Sciences ou Facultés d'Économie et de Gestion."
+  },
+  "grandes_ecoles_cnc_maroc": [
+    "EMI (École Mohammadia d'Ingénieurs - Rabat)",
+    "EHTP (École Hassania des Travaux Publics - Casablanca)",
+    "ENSIAS (École Nationale Supérieure d'Informatique et d'Analyse des Systèmes - Rabat)",
+    "INSEA (Institut National de Statistique et d'Économie Appliquée - Rabat)",
+    "INPT (Institut National des Postes et Télécommunications - Rabat)",
+    "Mines Rabat (École Nationale Supérieure des Mines de Rabat)",
+    "ENSEM (École Nationale Supérieure d'Électricité et de Mécanique - Casablanca)",
+    "AIAC (Académie Internationale Mohammed VI de l'Aviation Civile - Nouaceur)",
+    "IAV Hassan II (Institut Agronomique et Vétérinaire - Rabat)",
+    "ENFI (École Nationale Forestière d'Ingénieurs - Salé)",
+    "ENSEA / Réseau ENSA (places d'admission directe en 3ème année)"
+  ],
+  "conseils_candidats": [
+    "Les CPGE demandent une capacité de travail très soutenue, une grande résilience psychologique et une organisation rigoureuse dès la première semaine.",
+    "Pour les bacheliers Sciences Physiques, la filière PCSI offre d'excellentes opportunités et des places réservées aux concours d'ingénieurs.",
+    "La vie en internat (offerte dans la quasi-totalité des centres publics) favorise l'émulation et le travail en groupe indispensable pour réussir les concours."
+  ]
+}

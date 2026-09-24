@@ -1,0 +1,49 @@
+{
+  "id": "guide_strategie_orientation_maroc",
+  "titre_fr": "Guide Stratégique de l'Orientation Post-Bac au Maroc",
+  "titre_ar": "الدليل المنهجي والاستراتيجي للتوجيه بعد البكالوريا بالمغرب",
+  "public_cible": "Bacheliers marocains et étudiants en réorientation",
+  "axes_fondamentaux": [
+    {
+      "axe": "1. Dépasser le mythe de la note du Baccalauréat",
+      "constat": "Une excellente note au Baccalauréat (17 ou 18/20) ne garantit pas automatiquement la réussite dans les études supérieures, tout comme une mention Assez Bien (12 ou 13/20) ne condamne en rien votre avenir professionnel.",
+      "explications": [
+        "Le système du secondaire repose largement sur la mémorisation et les exercices types, tandis que le supérieur exige une réelle autonomie intellectuelle, de la rigueur conceptuelle et une méthode de travail personnelle.",
+        "De nombreux bacheliers brillants échouent en CPGE ou en faculté de médecine par manque d'adaptation ou perte de motivation, tandis que des profils travailleurs issus de filières comme l'EST, le BTS ou la Faculté intègrent brillamment les grandes écoles d'ingénieurs et de commerce par la voie des passerelles parallèles.",
+        "Le choix de votre filière doit d'abord correspondre à vos véritables intérêts intellectuels et compétences réelles, plutôt qu'à la pression sociale ou au prestige apparent du diplôme."
+      ]
+    },
+    {
+      "axe": "2. La gestion stratégique des listes d'attente",
+      "constat": "La grande majorité des étudiants inscrits dans les écoles d'ingénieurs (ENSA, ENSAM) et de commerce (ENCG), ainsi que dans les instituts technologiques (EST, FST) étaient initialement classés sur liste d'attente.",
+      "mecanisme_des_desistements": [
+        "Un candidat excellent est généralement admis simultanément dans plusieurs concours (Médecine, ENSA, ENCG, CPGE, Prépa intégrée, etc.). Il ne pourra finaliser son inscription que dans un seul établissement.",
+        "Dès que les premiers admis confirment leur choix définitif, des centaines de places se libèrent instantanément en cascade pour les listes d'attente (phases 2, 3, 4 et 5).",
+        "Règle d'or : Ne perdez jamais espoir si vous êtes sur liste d'attente. Connectez-vous quotidiennement aux plateformes officielles (CursusSup, sites des écoles) pour valider votre maintien et répondre aux convocations."
+      ]
+    },
+    {
+      "axe": "3. L'ordre des vœux sur les plateformes numériques ministérielles",
+      "regles_de_classement": [
+        "Ne pratiquez jamais l'auto-censure : placez toujours vos filières préférées en tête de liste, même si votre note est légèrement inférieure au seuil de l'année précédente.",
+        "L'algorithme de CursusSup affecte les candidats selon leur ordre de vœux décroissant. Si vous obtenez votre vœu n°1, tous les vœux inférieurs sont automatiquement annulés.",
+        "Prévoyez systématiquement une base de repli solide : intégrez dans vos vœux des filières sélectives mais accessibles (EST, FST) et gardez une inscription de précaution à l'université publique (Faculté des Sciences, FSJES) pour ne pas vous retrouver sans inscription."
+      ]
+    },
+    {
+      "axe": "4. Le pouvoir des passerelles universitaires (Système LMD)",
+      "opportunites": [
+        "Le système d'enseignement supérieur marocain est interconnecté : rater un concours après le Bac n'est jamais une fin de parcours.",
+        "Accès aux écoles d'ingénieurs après un DEUST (FST), un DUT (EST) ou un DEUG (Faculté des Sciences) avec mention (Concours passerelles en 3ème année S5 ou 4ème année S7).",
+        "Accès aux écoles de management (ENCG, ISCAE) après un DUT, un BTS ou une Licence fondamentale via les concours nationaux passerelles.",
+        "Les diplômés issus des passerelles obtiennent exactement le même diplôme d'ingénieur d'État ou de master que ceux entrés directement après le bac."
+      ]
+    }
+  ],
+  "calendrier_strategique_bachelier": [
+    { "periode": "Avril - Mai", "actions": "Ouverture des inscriptions préliminaires (CPGE, BTS, Écoles Militaires, Instituts spécialisés)" },
+    { "periode": "Juin - Juillet", "actions": "Plateforme CursusSup (ENSA, ENCG, ENSAM, Médecine, ENS/ESEF), validation des résultats du Bac et passage des concours écrits" },
+    { "periode": "Fin Juillet - Début Août", "actions": "Résultats de la session ordinaire et de rattrapage, publication des seuils d'admissibilité et des listes principales" },
+    { "periode": "Août - Septembre", "actions": "Gestion active des listes d'attente, confirmation des choix, inscriptions administratives définitives et dépôt des dossiers originaux" }
+  ]
+}

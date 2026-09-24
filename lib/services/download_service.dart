@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -184,5 +184,39 @@ class DownloadService extends ChangeNotifier {
     final bytes = totalDownloadSizeBytes;
     if (bytes <= 0) return '0 Mo';
     return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} Mo';
+  }
+
+  List<Map<String, dynamic>> exportData() {
+    return _downloads.values.map((d) => d.toJson()).toList();
+  }
+
+  Future<void> importCloudData(List<dynamic> list) async {
+    try {
+      bool changed = false;
+      for (final item in list) {
+        DownloadRecord? record;
+        if (item is Map<String, dynamic>) {
+          record = DownloadRecord.fromJson(item);
+        } else if (item is Map) {
+          record = DownloadRecord.fromJson(Map<String, dynamic>.from(item));
+        }
+        if (record != null) {
+          final existing = _downloads[record.fileId];
+          if (existing == null) {
+            _downloads[record.fileId] = record;
+            changed = true;
+          } else if (record.downloadedAt.isAfter(existing.downloadedAt)) {
+            _downloads[record.fileId] = record;
+            changed = true;
+          }
+        }
+      }
+      if (changed) {
+        notifyListeners();
+        await _saveDownloads();
+      }
+    } catch (e) {
+      debugPrint('DownloadService importCloudData error on web: $e');
+    }
   }
 }

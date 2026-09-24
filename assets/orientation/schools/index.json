@@ -1,0 +1,263 @@
+{
+  "version": "1.2.0",
+  "secteur": "Enseignement Supérieur & Orientation Post-Bac Maroc",
+  "derniere_mise_a_jour": "2026-09-22",
+  "categories": [
+    {
+      "id": "ingenierie_technologie",
+      "nom_fr": "Ingénierie & Grandes Écoles",
+      "nom_ar": "الهندسة والعلوم التطبيقية",
+      "icone": "engineering",
+      "fiches": ["ensa", "ensam", "fst_maroc", "cpge_maroc", "iav_hassan_2"]
+    },
+    {
+      "id": "technologique_professionnel",
+      "nom_fr": "Enseignement Technologique, DUT & DTS",
+      "nom_ar": "التعليم التكنولوجي والدبلوم الجامعي للتكنولوجيا",
+      "icone": "precision_manufacturing",
+      "fiches": ["est_maroc", "iftsau_maroc", "itsmaer_bouknadel"]
+    },
+    {
+      "id": "commerce_management",
+      "nom_fr": "Commerce, Gestion & Management",
+      "nom_ar": "التجارة وإدارة المقاولات",
+      "icone": "business",
+      "fiches": ["encg", "iscae_groupe"]
+    },
+    {
+      "id": "sante_paramedical",
+      "nom_fr": "Médecine, Pharmacie, Dentaire & Santé",
+      "nom_ar": "الطب والصيدلة وعلوم الصحة",
+      "icone": "medical_services",
+      "fiches": ["fmp_fmd_pharmacie", "isss_settat", "iav_hassan_2"]
+    },
+    {
+      "id": "education_formation",
+      "nom_fr": "Éducation & Formation d'Enseignants",
+      "nom_ar": "علوم التربية والتكوين",
+      "icone": "school",
+      "fiches": ["ens_esef_cle"]
+    },
+    {
+      "id": "agriculture_architecture",
+      "nom_fr": "Architecture, Urbanisme & Agronomie",
+      "nom_ar": "الهندسة المعمارية والتعمير والفلاحة",
+      "icone": "architecture",
+      "fiches": ["ena_architecture", "enam_meknes", "iav_hassan_2", "iftsau_maroc", "itsmaer_bouknadel"]
+    },
+    {
+      "id": "sciences_sport",
+      "nom_fr": "Sciences & Métiers du Sport",
+      "nom_ar": "علوم ومهن الرياضة",
+      "icone": "fitness_center",
+      "fiches": ["sports_metiers_instituts"]
+    },
+    {
+      "id": "guides_et_seuils",
+      "nom_fr": "Cartographie & Universités Publiques",
+      "nom_ar": "الخريطة الجامعية والكليات ذات الاستقطاب المفتوح",
+      "icone": "account_balance",
+      "fiches": ["universites_secteurs_maroc"]
+    }
+  ],
+  "etablissements": [
+    {
+      "id": "encg",
+      "fichier": "encg.json",
+      "nom": "Réseau ENCG Maroc",
+      "nom_ar": "المدارس الوطنية للتجارة والتسيير",
+      "type": "Commerce & Management",
+      "duree": "5 ans",
+      "diplome": "Master d'État en Commerce et Gestion",
+      "villes_count": 12,
+      "concours": "TAFEM",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "ensa",
+      "fichier": "ensa.json",
+      "nom": "Réseau ENSA Maroc",
+      "nom_ar": "المدارس الوطنية للعلوم التطبيقية",
+      "type": "Ingénierie polyvalente",
+      "duree": "5 ans",
+      "diplome": "Ingénieur d'État",
+      "villes_count": 13,
+      "concours": "Concours écrit commun",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "ensam",
+      "fichier": "ensam.json",
+      "nom": "Réseau ENSAM Maroc",
+      "nom_ar": "المدارس الوطنية العليا للفنون والمهن",
+      "type": "Ingénierie industrielle & mécanique",
+      "duree": "5 ans",
+      "diplome": "Ingénieur d'État des Arts et Métiers",
+      "villes_count": 3,
+      "concours": "Concours écrit commun",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "fmp_fmd_pharmacie",
+      "fichier": "medecine_pharmacie_dentaire.json",
+      "nom": "Facultés de Médecine, Pharmacie et Dentaire",
+      "nom_ar": "كليات الطب والصيدلة وطب الأسنان",
+      "type": "Santé & Médecine",
+      "duree": "6 ans",
+      "diplome": "Docteur en Médecine / Pharmacie / Chirurgie Dentaire",
+      "villes_count": 13,
+      "concours": "Concours commun unifié (Seuil 12.00)",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "est_maroc",
+      "fichier": "est.json",
+      "nom": "Réseau des Écoles Supérieures de Technologie (EST)",
+      "nom_ar": "المدارس العليا للتكنولوجيا (DUT)",
+      "type": "Technologique & Professionnel",
+      "duree": "2 ans",
+      "diplome": "Diplôme Universitaire de Technologie (DUT)",
+      "places": 14015,
+      "villes_count": 22,
+      "concours": "Sélection sur dossier CursusSup (Coefficients pondérés)",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "fst_maroc",
+      "fichier": "fst.json",
+      "nom": "Réseau des Facultés des Sciences et Techniques (FST)",
+      "nom_ar": "كليات العلوم والتقنيات (LST / Ingénieur)",
+      "type": "Sciences & Technologies",
+      "duree": "3 ans (Licence) / 3 ans (Ingénieur)",
+      "diplome": "Licence Sciences & Techniques / Ingénieur d'État",
+      "places": 11450,
+      "villes_count": 9,
+      "concours": "Sélection automatisée CursusSup",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "iav_hassan_2",
+      "fichier": "iav_apesa.json",
+      "nom": "Institut Agronomique et Vétérinaire Hassan II (APESA)",
+      "nom_ar": "معهد الحسن الثاني للزراعة والبيطرة (APESA)",
+      "type": "Ingénierie, Vétérinaire & Topographie",
+      "duree": "5 à 6 ans",
+      "diplome": "Ingénieur d'État / Docteur Vétérinaire / IGT Topographe",
+      "concours": "Présélection d'excellence sur dossier",
+      "plateforme": "iav.ac.ma"
+    },
+    {
+      "id": "iftsau_maroc",
+      "fichier": "iftsau.json",
+      "nom": "Instituts des Techniciens Spécialisés en Architecture et Urbanisme (IFTSAU)",
+      "nom_ar": "معاهد تكوين التقنيين المتخصصين في الهندسة المعمارية والتعمير",
+      "type": "Urbanisme, BTP & Architecture",
+      "duree": "2 ans",
+      "diplome": "Diplôme de Technicien Spécialisé (DTS)",
+      "villes_count": 4,
+      "concours": "Présélection + Concours écrit + Entretien",
+      "plateforme": "Portail officiel Ministère de l'Habitat"
+    },
+    {
+      "id": "itsmaer_bouknadel",
+      "fichier": "itsm_agriculture.json",
+      "nom": "Institut des Techniciens en Machinisme Agricole (ITSMAER Bouknadel)",
+      "nom_ar": "معهد المكننة الفلاحية والتجهيز القروي ببوقنادل سلا",
+      "type": "Agro-machinisme & Technologies Rurales",
+      "duree": "2 ans",
+      "diplome": "Diplôme de Technicien Spécialisé (DTS)",
+      "concours": "Sélection dossier + Entretien",
+      "plateforme": "fpa-concours.agriculture.gov.ma"
+    },
+    {
+      "id": "ens_esef_cle",
+      "fichier": "ens_esef.json",
+      "nom": "Réseau ENS & ESEF (Licences Éducation)",
+      "nom_ar": "شبكة الإجازة في التربية (ENS / ESEF)",
+      "type": "Sciences de l'Éducation & Enseignement",
+      "duree": "3 ans",
+      "diplome": "Licence en Éducation (CLE)",
+      "places": 18108,
+      "concours": "Présélection pondérée + Entretien Oral",
+      "plateforme": "cursussup.gov.ma"
+    },
+    {
+      "id": "isss_settat",
+      "fichier": "isss_settat.json",
+      "nom": "Institut Supérieur des Sciences de la Santé (ISSS)",
+      "nom_ar": "المعهد العالي لعلوم الصحة بسطات",
+      "type": "Sciences Infirmières & Technologies Médicales",
+      "duree": "3 ans",
+      "diplome": "Licence Professionnelle de Santé (BO 7515)",
+      "concours": "Présélection + Écrit",
+      "plateforme": "Portail Université Hassan 1er"
+    },
+    {
+      "id": "sports_metiers_instituts",
+      "fichier": "sports_instituts.json",
+      "nom": "Instituts des Sciences et Métiers du Sport",
+      "nom_ar": "معاهد علوم ومهن الرياضة (Settat, Agadir, Fès, Kénitra)",
+      "type": "Sport, Management & Santé sportive",
+      "duree": "3 ans",
+      "diplome": "Licence Professionnelle en Métiers du Sport",
+      "concours": "Présélection + Épreuves physiques + Oral",
+      "plateforme": "Portails universitaires dédiés"
+    },
+    {
+      "id": "cpge_maroc",
+      "fichier": "cpge.json",
+      "nom": "Classes Préparatoires aux Grandes Écoles (CPGE)",
+      "nom_ar": "الأقسام التحضيرية للمدارس العليا",
+      "type": "Filières d'excellence préparatoires (MPSI, PCSI, TSI, ECS, ECT)",
+      "duree": "2 ans",
+      "diplome": "Admissibilité Grandes Écoles / Équivalence L2",
+      "concours": "Sélection dossier d'excellence",
+      "plateforme": "cpge.ac.ma"
+    },
+    {
+      "id": "ena_architecture",
+      "fichier": "ena.json",
+      "nom": "Écoles Nationales d'Architecture (ENA)",
+      "nom_ar": "المدارس الوطنية للهندسة المعمارية",
+      "type": "Architecture & Urbanisme",
+      "duree": "6 ans",
+      "diplome": "Architecte diplômé d'État",
+      "villes_count": 6,
+      "concours": "Présélection + Épreuves écrites (Texte & Dessin)",
+      "plateforme": "concoursena.ma"
+    },
+    {
+      "id": "enam_meknes",
+      "fichier": "enam.json",
+      "nom": "École Nationale d'Agriculture de Meknès (ENAM)",
+      "nom_ar": "المدرسة الوطنية للفلاحة بمكناس",
+      "type": "Sciences Agronomiques & Développement Rural",
+      "duree": "5 ans",
+      "diplome": "Ingénieur Agronome d'État",
+      "concours": "Présélection (Bac National) + Concours écrit",
+      "plateforme": "enameknes.ac.ma"
+    },
+    {
+      "id": "iscae_groupe",
+      "fichier": "iscae.json",
+      "nom": "Groupe ISCAE (Casablanca & Rabat)",
+      "nom_ar": "المعهد العالي للتجارة وإدارة المقاولات",
+      "type": "Management de haut niveau & Finance",
+      "duree": "3 ans (Licence) / 5 ans (Master)",
+      "diplome": "Licence en Gestion / Grade Master Grande École",
+      "concours": "Présélection d'excellence + Épreuves écrites + Grand Oral",
+      "plateforme": "iscae.ma"
+    },
+    {
+      "id": "universites_secteurs_maroc",
+      "fichier": "universites_secteurs.json",
+      "nom": "Cartographie & Sectorisation des Universités",
+      "nom_ar": "الخريطة الجامعية وروافد الكليات ذات الاستقطاب المفتوح",
+      "type": "13 Universités publiques & Facultés à accès ouvert (FS, FSJES, FLSH)",
+      "villes_count": 13,
+      "diplome": "Licences fondamentales & d'excellence",
+      "duree": "3 ans (Licence) / 5 ans (Master)",
+      "concours": "Accès ouvert selon sectorisation provinciale"
+    }
+  ]
+}

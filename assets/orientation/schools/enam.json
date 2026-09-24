@@ -1,0 +1,77 @@
+{
+  "id": "enam_meknes",
+  "nom_fr": "École Nationale d'Agriculture de Meknès",
+  "nom_ar": "المدرسة الوطنية للفلاحة بمكناس",
+  "abreviation": "ENAM Meknès",
+  "tutelle": "Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts",
+  "type_etablissement": "Grande école d'ingénieurs agronomes",
+  "duree_etudes": "5 ans (10 semestres) : 2 ans de cycle préparatoire intégré + 3 ans de cycle ingénieur agronome",
+  "diplome_delivre": "Diplôme d'Ingénieur Agronome d'État",
+  "localisation": "Meknès",
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences Physiques et Chimie (PC)",
+      "Sciences Mathématiques (A et B)",
+      "Sciences Agronomiques"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026)"],
+    "age_limite": "Moins de 23 ans au 31 décembre de l'année de sélection",
+    "plateforme_candidature": "Portail officiel de l'ENAM Meknès (enameknes.ac.ma)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection rigoureuse sur dossier calculée sur les notes de l'Examen National du Baccalauréat",
+    "etape_2": "Concours écrit national comprenant :",
+    "epreuves_ecrites": [
+      { "matiere": "Mathématiques", "duree": "1 heure" },
+      { "matiere": "Physique - Chimie", "duree": "1 heure" },
+      { "matiere": "Sciences de la Vie et de la Terre (SVT)", "duree": "1 heure" },
+      { "matiere": "Français", "duree": "45 minutes" }
+    ]
+  },
+  "seuils_historiques_preselection": {
+    "sciences_physiques": 16.43,
+    "sciences_vie_et_terre": 15.90,
+    "sciences_maths": 15.61,
+    "sciences_agronomiques": 12.02
+  },
+  "filieres_specialisations": [
+    {
+      "filiere": "Arboriculture Fruitière, Oléiculture et Viticulture",
+      "champs": "Gestion technique des vergers, irrigation moderne de précision, filière oléicole"
+    },
+    {
+      "filiere": "Ingénierie Agroéconomique",
+      "champs": "Politiques agricoles régionales, gestion des exploitations, filières agroalimentaires, marchés mondiaux"
+    },
+    {
+      "filiere": "Protection des Plantes et Environnement",
+      "champs": "Phytopathologie, lutte intégrée biologique, homologation des produits phytosanitaires"
+    },
+    {
+      "filiere": "Ingénierie du Développement Rural",
+      "champs": "Aménagement territorial rural, coopératives agricoles, projets de développement durable"
+    },
+    {
+      "filiere": "Sciences et Techniques des Productions Végétales",
+      "champs": "Amélioration variétale, semences certifiées, fertilité des sols et nutrition des plantes"
+    },
+    {
+      "filiere": "Productions Animales et Pastoralisme",
+      "champs": "Génétique animale, conduite d'élevages laitiers et de viande, valorisation pastorale"
+    }
+  ],
+  "debouches_professionnels": [
+    "Directions régionales et provinciales de l'Agriculture (DRA, DPA, ONCA, ONSSA)",
+    "Grandes exploitations agricoles modernes et domaines de production intensive",
+    "Sociétés d'intrants agricoles (semences, fertilisants, systèmes d'irrigation goutte-à-goutte)",
+    "Industries agroalimentaires et centrales laitières",
+    "Bureaux d'études agro-environnementales et agences de coopération internationale (FAO, PNUD)",
+    "Instituts de recherche agronomique (INRA) et laboratoires de contrôle phytosanitaire"
+  ],
+  "conseils_candidats": [
+    "Pour la filière Sciences Agronomiques, le seuil est très accessible (~12.00) avec des quotas dédiés.",
+    "Pour les filières PC et SVT, la sélection sur dossier est extrêmement sélective (souvent supérieure à 15.90 - 16.40).",
+    "L'école dispose d'une ferme expérimentale d'application sur site permettant des travaux pratiques réguliers dès la première année."
+  ]
+}

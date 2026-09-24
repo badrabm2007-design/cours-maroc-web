@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import '../models/curriculum_models.dart';
 import '../services/curriculum_service.dart';
@@ -14,8 +15,14 @@ import 'offline_downloads_screen.dart';
 import 'favorites_screen.dart';
 import 'search_screen.dart';
 import 'settings_screen.dart';
+import 'orientation_screen.dart';
+import 'focus_mode_screen.dart';
 import '../services/app_language_service.dart';
 import '../services/auth_service.dart';
+import '../services/user_sync_service.dart';
+import '../services/focus_timer_service.dart';
+import '../services/smart_banner_service.dart';
+import '../widgets/smart_banner_cards.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> _openWindowsDownload() async {
     const url =
-        'https://github.com/badrabm2007-design/CoursMaroc-Windows/releases/download/v1.0.0/CoursMaroc_Windows_v1.0.0.zip';
+        'https://github.com/badrabm2007-design/CoursMaroc-Windows/releases/download/v1.1.0/CoursMaroc_Windows_v1.1.0.zip';
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -129,11 +136,44 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
               onPressed: () async {
                 Navigator.of(ctx).pop();
-                await context.read<AuthService>().signInWithGoogle();
-                if (mounted) {
+                final auth = context.read<AuthService>();
+                final syncService = context.read<UserSyncService>();
+                final profileService = context.read<UserProfileService>();
+                final favService = context.read<FavoritesService>();
+                final curriculumService = context.read<CurriculumService>();
+
+                final success = await auth.signInWithGoogle();
+                if (!mounted) return;
+
+                if (success && auth.currentUser != null) {
+                  final token = await auth.getIdToken();
+                  if (token != null) {
+                    final result = await syncService.syncOnLogin(
+                      userId: auth.currentUser!.id,
+                      idToken: token,
+                      profileService: profileService,
+                      favService: favService,
+                      platform: 'web',
+                    );
+
+                    if (!mounted) return;
+
+                    if (result.hasSelectedGrade) {
+                      await curriculumService.selectLevelAndBranch(
+                        profileService.savedLevelId,
+                        profileService.savedBranchId,
+                      );
+                    }
+                  }
+
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(langService.tr('auth_sync_active')),
+                      content: Text(
+                        langService.isArabic
+                            ? 'مرحباً ${auth.currentUser!.displayName}! تمت المزامنة بنجاح.'
+                            : 'Bienvenue ${auth.currentUser!.displayName} ! Synchronisation réussie.',
+                      ),
                       backgroundColor: const Color(0xFF0F5132),
                     ),
                   );
@@ -154,6 +194,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       if (mounted) {
         context.read<CurriculumService>().checkForRemoteUpdate();
         _checkAndPromptGoogleAuth();
+        context.read<FocusTimerService>().pushDockingScreen(ActiveDockingScreen.home);
       }
     });
   }
@@ -161,6 +202,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    try {
+      context.read<FocusTimerService>().popDockingScreen(ActiveDockingScreen.home);
+    } catch (_) {}
     super.dispose();
   }
 
@@ -327,54 +371,76 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             // On Desktop/PC: Show Level & Branch selector chip in AppBar
             if (MediaQuery.of(context).size.width >= 700) ...[
               const SizedBox(width: 18),
-              InkWell(
-                borderRadius: BorderRadius.circular(14),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          const LevelSelectionScreen(isChangingGrade: true),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? const Color(0xFF162032)
-                        : const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: const Color(0xFF0F5132)
-                          .withValues(alpha: isDark ? 0.5 : 0.25),
-                      width: 1.2,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.school_rounded,
-                        color: Color(0xFF0F5132),
-                        size: 20,
+              Tooltip(
+                message: langService.isArabic
+                    ? 'تغيير المستوى الدراسي أو دليل التوجيه'
+                    : 'Changer de niveau ou accéder à l\'Orientation',
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            const LevelSelectionScreen(isChangingGrade: true),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${curriculum.currentLevel.localizedName(langService.currentLanguageCode)} • ${curriculum.currentBranch.localizedName(langService.currentLanguageCode)}',
-                        style: TextStyle(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.w700,
-                          color: isDark ? Colors.white : const Color(0xFF0F172A),
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? const Color(0xFF162032)
+                          : const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(0xFF0F5132)
+                            .withValues(alpha: isDark ? 0.5 : 0.25),
+                        width: 1.2,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.school_rounded,
+                          color: Color(0xFF0F5132),
+                          size: 18,
                         ),
-                      ),
-                      const SizedBox(width: 6),
-                      const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 20,
-                        color: Color(0xFF0F5132),
-                      ),
-                    ],
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF0F5132).withValues(alpha: 0.14),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            curriculum.shortLevelAndBranchCode,
+                            style: const TextStyle(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF0F5132),
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          langService.isArabic ? 'تغيير' : 'Changer',
+                          style: TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w600,
+                            color: isDark ? Colors.white70 : const Color(0xFF475569),
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          size: 16,
+                          color: Color(0xFF0F5132),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -382,8 +448,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ],
         ),
         actions: [
-          // On PC/Desktop: Show Windows App Download CTA button
-          if (MediaQuery.of(context).size.width >= 700) ...[
+          // On Web (Desktop): Show Windows App Download CTA button (never show inside native Windows app)
+          if (kIsWeb && MediaQuery.of(context).size.width >= 700) ...[
             FilledButton.icon(
               onPressed: _openWindowsDownload,
               icon: const Icon(
@@ -560,6 +626,36 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             },
           ),
 
+          // Orientation Post-Bac icon (Only on desktop/PC; on mobile it is in the quick action card)
+          if (MediaQuery.of(context).size.width >= 700)
+            IconButton(
+              icon: const Icon(Icons.explore_outlined),
+              tooltip: langService.isArabic
+                  ? 'دليل التوجيه لما بعد الباك 2026'
+                  : 'Orientation Post-Bac 2026',
+              visualDensity: VisualDensity.compact,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const OrientationScreen()),
+                );
+              },
+            ),
+
+          // Focus / Pomodoro mode icon (Respects settings preference)
+          if (context.watch<FocusTimerService>().showHomeIcon)
+            IconButton(
+              icon: const Icon(Icons.self_improvement_rounded),
+              tooltip: langService.isArabic
+                  ? 'فضاء التركيز والمذاكرة (بومودورو)'
+                  : 'Espace de Concentration (Pomodoro)',
+              visualDensity: VisualDensity.compact,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const FocusModeScreen()),
+                );
+              },
+            ),
+
           // Search button
           IconButton(
             icon: const Icon(Icons.search_rounded),
@@ -572,8 +668,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             },
           ),
 
-          // Theme toggle
-          if (widget.onToggleTheme != null)
+          // Theme toggle (Only on desktop/PC; on mobile it is in Settings)
+          if (widget.onToggleTheme != null && MediaQuery.of(context).size.width >= 700)
             IconButton(
               icon: Icon(
                 isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
@@ -681,16 +777,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             ),
                             const SizedBox(width: 8),
 
-                            // Total Docs in Branch
+                            // Orientation Card (Replacing static "Programme" card)
                             Expanded(
                               child: _buildQuickActionCard(
                                 context: context,
-                                title: 'Programme',
-                                subtitle: '$totalDocsInBranch docs',
-                                icon: Icons.library_books_rounded,
+                                title: langService.isArabic ? 'التوجيه' : 'Orientation',
+                                subtitle: langService.isArabic ? 'دليل ومحاكي' : 'Écoles & Guide',
+                                icon: Icons.explore_rounded,
                                 iconColor: const Color(0xFF2563EB),
                                 isDark: isDark,
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (_) => const OrientationScreen()),
+                                  );
+                                },
                               ),
                             ),
                           ],
@@ -718,14 +818,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               color: isDark ? Colors.white : const Color(0xFF0F172A),
                             ),
                           ),
-                          Text(
-                            curriculum.currentBranch.shortOrCode(),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: isDark ? Colors.white60 : const Color(0xFF64748B),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -739,7 +831,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         crossAxisCount: isDesktop ? 3 : 2,
                         crossAxisSpacing: isDesktop ? 14 : 14,
                         mainAxisSpacing: isDesktop ? 12 : 14,
-                        mainAxisExtent: isDesktop ? 138 : 165,
+                        mainAxisExtent: isDesktop ? 160 : 116,
                       ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
@@ -795,268 +887,38 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildBulletItem({
-    required IconData icon,
-    required Color iconColor,
-    required String text,
-    required bool isDark,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Icon(icon, size: 14, color: iconColor),
-          ),
-          const SizedBox(width: 7),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 11.5,
-                height: 1.3,
-                color: isDark ? Colors.white70 : const Color(0xFF334155),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildLeftBanner(
     BuildContext context,
     bool isDark,
     AppLanguageService langService,
   ) {
-    final isAr = langService.isArabic;
     final curriculum = context.watch<CurriculumService>();
-    final levelId = curriculum.selectedLevelId;
+    final userProfile = context.watch<UserProfileService>();
+    final focusTimer = context.watch<FocusTimerService>();
 
-    String title;
-    String subtitle;
-    String description;
-    String bullet1;
-    String bullet2;
-    String tipText;
+    final banners = SmartBannerService.getLeftBanners(
+      context: context,
+      curriculum: curriculum,
+      userProfile: userProfile,
+      focusTimer: focusTimer,
+      langService: langService,
+      onWindowsDownload: _openWindowsDownload,
+    );
 
-    switch (levelId) {
-      case '3eme-annee-college':
-        title = isAr ? 'امتحانات 3 إعدادي' : 'Examens 3ème Collège';
-        subtitle = isAr ? 'محلي (د1) وجهوي (د2)' : 'Local (S1) & Régional (S2)';
-        description = isAr
-            ? 'نماذج الامتحانات الموحدة المحلية والجهوية بجميع جهات المملكة مع عناصر الإجابة الرسمية.'
-            : 'Épreuves normalisées locales (S1) et régionales (S2) avec corrigés détaillés conformes.';
-        bullet1 = isAr ? 'الامتحان الموحد المحلي (دورة يناير)' : 'Examen Local Normalisé (Janvier)';
-        bullet2 = isAr ? 'الامتحان الجهوي الموحد (دورة يونيو)' : 'Examen Régional Normalisé (Juin)';
-        tipText = isAr
-            ? 'نصيحة: ابدأ بحل مواضيع الامتحان المحلي فور إنهاء دروس الدورة 1 لضمان أعلى معدل.'
-            : 'Astuce : commencez l\'entraînement sur les épreuves locales dès la fin du semestre 1.';
-        break;
-      case '1ere-bac':
-        title = isAr ? 'الامتحان الجهوي (1 باك)' : 'Examen Régional (1BAC)';
-        subtitle = isAr ? 'المواد المعنية بالجهوي' : 'Matières du Régional';
-        description = isAr
-            ? 'مواضيع الامتحانات الجهوية الموحدة لجميع أكاديميات المملكة مع أطر التصحيح.'
-            : 'Sujets récents d\'examens régionaux avec corrigés officiels et barèmes détaillés.';
-        bullet1 = isAr ? 'الفرنسية، التربية الإسلامية، الاجتماعيات، العربية' : 'Français, Éduc. Islamique, Arabe, Hist-Géo';
-        bullet2 = isAr ? 'نماذج محينة وفق الأطر المرجعية' : 'Conformes aux cadres de référence';
-        tipText = isAr
-            ? 'نصيحة: ركز على تحليل مؤلفات الفرنسية والتربية الإسلامية لرفع معدل الجهوي.'
-            : 'Astuce : maîtrisez les œuvres de Français et les axes d\'Éducation Islamique.';
-        break;
-      case 'tronc-commun':
-        title = isAr ? 'فروض المراقبة (جذع مشترك)' : 'Contrôles Tronc Commun';
-        subtitle = isAr ? 'فروض وتمارين الدورة 1 و 2' : 'Préparation continue S1 & S2';
-        description = isAr
-            ? 'سلاسل الفروض المحروسة والتمارين النموذجية مع التصحيح لتثبيت المعارف.'
-            : 'Modèles de devoirs surveillés et exercices corrigés pour consolider vos bases.';
-        bullet1 = isAr ? 'فروض محروسة نموذجية مع التصحيح' : 'Contrôles continus 1, 2 et 3 corrigés';
-        bullet2 = isAr ? 'تمارين تدريبية تطبيقية محددة' : 'Exercices d\'application ciblés';
-        tipText = isAr
-            ? 'نصيحة: ضبط دروس الجذع المشترك هو أساس تفوقك في سلك البكالوريا.'
-            : 'Conseil : le Tronc Commun forge les fondations de votre cursus du Baccalauréat.';
-        break;
-      case '2eme-bac':
-      default:
-        title = isAr ? 'الامتحان الوطني (2 باك)' : 'Examen National (2BAC)';
-        subtitle = isAr ? 'التحضير الرسمي للباكالوريا' : 'Préparation officielle';
-        description = isAr
-            ? 'مواضيع الامتحانات الوطنية الموحدة وفروض المراقبة مع عناصر الإجابة وسلالم التنقيط.'
-            : 'Sujets d\'examens nationaux, régionaux et contrôles avec leurs corrigés officiels.';
-        bullet1 = isAr ? 'عناصر إجابة مفصلة وسلالم تنقيط' : 'Corrigés détaillés & barèmes officiels';
-        bullet2 = isAr ? 'مطابقة للأطر المرجعية المحينة' : 'Conformes aux cadres de référence';
-        tipText = isAr
-            ? 'نصيحة: تدرب في نفس المدة الزمنية المحددة للامتحان الوطني.'
-            : 'Astuce : simulez l\'épreuve en temps réel pour gérer votre timing.';
-        break;
-    }
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 10, 6, 16),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF162032) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? const Color(0xFF1F2E45) : const Color(0xFFE2E8F0),
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 6, 6, 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: banners.map((banner) {
+            return SmartBannerCardWidget(
+              item: banner,
+              isDark: isDark,
+              langService: langService,
+            );
+          }).toList(),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Header
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(7),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2563EB).withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child: const Icon(
-                  Icons.assignment_rounded,
-                  color: Color(0xFF2563EB),
-                  size: 19,
-                ),
-              ),
-              const SizedBox(width: 9),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? const Color(0xFF93C5FD)
-                            : const Color(0xFF2563EB),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
-          // Clear, concise description
-          Text(
-            description,
-            style: TextStyle(
-              fontSize: 11.5,
-              height: 1.35,
-              color: isDark ? Colors.white70 : const Color(0xFF475569),
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // 2 Key Highlights
-          _buildBulletItem(
-            icon: Icons.check_circle_outline_rounded,
-            iconColor: const Color(0xFF16A34A),
-            text: bullet1,
-            isDark: isDark,
-          ),
-          _buildBulletItem(
-            icon: Icons.verified_outlined,
-            iconColor: const Color(0xFF2563EB),
-            text: bullet2,
-            isDark: isDark,
-          ),
-
-          const SizedBox(height: 8),
-
-          // Compact Tip Box
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFD97706)
-                  .withValues(alpha: isDark ? 0.15 : 0.07),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: const Color(0xFFD97706).withValues(alpha: 0.22),
-              ),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 2),
-                  child: Icon(
-                    Icons.lightbulb_outline_rounded,
-                    color: Color(0xFFD97706),
-                    size: 14,
-                  ),
-                ),
-                const SizedBox(width: 7),
-                Expanded(
-                  child: Text(
-                    tipText,
-                    style: TextStyle(
-                      fontSize: 10.5,
-                      height: 1.3,
-                      fontWeight: FontWeight.w500,
-                      color: isDark
-                          ? const Color(0xFFFDE68A)
-                          : const Color(0xFF92400E),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 12),
-
-          // Action Button
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              icon: const Icon(Icons.search_rounded, size: 15),
-              label: Text(
-                isAr ? 'بحث في الامتحانات' : 'Rechercher épreuve',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFF2563EB),
-                side: const BorderSide(color: Color(0xFF2563EB)),
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SearchScreen()),
-                );
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -1066,181 +928,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     bool isDark,
     AppLanguageService langService,
   ) {
-    final isAr = langService.isArabic;
-    return Container(
-      margin: const EdgeInsets.fromLTRB(6, 10, 16, 16),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF162032) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? const Color(0xFF1F2E45) : const Color(0xFFE2E8F0),
+    final curriculum = context.watch<CurriculumService>();
+    final userProfile = context.watch<UserProfileService>();
+    final focusTimer = context.watch<FocusTimerService>();
+
+    final banners = SmartBannerService.getRightBanners(
+      context: context,
+      curriculum: curriculum,
+      userProfile: userProfile,
+      focusTimer: focusTimer,
+      langService: langService,
+      onWindowsDownload: _openWindowsDownload,
+    );
+
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(6, 6, 14, 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: banners.map((banner) {
+            return SmartBannerCardWidget(
+              item: banner,
+              isDark: isDark,
+              langService: langService,
+            );
+          }).toList(),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Header
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(7),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0F5132).withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child: const Icon(
-                  Icons.laptop_windows_rounded,
-                  color: Color(0xFF0F5132),
-                  size: 20,
-                ),
-              ),
-              const SizedBox(width: 9),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      isAr ? 'تطبيق الحاسوب' : 'Application PC Windows',
-                      style: const TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      isAr ? 'دروس المغرب لويندوز' : 'Cours Maroc pour Windows',
-                      style: TextStyle(
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? const Color(0xFF86EFAC)
-                            : const Color(0xFF0F5132),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
-          // Promo Description
-          Text(
-            isAr
-                ? 'استمتع بمذاكرة مريحة على شاشة حاسوبك بدون إنترنت، بتصفح سريع وأدوات متقدمة.'
-                : 'Installez l\'application officielle sur votre PC pour réviser sur grand écran, 100% hors-ligne et avec fluidité.',
-            style: TextStyle(
-              fontSize: 11.5,
-              height: 1.35,
-              color: isDark ? Colors.white70 : const Color(0xFF475569),
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // Feature Highlights
-          _buildBulletItem(
-            icon: Icons.offline_pin_rounded,
-            iconColor: const Color(0xFF0F5132),
-            text: isAr
-                ? 'مراجعة كاملة بدون إنترنت (100% Hors-ligne)'
-                : '100% Hors-ligne : vos cours partout sans réseau',
-            isDark: isDark,
-          ),
-          _buildBulletItem(
-            icon: Icons.speed_rounded,
-            iconColor: const Color(0xFF0F5132),
-            text: isAr
-                ? 'تصفح وفتح سريع للمستندات والامتحانات'
-                : 'Navigation ultra-rapide sur grand écran',
-            isDark: isDark,
-          ),
-          _buildBulletItem(
-            icon: Icons.draw_rounded,
-            iconColor: const Color(0xFF0F5132),
-            text: isAr
-                ? 'أدوات قراءة متقدمة، زوم وتكبير ذكي'
-                : 'Lecture fluide, zoom et outils de révision',
-            isDark: isDark,
-          ),
-
-          const SizedBox(height: 10),
-
-          // Primary Download Action Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.download_rounded, size: 16),
-              label: Text(
-                isAr ? 'تحميل للويندوز (.zip)' : 'Télécharger pour Windows (.zip)',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0F5132),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 2,
-              ),
-              onPressed: _openWindowsDownload,
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Android Closed Test Status Card
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF59E0B).withValues(alpha: isDark ? 0.18 : 0.09),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: const Color(0xFFF59E0B).withValues(alpha: isDark ? 0.4 : 0.25),
-              ),
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.android_rounded,
-                  size: 15,
-                  color: Color(0xFFD97706),
-                ),
-                const SizedBox(width: 7),
-                Expanded(
-                  child: Text(
-                    isAr
-                        ? 'تطبيق أندرويد : في مرحلة الاختبار المغلق'
-                        : 'App Android : En test fermé actuellement',
-                    style: TextStyle(
-                      fontSize: 10.5,
-                      height: 1.25,
-                      fontWeight: FontWeight.w600,
-                      color: isDark
-                          ? const Color(0xFFFDE68A)
-                          : const Color(0xFFB45309),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
+
 
   Widget _buildQuickActionCard({
     required BuildContext context,
@@ -1319,33 +1037,5 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
       ),
     );
-  }
-
-}
-
-extension on BranchOption {
-  String shortOrCode() {
-    switch (id) {
-      case 'sciences':
-        return 'Tronc Commun Sc.';
-      case 'sciences-experimentales':
-        return '1BAC Sc. Exp';
-      case 'sciences-maths':
-        return 'Sc. Maths';
-      case 'sciences-physiques':
-        return '2BAC PC';
-      case 'sciences-svt':
-        return '2BAC SVT';
-      case 'sciences-economiques':
-        return '2BAC Éco';
-      case 'sciences-economiques-et-gestion':
-        return '1BAC Éco-Gestion';
-      case 'lettres-et-sciences-humaines':
-        return levelId == 'tronc-commun' ? 'TC Lettres' : '1BAC Lettres';
-      case 'technologie':
-        return 'TC Tech';
-      default:
-        return nameFr;
-    }
   }
 }

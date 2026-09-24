@@ -95,4 +95,38 @@ class FavoritesService extends ChangeNotifier {
       debugPrint('Error saving favorites: $e');
     }
   }
+
+  List<Map<String, dynamic>> exportData() {
+    return _favorites.values.map((f) => f.toJson()).toList();
+  }
+
+  Future<void> importCloudData(List<dynamic> list) async {
+    try {
+      bool changed = false;
+      for (final item in list) {
+        FavoriteItem? fav;
+        if (item is Map<String, dynamic>) {
+          fav = FavoriteItem.fromJson(item);
+        } else if (item is Map) {
+          fav = FavoriteItem.fromJson(Map<String, dynamic>.from(item));
+        }
+        if (fav != null) {
+          final existing = _favorites[fav.document.id];
+          if (existing == null) {
+            _favorites[fav.document.id] = fav;
+            changed = true;
+          } else if (fav.addedAt.isAfter(existing.addedAt)) {
+            _favorites[fav.document.id] = fav;
+            changed = true;
+          }
+        }
+      }
+      if (changed) {
+        notifyListeners();
+        await _saveToPrefs();
+      }
+    } catch (e) {
+      debugPrint('FavoritesService importCloudData error: $e');
+    }
+  }
 }

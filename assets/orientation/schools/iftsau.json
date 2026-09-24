@@ -1,0 +1,61 @@
+{
+  "id": "iftsau_maroc",
+  "nom_fr": "Instituts de Formation des Techniciens Spécialisés en Architecture et Urbanisme",
+  "nom_ar": "معاهد تكوين التقنيين المتخصصين في الهندسة المعمارية والتعمير",
+  "abreviation": "IFTSAU Maroc",
+  "tutelle": "Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville",
+  "type_etablissement": "Établissements publics d'enseignement professionnel technique supérieur",
+  "duree_etudes": "2 ans (4 semestres)",
+  "diplome_delivre": "Diplôme de Technicien Spécialisé (DTS)",
+  "instituts_du_reseau": [
+    { "ville": "Meknès", "nom": "IFTSAU Meknès" },
+    { "ville": "Oujda", "nom": "IFTSAU Oujda" },
+    { "ville": "Tétouan", "nom": "IFTSAU Tétouan" },
+    { "ville": "Smara", "nom": "IFTSAU Smara" }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Expérimentales (PC, SVT)",
+      "Sciences et Technologies (STE, STM)",
+      "Baccalauréats Professionnels (Bâtiment, Dessin de Bâtiment, Travaux Publics)"
+    ],
+    "age_limite": "Moins de 23 ans à la date de sélection",
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026) et de l'année précédente (2025)"],
+    "plateforme_candidature": "Portail officiel du Ministère de l'Aménagement du Territoire et de l'Habitat"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection sur dossier basée sur les moyennes obtenues au baccalauréat",
+    "etape_2": "Concours écrit portant sur les mathématiques, le dessin / représentation dans l'espace et le français technique",
+    "etape_3": "Entretien oral de motivation"
+  },
+  "programme_pedagogique": {
+    "1ere_annee": {
+      "formation_generale": ["Français technique", "Arabe administratif", "Statistiques", "Mathématiques appliquées", "Droit administratif et foncier"],
+      "formation_technique": ["Architecture et dessin d'architecture", "Techniques d'expression", "Urbanisme et règlements urbains", "Cartographie et photogrammétrie", "Résistance des matériaux (RDM)", "Matériaux de construction", "Voirie urbaine et assainissement (VRD)", "Logiciels DAO/CAO (AutoCAD, ArchiCAD)"]
+    },
+    "2eme_annee": {
+      "formation_generale": ["Comptabilité et pratique de service", "Informatique appliquée (AutoCAD, ArchiCAD, Covadis)", "Français de communication professionnelle"],
+      "formation_technique": ["Projet d'architecture d'application", "Projet d'aménagement urbain", "Photogrammétrie et topographie appliquée", "Technique et réglementation de la construction", "Calcul du Béton Armé", "Organisation et conduite de chantier", "Métré et estimation des coûts", "Voirie urbaine et réseaux divers (VRD)", "Stage professionnel de terrain et Projet de Fin d'Année (PFA)"]
+    }
+  },
+  "debouches_professionnels": [
+    "Agences Urbaines et Inspections Régionales de l'Urbanisme",
+    "Sociétés et filiales du Groupe Al Omrane",
+    "Collectivités territoriales (Communes urbaines et rurales, Conseils Régionaux, Provinces)",
+    "Agences privées d'architecture et cabinets de design urbain (assistance directe aux architectes)",
+    "Bureaux d'études techniques (BET) en bâtiment, génie civil, VRD et topographie",
+    "Grandes entreprises de construction et de travaux publics (conducteur de travaux, métreur)",
+    "Création d'entreprises de construction, d'aménagement d'intérieur ou de prestations topographiques"
+  ],
+  "poursuite_etudes": [
+    "Licence Professionnelle (LP) en Génie Civil, Topographie ou Urbanisme dans les universités publiques",
+    "Masters universitaires spécialisés en Aménagement du Territoire et Ville Durable",
+    "Passerelles vers les écoles d'ingénieurs en génie civil (selon conditions des concours)"
+  ],
+  "conseils_candidats": [
+    "L'IFTSAU prépare à un métier très concret où la maîtrise d'outils numériques (AutoCAD, ArchiCAD) est directement valorisée sur le marché du travail.",
+    "La double compétence technique (dessin technique + réglementation juridique foncière) rend les diplômés particulièrement recherchés par les communes et les agences urbaines.",
+    "Le stage d'été de 2ème année est un tremplin direct pour le recrutement."
+  ]
+}

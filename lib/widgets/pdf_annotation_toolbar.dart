@@ -20,6 +20,7 @@ class PdfAnnotationToolbar extends StatefulWidget {
   final bool isVertical;
   final bool isDockedLeft;
   final bool isDockedInAppBar;
+  final bool optionsPanelAbove;
   final VoidCallback? onDetach;
   final VoidCallback? onClose;
 
@@ -43,6 +44,7 @@ class PdfAnnotationToolbar extends StatefulWidget {
     this.isVertical = false,
     this.isDockedLeft = false,
     this.isDockedInAppBar = false,
+    this.optionsPanelAbove = false,
     this.onDetach,
     this.onClose,
   });
@@ -78,8 +80,8 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
 
     final containerContent = Container(
       padding: EdgeInsets.symmetric(
-        horizontal: widget.isVertical ? 4 : 8,
-        vertical: widget.isVertical ? 8 : (widget.isDockedInAppBar ? 3 : 4),
+        horizontal: widget.isVertical ? 3 : (widget.isDockedInAppBar ? 8 : 4),
+        vertical: widget.isVertical ? 4 : (widget.isDockedInAppBar ? 3 : 3),
       ),
       decoration: BoxDecoration(
         color: widget.isDockedInAppBar
@@ -175,15 +177,21 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
         );
       }
     } else {
-      // Horizontal toolbar, options attached underneath
+      // Horizontal toolbar, options attached above or underneath
       return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          toolbarBody,
-          const SizedBox(height: 8),
-          optionsPanel,
-        ],
+        children: widget.optionsPanelAbove
+            ? [
+                optionsPanel,
+                const SizedBox(height: 8),
+                toolbarBody,
+              ]
+            : [
+                toolbarBody,
+                const SizedBox(height: 8),
+                optionsPanel,
+              ],
       );
     }
   }
@@ -266,17 +274,17 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
         },
       ),
 
-      const SizedBox(width: 3, height: 3),
+      const SizedBox(width: 2, height: 2),
 
       // 2. Pen
       _buildPenButton(context),
 
-      const SizedBox(width: 3, height: 3),
+      const SizedBox(width: 2, height: 2),
 
       // 3. Highlighter
       _buildHighlighterButton(context),
 
-      const SizedBox(width: 3, height: 3),
+      const SizedBox(width: 2, height: 2),
 
       // 4. Eraser
       _buildToolButton(
@@ -314,22 +322,22 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
 
       // 6. Zoom Out
       IconButton(
-        icon: const Icon(Icons.zoom_out_rounded, size: 18),
+        icon: const Icon(Icons.zoom_out_rounded, size: 17),
         tooltip: 'Dézoomer',
         visualDensity: VisualDensity.compact,
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(3),
         constraints: const BoxConstraints(),
         onPressed: widget.onZoomOut,
       ),
 
-      const SizedBox(width: 3, height: 3),
+      const SizedBox(width: 2, height: 2),
 
       // 7. Zoom In
       IconButton(
-        icon: const Icon(Icons.zoom_in_rounded, size: 18),
+        icon: const Icon(Icons.zoom_in_rounded, size: 17),
         tooltip: 'Zoomer',
         visualDensity: VisualDensity.compact,
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(3),
         constraints: const BoxConstraints(),
         onPressed: widget.onZoomIn,
       ),
@@ -339,14 +347,14 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
       // 8. Translation Action Button (Compact icon-only)
       IconButton(
         icon: Container(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: const Color(0xFF2563EB),
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: BorderRadius.circular(6),
           ),
           child: const Icon(
             Icons.g_translate_rounded,
-            size: 16,
+            size: 15,
             color: Colors.white,
           ),
         ),
@@ -358,13 +366,13 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
       ),
 
       if (widget.hasAnnotations) ...[
-        const SizedBox(width: 3, height: 3),
+        const SizedBox(width: 2, height: 2),
         IconButton(
           icon: const Icon(Icons.delete_outline_rounded,
-              size: 18, color: Colors.redAccent),
+              size: 17, color: Colors.redAccent),
           tooltip: 'Effacer tous les dessins',
           visualDensity: VisualDensity.compact,
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(3),
           constraints: const BoxConstraints(),
           onPressed: widget.onClearAll,
         ),
@@ -379,7 +387,7 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
             icon: const Icon(Icons.close_rounded, size: 17),
             tooltip: 'Replacer à l\'emplacement initial',
             visualDensity: VisualDensity.compact,
-            padding: const EdgeInsets.all(4),
+            padding: const EdgeInsets.all(3),
             constraints: const BoxConstraints(),
             onPressed: () {
               setState(() => _activeOptionsTool = null);
@@ -393,16 +401,16 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
   Widget _buildDivider(bool isDark) {
     if (widget.isVertical) {
       return Container(
-        width: 20,
+        width: 18,
         height: 1,
-        margin: const EdgeInsets.symmetric(vertical: 3),
+        margin: const EdgeInsets.symmetric(vertical: 2),
         color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
       );
     }
     return Container(
-      height: 18,
+      height: 16,
       width: 1,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 2),
       color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
     );
   }
@@ -479,7 +487,7 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
             }
           },
           child: Container(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: isSelected
                   ? widget.penColor.withValues(alpha: 0.18)
@@ -538,7 +546,7 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
             }
           },
           child: Container(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: isSelected
                   ? widget.highlighterColor.withValues(alpha: 0.28)
@@ -588,7 +596,7 @@ class _PdfAnnotationToolbarState extends State<PdfAnnotationToolbar> {
       child: Tooltip(
         message: tooltip,
         child: Container(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: isSelected
                 ? (isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0))

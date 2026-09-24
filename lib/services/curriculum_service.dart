@@ -48,6 +48,45 @@ class CurriculumService extends ChangeNotifier {
     );
   }
 
+  /// Abréviation standard marocaine pour l'affichage en haut (ex: TCS, 3AC, 1BAC SE, 2BAC SMA, 2BAC PC, etc.)
+  String get shortLevelAndBranchCode {
+    final lvlId = _selectedLevelId;
+    final brId = _selectedBranchId;
+
+    if (lvlId == '3eme-annee-college') {
+      return '3AC';
+    }
+    if (lvlId == 'tronc-commun') {
+      if (brId.contains('science')) return 'TCS';
+      if (brId.contains('lettre')) return 'TCL';
+      if (brId.contains('techno')) return 'TCT';
+      return 'TC';
+    }
+    if (lvlId == '1ere-bac') {
+      if (brId.contains('experimentale')) return '1BAC SE';
+      if (brId.contains('math')) return '1BAC SM';
+      if (brId.contains('economique')) return '1BAC SEG';
+      if (brId.contains('lettre')) return '1BAC LSH';
+      if (brId.contains('electrique')) return '1BAC STE';
+      if (brId.contains('mecanique')) return '1BAC STM';
+      return '1BAC';
+    }
+    if (lvlId == '2eme-bac') {
+      if (brId.contains('physique')) return '2BAC PC';
+      if (brId.contains('vie') || brId.contains('terre') || brId.contains('svt')) return '2BAC SVT';
+      if (brId.contains('math') && (brId.endsWith('-b') || brId.contains('sciences-maths-b') || brId.contains('option-b'))) return '2BAC SM-B';
+      if (brId.contains('math')) return '2BAC SM-A';
+      if (brId.contains('economique')) return '2BAC SE';
+      if (brId.contains('comptable') || brId.contains('sgc')) return '2BAC SGC';
+      if (brId.contains('lettre')) return '2BAC Lettres';
+      if (brId.contains('humaine')) return '2BAC SH';
+      if (brId.contains('electrique')) return '2BAC STE';
+      if (brId.contains('mecanique')) return '2BAC STM';
+      return '2BAC';
+    }
+    return currentLevel.shortName;
+  }
+
   static const String _cachedCatalogPrefKey = 'cached_curriculum_catalog_json_v1';
 
   int _extractVersion(Map<String, dynamic>? meta) {

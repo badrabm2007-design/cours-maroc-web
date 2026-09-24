@@ -5,17 +5,10 @@ import '../services/app_language_service.dart';
 import '../services/user_profile_service.dart';
 import '../screens/subject_detail_screen.dart';
 
-class SubjectGridCard extends StatefulWidget {
+class SubjectGridCard extends StatelessWidget {
   final SubjectItem subject;
 
   const SubjectGridCard({super.key, required this.subject});
-
-  @override
-  State<SubjectGridCard> createState() => _SubjectGridCardState();
-}
-
-class _SubjectGridCardState extends State<SubjectGridCard> {
-  bool _isHovered = false;
 
   IconData _resolveIcon(String iconCode) {
     switch (iconCode) {
@@ -61,173 +54,139 @@ class _SubjectGridCardState extends State<SubjectGridCard> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final langService = context.watch<AppLanguageService>();
     final currentLang = langService.currentLanguageCode;
-    final color = Color(widget.subject.colorHex);
+    final color = Color(subject.colorHex);
 
     final isArabic = currentLang == 'ar';
-    final primaryTitle = isArabic
-        ? widget.subject.nameAr
-        : widget.subject.meta.localizedName(currentLang);
-    final secondaryTitle =
-        isArabic ? widget.subject.nameFr : widget.subject.nameAr;
+    final primaryTitle = isArabic ? subject.nameAr : subject.meta.localizedName(currentLang);
+    final secondaryTitle = isArabic ? subject.nameFr : subject.nameAr;
 
-    final isDesktop = MediaQuery.of(context).size.width >= 900;
+    final isDesktop = MediaQuery.of(context).size.width >= 1024;
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: AnimatedScale(
-        scale: _isHovered ? 1.025 : 1.0,
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOutCubic,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          curve: Curves.easeOutCubic,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: isDark
-                  ? [
-                      _isHovered ? const Color(0xFF1E2D47) : const Color(0xFF192438),
-                      Color.alphaBlend(
-                        color.withValues(alpha: _isHovered ? 0.22 : 0.12),
-                        const Color(0xFF101726),
-                      ),
-                    ]
-                  : [
-                      Colors.white,
-                      Color.alphaBlend(
-                        color.withValues(alpha: _isHovered ? 0.12 : 0.05),
-                        Colors.white,
-                      ),
-                    ],
-            ),
-            borderRadius: BorderRadius.circular(isDesktop ? 15 : 18),
-            border: Border.all(
-              color: _isHovered
-                  ? color
-                  : color.withValues(alpha: isDark ? 0.35 : 0.22),
-              width: _isHovered ? 2.0 : 1.2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: color.withValues(alpha: _isHovered ? (isDark ? 0.35 : 0.18) : (isDark ? 0.12 : 0.05)),
-                blurRadius: _isHovered ? 16 : 9,
-                offset: _isHovered ? const Offset(0, 5) : const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(isDesktop ? 15 : 18),
-              splashColor: color.withValues(alpha: 0.18),
-              highlightColor: color.withValues(alpha: 0.08),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => SubjectDetailScreen(
-                      subject: widget.subject,
-                      levelId: context.read<UserProfileService>().savedLevelId,
-                    ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDark
+              ? [
+                  const Color(0xFF192438),
+                  Color.alphaBlend(
+                    color.withValues(alpha: 0.12),
+                    const Color(0xFF101726),
                   ),
-                );
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isDesktop ? 16 : 18,
-                  vertical: isDesktop ? 13 : 16,
+                ]
+              : [
+                  Colors.white,
+                  Color.alphaBlend(
+                    color.withValues(alpha: 0.05),
+                    Colors.white,
+                  ),
+                ],
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: color.withValues(alpha: isDark ? 0.30 : 0.20),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: isDark ? 0.10 : 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          splashColor: color.withValues(alpha: 0.15),
+          highlightColor: color.withValues(alpha: 0.06),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => SubjectDetailScreen(
+                  subject: subject,
+                  levelId: context.read<UserProfileService>().savedLevelId,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            );
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isDesktop ? 16 : 11,
+              vertical: isDesktop ? 14 : 7,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Top row: Icon + Count Badge
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Top row: Icon + Count Badge
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: isDesktop ? 42 : 48,
-                          height: isDesktop ? 42 : 48,
-                          decoration: BoxDecoration(
-                            color: color.withValues(alpha: isDark ? 0.28 : 0.14),
-                            borderRadius: BorderRadius.circular(isDesktop ? 12 : 14),
-                            boxShadow: _isHovered
-                                ? [
-                                    BoxShadow(
-                                      color: color.withValues(alpha: 0.3),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 3),
-                                    )
-                                  ]
-                                : null,
-                          ),
-                          child: Icon(
-                            _resolveIcon(widget.subject.meta.iconCode),
-                            color: color,
-                            size: isDesktop ? 22 : 26,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isDesktop ? 9 : 10,
-                            vertical: isDesktop ? 4 : 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: color.withValues(alpha: isDark ? 0.22 : 0.10),
-                            borderRadius: BorderRadius.circular(isDesktop ? 9 : 10),
-                            border: Border.all(
-                              color: color.withValues(alpha: _isHovered ? 0.5 : 0.2),
-                              width: 1,
-                            ),
-                          ),
-                          child: Text(
-                            '${widget.subject.totalCount} ${isArabic ? "ملف" : "docs"}',
-                            style: TextStyle(
-                              fontSize: isDesktop ? 12.0 : 12.5,
-                              fontWeight: FontWeight.w700,
-                              color: color,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Container(
+                      width: isDesktop ? 44 : 32,
+                      height: isDesktop ? 44 : 32,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: isDark ? 0.25 : 0.12),
+                        borderRadius: BorderRadius.circular(isDesktop ? 12 : 10),
+                      ),
+                      child: Icon(
+                        _resolveIcon(subject.meta.iconCode),
+                        color: color,
+                        size: isDesktop ? 25 : 18,
+                      ),
                     ),
-
-                    // Titles
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          primaryTitle,
-                          style: TextStyle(
-                            fontSize: isDesktop ? 16.5 : 17.5,
-                            fontWeight: FontWeight.w800,
-                            height: 1.15,
-                            color: isDark ? Colors.white : const Color(0xFF0F172A),
-                            letterSpacing: -0.2,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isDesktop ? 8 : 6,
+                        vertical: isDesktop ? 4 : 2.5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: isDark ? 0.20 : 0.09),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '${subject.totalCount} ${isArabic ? "ملف" : "docs"}',
+                        style: TextStyle(
+                          fontSize: isDesktop ? 11 : 9.5,
+                          fontWeight: FontWeight.w700,
+                          color: color,
                         ),
-                        SizedBox(height: isDesktop ? 3 : 4),
-                        Text(
-                          secondaryTitle,
-                          style: TextStyle(
-                            fontSize: isDesktop ? 12.8 : 13.5,
-                            fontWeight: FontWeight.w600,
-                            color: isDark ? Colors.white60 : const Color(0xFF64748B),
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ),
+                SizedBox(height: isDesktop ? 12 : 5),
+
+                // Subject Primary Title
+                Text(
+                  primaryTitle,
+                  style: TextStyle(
+                    fontSize: isDesktop ? 16.5 : 13.5,
+                    fontWeight: FontWeight.w700,
+                    height: 1.15,
+                    color: isDark ? Colors.white : const Color(0xFF0F172A),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: isDesktop ? 4 : 2),
+
+                // Secondary Subtitle
+                Text(
+                  secondaryTitle,
+                  style: TextStyle(
+                    fontSize: isDesktop ? 13.0 : 10.5,
+                    fontWeight: FontWeight.w500,
+                    color: isDark ? Colors.white60 : const Color(0xFF64748B),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
         ),

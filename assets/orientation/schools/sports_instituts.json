@@ -1,0 +1,148 @@
+{
+  "id": "sports_metiers_instituts",
+  "nom_fr": "Réseau des Instituts Universitaires des Sciences et Métiers du Sport",
+  "nom_ar": "شبكة المعاهد الجامعية لعلوم ومهن الرياضة بالمغرب",
+  "secteur": "Enseignement supérieur public sportif et management sportif",
+  "etablissements": [
+    {
+      "code": "iss_settat",
+      "nom_fr": "Institut des Sciences du Sport de Settat (I2S / ISS)",
+      "nom_ar": "معهد علوم الرياضة بسطات",
+      "universite": "Université Hassan 1er de Settat",
+      "licences_proposees": [
+        {
+          "intitule": "Management du Sport (MS)",
+          "duree": "3 ans",
+          "bacs_admissibles": ["Sciences Économiques", "Gestion Comptable", "Sciences Mathématiques", "Sciences Expérimentales", "Baccalauréat Professionnel"],
+          "objectifs": "Former des gestionnaires de clubs, d'équipements sportifs et de structures événementielles sportives"
+        },
+        {
+          "intitule": "Entraînement Sportif (ES)",
+          "duree": "3 ans",
+          "bacs_admissibles": ["Sciences Expérimentales (SVT, PC)", "Sciences Mathématiques", "Lettres et Sciences Humaines (avec profil sportif prouvé)"],
+          "objectifs": "Formation d'entraîneurs, de préparateurs physiques et de cadres techniques sportifs"
+        },
+        {
+          "intitule": "Technologies du Sport (TS)",
+          "duree": "3 ans",
+          "bacs_admissibles": ["Sciences Mathématiques", "Sciences Expérimentales", "Sciences et Technologies (STE/STM)"],
+          "objectifs": "Analyse de la performance, capteurs biomécaniques, technologies numériques appliquées au sport"
+        }
+      ],
+      "modalites_selection": "Présélection sur dossier + Épreuves d'aptitude physique + Épreuve écrite + Entretien oral",
+      "dossier_requis": "Candidature en ligne sur le portail universitaire suivie du dépôt du dossier physique (certificat médical obligatoire)"
+    },
+    {
+      "code": "ims_agadir",
+      "nom_fr": "Institut des Métiers du Sport d'Agadir (IMS Agadir)",
+      "nom_ar": "معهد مهن الرياضة بأكادير",
+      "universite": "Université Ibn Zohr d'Agadir",
+      "portail_inscription": "https://preinscription.uiz.ac.ma",
+      "licences_proposees": [
+        {
+          "intitule": "Éducation et Motricité (EM)",
+          "objectifs": "Intervention pédagogique par le mouvement, animation en milieu scolaire et centres de loisirs"
+        },
+        {
+          "intitule": "Management du Sport (MS)",
+          "objectifs": "Gestion et marketing des organisations et installations sportives"
+        },
+        {
+          "intitule": "Entraînement Sportif (ES)",
+          "objectifs": "Préparation athlétique, planification de l'entraînement et encadrement compétitif"
+        },
+        {
+          "intitule": "Activité Physique Adaptée et Santé (APA-S)",
+          "objectifs": "Sport sur ordonnance, prise en charge des publics à besoins spécifiques, réhabilitation par l'activité physique"
+        }
+      ],
+      "modalites_selection": "Présélection sur notes du bac + Tests physiques spécifiques + Entretien oral devant un jury de spécialistes"
+    },
+    {
+      "code": "iss_fes",
+      "nom_fr": "Institut des Sciences du Sport de Fès (ISS Fès)",
+      "nom_ar": "معهد علوم الرياضة بفاس",
+      "universite": "Université Sidi Mohamed Ben Abdellah de Fès",
+      "licences_proposees": [
+        {
+          "intitule": "Éducation Physique et Activités Sportives (EPSAS)",
+          "objectifs": "Préparation aux métiers de l'enseignement de l'EPS et de l'encadrement éducatif sportif"
+        },
+        {
+          "intitule": "Management du Sport (MS)",
+          "objectifs": "Administration, communication et commercialisation des événements et organisations sportives"
+        },
+        {
+          "intitule": "Entraînement Sportif (ES)",
+          "objectifs": "Méthodologie de l'entraînement, suivi de la charge athlétique et encadrement tactique"
+        },
+        {
+          "intitule": "Communication et Médias Sportifs (CMS)",
+          "objectifs": "Journalisme sportif, relations presse des fédérations, production audiovisuelle et digitale sportive"
+        }
+      ],
+      "modalites_selection": "Plateforme numérique USMBA + Évaluation du dossier scolaire + Épreuves pratiques sportives + Entretien"
+    },
+    {
+      "code": "ims_kenitra",
+      "nom_fr": "Institut des Métiers du Sport de Kénitra (IMS Kénitra)",
+      "nom_ar": "معهد مهن الرياضة بالقنيطرة",
+      "universite": "Université Ibn Tofail de Kénitra",
+      "licences_proposees": [
+        {
+          "intitule": "Management et Sécurité des Lieux Sportifs (MSL)",
+          "objectifs": "Gestion des stades, enceintes sportives, sécurité et protocoles événementiels"
+        },
+        {
+          "intitule": "Événementiel et Économie du Sport (EES)",
+          "objectifs": "Organisation de compétitions, sponsoring, régie commerciale du sport"
+        },
+        {
+          "intitule": "Analyse de Jeu et Scouting (AJS)",
+          "objectifs": "Scouting de talents, analyse vidéo tactique et data sportive pour clubs professionnels"
+        },
+        {
+          "intitule": "Accompagnement Sportif et Tourisme (AST)",
+          "objectifs": "Tourisme d'aventure, écotourisme sportif, guidage et séjours sportifs"
+        },
+        {
+          "intitule": "Métiers du Plein Air et de la Randonnée (MPAR)",
+          "objectifs": "Activités nautiques, sports de montagne et développement territorial sportif"
+        },
+        {
+          "intitule": "Digital Sport & E-Sport (DSE)",
+          "langue_enseignement": "Anglais",
+          "objectifs": "Industrie du gaming compétitif, streaming sportif, métavers et marketing digital du sport"
+        }
+      ],
+      "modalites_selection": "Choix de 2 filières maximum + Présélection + Épreuves physiques et orales"
+    },
+    {
+      "code": "irfc_rabat_sale",
+      "nom_fr": "Institut Royal de Formation des Cadres (IRFC)",
+      "nom_ar": "المعهد الملكي لتكوين أطر الشبيبة والرياضة",
+      "tutelle": "Ministère de la Jeunesse, de la Culture et de la Communication",
+      "sites": "Centre National des Sports Moulay Rachid (Salé) / Centre Yaâcoub El Mansour (Rabat)",
+      "formations": "Licences professionnelles en entraînement sportif de haut niveau, gestion des équipements socio-sportifs et animation de la jeunesse"
+    }
+  ],
+  "epreuves_physiques_standard": [
+    "Course de vitesse (60m ou 100m)",
+    "Course de demi-fond / endurance (800m à 1500m)",
+    "Test de coordination, agilité et détente verticale",
+    "Démonstration technique dans une spécialité sportive choisie par le candidat"
+  ],
+  "debouches_professionnels": [
+    "Clubs et fédérations sportives nationales et internationales",
+    "Fédérations royales marocaines de football, d'athlétisme, de basketball, etc.",
+    "Complexes et cités sportives (SONARGES, complexes municipaux, salles omnisports privées)",
+    "Sociétés d'événementiel sportif, agences de marketing sportif et marques d'équipementiers",
+    "Centres de remise en forme, académies de formation et resorts hôteliers sportifs",
+    "Entreprises d'analyse de données de performance et de production de contenus sportifs"
+  ],
+  "conseils_candidats": [
+    "Préparez impérativement à l'avance un certificat médical officiel de non-contre-indication à la pratique d'efforts physiques intenses datant de moins de 3 mois.",
+    "Un palmarès sportif officiel (licence fédérale, attestation de club, titres régionaux ou nationaux) constitue une bonification majeure lors de l'entretien.",
+    "Pour la filière Digital Sport & E-Sport de Kénitra, un très bon niveau d'anglais oral et écrit est impératif."
+  ]
+}

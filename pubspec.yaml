@@ -22,6 +22,10 @@ dependencies:
   url_launcher: ^6.3.2
   syncfusion_flutter_pdfviewer: ^34.2.8
   web: ^1.1.1
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
+  google_sign_in: ^7.2.0
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -34,3 +38,5 @@ flutter:
   assets:
     - assets/data/
     - assets/images/
+    - assets/audio/
+    - assets/orientation/schools/

@@ -4,6 +4,7 @@ import '../models/curriculum_models.dart';
 import '../services/app_language_service.dart';
 import '../services/curriculum_service.dart';
 import '../services/download_service.dart';
+import '../services/focus_timer_service.dart';
 import '../services/smart_prefetch_service.dart';
 import '../services/user_profile_service.dart';
 import '../widgets/document_card.dart';
@@ -11,11 +12,13 @@ import '../widgets/document_card.dart';
 class SubjectDetailScreen extends StatefulWidget {
   final SubjectItem subject;
   final String? levelId;
+  final String? initialCategory;
 
   const SubjectDetailScreen({
     super.key,
     required this.subject,
     this.levelId,
+    this.initialCategory,
   });
 
   @override
@@ -146,8 +149,17 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
       _availableCategories = ['cours'];
     }
 
+    int initialIndex = 0;
+    if (widget.initialCategory != null) {
+      final foundIdx = _availableCategories.indexOf(widget.initialCategory!);
+      if (foundIdx != -1) {
+        initialIndex = foundIdx;
+      }
+    }
+
     _tabController = TabController(
       length: _availableCategories.length,
+      initialIndex: initialIndex,
       vsync: this,
     );
     _tabController.addListener(() {
@@ -164,6 +176,8 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
 
         // Predictive smart pre-caching: prefetch top documents in OTHER tabs and current category
         try {
+          final showCorriges = currentCat == 'exercices' || currentCat == 'controles';
+          context.read<FocusTimerService>().updateSubjectDetailCorriges(showCorriges);
           final smartPrefetch = context.read<SmartPrefetchService>();
           final profile = context.read<UserProfileService>();
           final dl = context.read<DownloadService>();
@@ -191,6 +205,11 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
       if (!mounted) return;
       try {
         final initialCat = _availableCategories.first;
+        final showCorriges = initialCat == 'exercices' || initialCat == 'controles';
+        context.read<FocusTimerService>().pushDockingScreen(
+              ActiveDockingScreen.subjectDetail,
+              hasCorriges: showCorriges,
+            );
         final smartPrefetch = context.read<SmartPrefetchService>();
         final profile = context.read<UserProfileService>();
         final dl = context.read<DownloadService>();
@@ -216,6 +235,9 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
 
   @override
   void dispose() {
+    try {
+      context.read<FocusTimerService>().popDockingScreen(ActiveDockingScreen.subjectDetail);
+    } catch (_) {}
     _tabController.dispose();
     _searchController.dispose();
     super.dispose();

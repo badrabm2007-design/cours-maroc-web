@@ -1,0 +1,50 @@
+{
+  "id": "itsmaer_bouknadel",
+  "nom_fr": "Institut des Techniciens Spécialisés en Machinisme Agricole et Équipement Rural de Bouknadel",
+  "nom_ar": "معهد التقنيين المتخصصين في المكننة الفلاحية والتجهيز القروي ببوقنادل سلا",
+  "abreviation": "ITSMAER Bouknadel (Salé)",
+  "tutelle": "Ministère de l'Agriculture, de la Pêche Maritime, du Développement Rural et des Eaux et Forêts (Direction de l'Enseignement et de la Recherche)",
+  "type_etablissement": "Institut public supérieur technique spécialisé dans l'agro-machinisme et les technologies rurales",
+  "duree_etudes": "2 ans (4 semestres)",
+  "diplome_delivre": "Diplôme de Technicien Spécialisé (DTS)",
+  "filiere_principale": {
+    "intitule": "Machinisme Agricole et Équipement Rural",
+    "competences": [
+      "Diagnostic, maintenance et réparation des tracteurs, moissonneuses et équipements agricoles motorisés",
+      "Technologies de l'hydraulique mobile, électropneumatique et systèmes électroniques embarqués sur engins agricoles",
+      "Gestion technique et optimisation des parcs de machines agricoles et stations de pompage",
+      "Installation et maintenance des systèmes d'irrigation moderne (goutte-à-goutte, pivots d'arrosage)"
+    ]
+  },
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Expérimentales (Physique-Chimie, SVT, Sciences Agronomiques)",
+      "Sciences et Technologies Mécaniques (STM)",
+      "Sciences et Technologies Électriques (STE)",
+      "Baccalauréat Professionnel (Maintenance des véhicules automobiles, Maintenance industrielle, Électrotechnique)"
+    ],
+    "age_limite": "Moins de 30 ans à la date de la rentrée scolaire",
+    "plateforme_candidature": "https://fpa-concours.agriculture.gov.ma (Portail officiel de la Formation Professionnelle Agricole)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection sur dossier basée sur les notes du baccalauréat",
+    "etape_2": "Test écrit ou entretien oral d'évaluation des aptitudes techniques et de la motivation"
+  },
+  "regime_etudes": "Internat obligatoire ou demi-pension avec hébergement et restauration sur site",
+  "debouches_professionnels": [
+    "Concessionnaires et distributeurs officiels de tracteurs et matériels agricoles (Class, John Deere, New Holland, Massey Ferguson...)",
+    "Grandes exploitations agricoles mécanisées et coopératives agricoles régionales",
+    "Sociétés d'installation et de maintenance des équipements d'irrigation et de pompage solaire",
+    "Services techniques du Ministère de l'Agriculture et Offices Régionaux de Mise en Valeur Agricole (ORMVA)",
+    "Création d'ateliers privés de réparation et de services en machinisme agricole"
+  ],
+  "poursuite_etudes": [
+    "Licence Professionnelle (LP) en Génie Mécanique, Maintenance ou Énergies Renouvelables dans les universités publiques",
+    "Passerelles vers les concours de formation des cadres techniques"
+  ],
+  "conseils_candidats": [
+    "Le secteur de l'agro-machinisme au Maroc connaît une forte modernisation (Plan Génération Green) et une forte demande en techniciens spécialisés hautement qualifiés.",
+    "L'institut dispose d'ateliers techniques d'apprentissage dotés d'équipements modernes et de bancs d'essais hydrauliques et électroniques."
+  ]
+}

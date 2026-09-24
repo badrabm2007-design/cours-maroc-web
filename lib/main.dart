@@ -8,11 +8,16 @@ import 'services/auth_service.dart';
 import 'services/curriculum_service.dart';
 import 'services/download_service.dart';
 import 'services/favorites_service.dart';
+import 'services/focus_sound_service.dart';
+import 'services/focus_timer_service.dart';
+import 'services/orientation_service.dart';
 import 'services/smart_prefetch_service.dart';
 import 'services/user_profile_service.dart';
+import 'services/user_sync_service.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/level_selection_screen.dart';
+import 'widgets/floating_focus_timer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +39,10 @@ void main() async {
   final downloadService = DownloadService();
   final favoritesService = FavoritesService();
   final smartPrefetchService = SmartPrefetchService();
+  final userSyncService = UserSyncService();
+  final focusSoundService = FocusSoundService();
+  final focusTimerService = FocusTimerService();
+  final orientationService = OrientationService();
 
   // Initialize all services in parallel
   await Future.wait([
@@ -43,7 +52,35 @@ void main() async {
     curriculumService.init(),
     downloadService.init(),
     favoritesService.init(),
+    orientationService.init(),
   ]);
+
+  // Attach services to enable auto-sync across the ecosystem
+  userSyncService.attachServices(
+    authService: authService,
+    profileService: userProfileService,
+    favService: favoritesService,
+    downloadService: downloadService,
+    langService: appLanguageService,
+    getIsDarkMode: () => isDarkMode,
+    platform: 'web',
+  );
+
+  // Synchronize with cloud if already logged in
+  if (authService.isAuthenticated) {
+    final token = await authService.getIdToken();
+    if (token != null) {
+      await userSyncService.syncOnLogin(
+        userId: authService.currentUser!.id,
+        idToken: token,
+        profileService: userProfileService,
+        favService: favoritesService,
+        downloadService: downloadService,
+        langService: appLanguageService,
+        platform: 'web',
+      );
+    }
+  }
 
   // Synchronize saved level & branch if user has previously selected one
   if (userProfileService.hasSelectedGrade) {
@@ -63,6 +100,10 @@ void main() async {
         ChangeNotifierProvider.value(value: downloadService),
         ChangeNotifierProvider.value(value: favoritesService),
         ChangeNotifierProvider.value(value: smartPrefetchService),
+        ChangeNotifierProvider.value(value: userSyncService),
+        ChangeNotifierProvider.value(value: focusSoundService),
+        ChangeNotifierProvider.value(value: focusTimerService),
+        ChangeNotifierProvider.value(value: orientationService),
       ],
       child: CoursLyceeApp(initialDarkMode: isDarkMode),
     ),
@@ -87,12 +128,37 @@ class _CoursLyceeAppState extends State<CoursLyceeApp> {
     _isDarkMode = widget.initialDarkMode;
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final syncService = context.read<UserSyncService>();
+    syncService.attachServices(
+      authService: context.read<AuthService>(),
+      profileService: context.read<UserProfileService>(),
+      favService: context.read<FavoritesService>(),
+      downloadService: context.read<DownloadService>(),
+      langService: context.read<AppLanguageService>(),
+      onThemeUpdate: (cloudDark) {
+        if (mounted && cloudDark != _isDarkMode) {
+          setState(() {
+            _isDarkMode = cloudDark;
+          });
+        }
+      },
+      getIsDarkMode: () => _isDarkMode,
+      platform: 'web',
+    );
+  }
+
   void _toggleTheme() async {
     setState(() {
       _isDarkMode = !_isDarkMode;
     });
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('is_dark_mode', _isDarkMode);
+    if (mounted) {
+      context.read<UserSyncService>().scheduleDebouncedPush();
+    }
   }
 
   @override
@@ -103,6 +169,10 @@ class _CoursLyceeAppState extends State<CoursLyceeApp> {
     return MaterialApp(
       title: 'Cours Maroc',
       debugShowCheckedModeBanner: false,
+      navigatorKey: FocusTimerService.navigatorKey,
+      builder: (context, child) => FocusTimerOverlayWrapper(
+        child: child ?? const SizedBox.shrink(),
+      ),
       theme: AppTheme.lightTheme(),
       darkTheme: AppTheme.darkTheme(),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
