@@ -831,7 +831,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         crossAxisCount: isDesktop ? 3 : 2,
                         crossAxisSpacing: isDesktop ? 14 : 14,
                         mainAxisSpacing: isDesktop ? 12 : 14,
-                        mainAxisExtent: isDesktop ? 160 : 116,
+                        mainAxisExtent: isDesktop ? 138 : 116,
                       ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {

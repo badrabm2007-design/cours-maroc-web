@@ -60,8 +60,6 @@ class SubjectGridCard extends StatelessWidget {
     final primaryTitle = isArabic ? subject.nameAr : subject.meta.localizedName(currentLang);
     final secondaryTitle = isArabic ? subject.nameFr : subject.nameAr;
 
-    final isDesktop = MediaQuery.of(context).size.width >= 1024;
-
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -113,9 +111,9 @@ class SubjectGridCard extends StatelessWidget {
             );
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 16 : 11,
-              vertical: isDesktop ? 14 : 7,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 11,
+              vertical: 7,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,22 +125,22 @@ class SubjectGridCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: isDesktop ? 44 : 32,
-                      height: isDesktop ? 44 : 32,
+                      width: 32,
+                      height: 32,
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: isDark ? 0.25 : 0.12),
-                        borderRadius: BorderRadius.circular(isDesktop ? 12 : 10),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         _resolveIcon(subject.meta.iconCode),
                         color: color,
-                        size: isDesktop ? 25 : 18,
+                        size: 18,
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isDesktop ? 8 : 6,
-                        vertical: isDesktop ? 4 : 2.5,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2.5,
                       ),
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: isDark ? 0.20 : 0.09),
@@ -151,7 +149,7 @@ class SubjectGridCard extends StatelessWidget {
                       child: Text(
                         '${subject.totalCount} ${isArabic ? "ملف" : "docs"}',
                         style: TextStyle(
-                          fontSize: isDesktop ? 11 : 9.5,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.w700,
                           color: color,
                         ),
@@ -159,13 +157,13 @@ class SubjectGridCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: isDesktop ? 12 : 5),
+                const SizedBox(height: 5),
 
                 // Subject Primary Title
                 Text(
                   primaryTitle,
                   style: TextStyle(
-                    fontSize: isDesktop ? 16.5 : 13.5,
+                    fontSize: 13.5,
                     fontWeight: FontWeight.w700,
                     height: 1.15,
                     color: isDark ? Colors.white : const Color(0xFF0F172A),
@@ -173,13 +171,13 @@ class SubjectGridCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: isDesktop ? 4 : 2),
+                const SizedBox(height: 2),
 
                 // Secondary Subtitle
                 Text(
                   secondaryTitle,
                   style: TextStyle(
-                    fontSize: isDesktop ? 13.0 : 10.5,
+                    fontSize: 10.5,
                     fontWeight: FontWeight.w500,
                     color: isDark ? Colors.white60 : const Color(0xFF64748B),
                   ),

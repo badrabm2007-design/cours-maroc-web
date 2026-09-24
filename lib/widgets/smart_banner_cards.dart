@@ -24,8 +24,8 @@ class SmartBannerCardWidget extends StatelessWidget {
     final badgeText = isAr ? item.badgeTextAr : item.badgeText;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18.0),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14.5),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF162032) : Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -52,11 +52,11 @@ class SmartBannerCardWidget extends StatelessWidget {
               // Icon or Image
               if (item.assetImagePath != null)
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(8),
                   child: Image.asset(
                     item.assetImagePath!,
-                    width: 44,
-                    height: 44,
+                    width: 38,
+                    height: 38,
                     fit: BoxFit.cover,
                     errorBuilder: (_, _, _) => _buildFallbackIcon(),
                   ),
@@ -64,7 +64,7 @@ class SmartBannerCardWidget extends StatelessWidget {
               else
                 _buildFallbackIcon(),
 
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
 
               // Title and Subtitle
               Expanded(
@@ -80,14 +80,14 @@ class SmartBannerCardWidget extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 5),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(
                             color: item.badgeColor,
                             borderRadius: BorderRadius.circular(5),
@@ -96,20 +96,20 @@ class SmartBannerCardWidget extends StatelessWidget {
                             badgeText,
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 9,
+                              fontSize: 8.5,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 2),
                     Text(
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 10,
                         fontWeight: FontWeight.w600,
                         color: isDark
                             ? item.primaryColor.withValues(alpha: 0.9)
@@ -122,46 +122,46 @@ class SmartBannerCardWidget extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
 
-          // 2. Short Description (Concise, up to 3 lines)
+          // 2. Short Description (Concise, up to 2 lines)
           Text(
             description,
-            maxLines: 3,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 11,
-              height: 1.35,
+              fontSize: 10.5,
+              height: 1.3,
               color: isDark ? Colors.white70 : const Color(0xFF475569),
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
 
           // 3. Action Button
           SizedBox(
             width: double.infinity,
-            height: 40,
+            height: 36,
             child: ElevatedButton.icon(
               icon: Icon(
                 item.icon ?? Icons.arrow_forward_rounded,
-                size: 16,
+                size: 15,
               ),
               label: Text(
                 buttonLabel,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 11.5,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: item.primaryColor,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 elevation: 1.2,
               ),
@@ -175,16 +175,16 @@ class SmartBannerCardWidget extends StatelessWidget {
 
   Widget _buildFallbackIcon() {
     return Container(
-      width: 44,
-      height: 44,
+      width: 38,
+      height: 38,
       decoration: BoxDecoration(
         color: item.primaryColor.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
         item.icon ?? Icons.star_rounded,
         color: item.primaryColor,
-        size: 24,
+        size: 20,
       ),
     );
   }
