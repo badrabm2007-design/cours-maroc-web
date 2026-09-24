@@ -111,11 +111,10 @@ class _FocusTimerOverlayWrapperState extends State<FocusTimerOverlayWrapper> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.maybeOf(context);
     final bool isDesktop = kIsWeb
-        ? (mediaQuery != null && mediaQuery.size.width >= 850)
+        ? (mediaQuery != null && mediaQuery.size.width >= 900)
         : (defaultTargetPlatform == TargetPlatform.windows ||
             defaultTargetPlatform == TargetPlatform.macOS ||
-            defaultTargetPlatform == TargetPlatform.linux ||
-            (mediaQuery != null && mediaQuery.size.width >= 850));
+            defaultTargetPlatform == TargetPlatform.linux);
 
     return Stack(
       children: [
@@ -164,22 +163,24 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
       case ActiveDockingScreen.home:
         const double dockY = 9.0;
         const double minSlotX = 350.0;
-        final double rightBoundary = kIsWeb ? 610.0 : 450.0;
+        final double rightBoundary = kIsWeb ? 580.0 : 440.0;
         final double maxSlotX = screenW - rightBoundary - _badgeWidth;
         if (minSlotX <= maxSlotX) {
           return const Offset(minSlotX, dockY);
         } else {
-          return const Offset(16.0, 65.0);
+          final double fallbackX = (screenW - _badgeWidth) / 2;
+          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
         }
 
       case ActiveDockingScreen.pdfViewer:
         const double dockY = 9.0;
-        final double minSlotX = (screenW / 2) + 165.0;
-        final double maxSlotX = screenW - 270.0 - _badgeWidth;
+        final double minSlotX = (screenW / 2) + 20.0;
+        final double maxSlotX = screenW - 260.0 - _badgeWidth;
         if (minSlotX <= maxSlotX) {
-          return Offset(((minSlotX + maxSlotX) / 2).clamp(minSlotX, maxSlotX), dockY);
+          return Offset(minSlotX, dockY);
         } else {
-          return const Offset(16.0, 65.0);
+          final double fallbackX = (screenW - _badgeWidth - 180.0).clamp(180.0, 9999.0);
+          return Offset(fallbackX, dockY);
         }
 
       case ActiveDockingScreen.subjectDetail:
@@ -197,7 +198,7 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
           if (maxLeftX >= 16.0) {
             return const Offset(16.0, dockY);
           } else {
-            return const Offset(16.0, 115.0);
+            return Offset(maxRightX.clamp(16.0, 9999.0), dockY);
           }
         }
 
@@ -208,7 +209,8 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
         if (minSlotX <= maxSlotX) {
           return const Offset(minSlotX, dockY);
         } else {
-          return const Offset(16.0, 65.0);
+          final double fallbackX = (screenW - _badgeWidth) / 2;
+          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
         }
 
       case ActiveDockingScreen.other:
@@ -256,38 +258,32 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
         return Offset(finalX, dockY);
 
       case ActiveDockingScreen.pdfViewer:
-        // Dock ONLY in empty gap between center toolbar and right action buttons!
+        // Dock in AppBar row (Y = 9.0)
         const double dockY = 9.0;
-        final double minSlotX = (screenW / 2) + 165.0;
-        final double maxSlotX = screenW - 270.0 - _badgeWidth;
-
+        final double minSlotX = (screenW / 2) + 20.0;
+        final double maxSlotX = screenW - 260.0 - _badgeWidth;
         if (minSlotX <= maxSlotX) {
-          final double finalX = currentPos.dx.clamp(minSlotX, maxSlotX);
-          return Offset(finalX, dockY);
+          return Offset(currentPos.dx.clamp(minSlotX, maxSlotX), dockY);
         } else {
-          // Narrow screen: dock just below header to avoid overlapping tools
-          return Offset(currentPos.dx.clamp(16.0, screenW - _badgeWidth - 16.0), 65.0);
+          final double fallbackX = (screenW - _badgeWidth - 180.0).clamp(180.0, 9999.0);
+          return Offset(fallbackX, dockY);
         }
 
       case ActiveDockingScreen.home:
-        // On Windows (!kIsWeb): PC download button is hidden.
-        // Dock freely between Level selector on left (350px) and action icons on right (screenW - 450px).
-        // On Web (kIsWeb): PC download button is present.
-        // Dock between Level selector on left (350px) and download button on right (screenW - 610px).
         const double dockY = 9.0;
         const double minSlotX = 350.0;
-        final double rightBoundary = kIsWeb ? 610.0 : 450.0;
+        final double rightBoundary = kIsWeb ? 580.0 : 440.0;
         final double maxSlotX = screenW - rightBoundary - _badgeWidth;
 
         if (minSlotX <= maxSlotX) {
           final double finalX = currentPos.dx.clamp(minSlotX, maxSlotX);
           return Offset(finalX, dockY);
         } else {
-          return Offset(currentPos.dx.clamp(16.0, screenW - _badgeWidth - 16.0), 65.0);
+          final double fallbackX = (screenW - _badgeWidth) / 2;
+          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
         }
 
       case ActiveDockingScreen.orientation:
-        // Dock ONLY in empty space between title on left and FAQ question mark icon on right!
         const double dockY = 9.0;
         const double minSlotX = 330.0;
         final double maxSlotX = screenW - 430.0 - _badgeWidth;
@@ -296,7 +292,8 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
           final double finalX = currentPos.dx.clamp(minSlotX, maxSlotX);
           return Offset(finalX, dockY);
         } else {
-          return Offset(currentPos.dx.clamp(16.0, screenW - _badgeWidth - 16.0), 65.0);
+          final double fallbackX = (screenW - _badgeWidth) / 2;
+          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
         }
 
       case ActiveDockingScreen.other:
@@ -325,17 +322,18 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
       _lastActiveScreen = activeScreen;
       _lastHasCorriges = hasCorriges;
 
-      if (!_isFreeFloating) {
-        // In docked mode: adapt to the active screen's dedicated docking slot!
-        final preferred = _screenDockedOffsets[activeScreen] ??
-            _defaultDockPositionFor(activeScreen, screenSize, hasCorriges);
-        _position = _computeDockedPosition(
-          screen: activeScreen,
-          currentPos: preferred,
-          screenSize: screenSize,
-          hasCorriges: hasCorriges,
-        );
-      }
+      // Always adapt to the newly active screen's dedicated docking slot!
+      // This guarantees that leaving SubjectDetailScreen (dockY=70) resets position cleanly to Y=9 on HomeScreen,
+      // and leaving PdfViewerScreen cleanly adopts HomeScreen's designated slot.
+      final preferred = _screenDockedOffsets[activeScreen] ??
+          _defaultDockPositionFor(activeScreen, screenSize, hasCorriges);
+      _position = _computeDockedPosition(
+        screen: activeScreen,
+        currentPos: preferred,
+        screenSize: screenSize,
+        hasCorriges: hasCorriges,
+      );
+      _isFreeFloating = false;
     }
 
     // Default position: magnetically docked according to active screen
