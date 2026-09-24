@@ -1,0 +1,99 @@
+{
+  "id": "universites_secteurs_maroc",
+  "titre_fr": "Cartographie & Sectorisation Géographique des Universités Marocaines à Accès Ouvert",
+  "titre_ar": "الخريطة الجامعية وتوزيع روافد الجامعات المغربية ذات الاستقطاب المفتوح",
+  "note_officielle": "L'inscription dans les facultés à accès ouvert (Facultés des Sciences FS, Facultés des Sciences Juridiques, Économiques et Sociales FSJES, Facultés des Lettres et Sciences Humaines FLSH, Facultés de la Chariâa et Oussoul Eddine) est régie par le principe de sectorisation géographique selon la province ou préfecture d'obtention du Baccalauréat.",
+  "universites": [
+    {
+      "code": "UM5",
+      "nom": "Université Mohammed V de Rabat",
+      "ville": "Rabat",
+      "provinces_et_prefectures": ["Rabat", "Salé", "Skhirate-Témara", "Khémisset"],
+      "etablissements_ouverts": ["Faculté des Sciences Rabat (FSR)", "Faculté des Sciences Juridiques, Économiques et Sociales Souissi", "FSJES Agdal", "Faculté des Lettres et des Sciences Humaines (FLSH Rabat)"]
+    },
+    {
+      "code": "UH2",
+      "nom": "Université Hassan II de Casablanca",
+      "ville": "Casablanca",
+      "provinces_et_prefectures": ["Casablanca (tous arrondissements)", "Mohammedia", "Médiouna", "Nouaceur", "Benslimane"],
+      "etablissements_ouverts": ["Faculté des Sciences Aïn Chock", "Faculté des Sciences Ben M'Sick", "FSJES Aïn Sebaâ", "FSJES Route d'El Jadida", "FSJES Mohammedia", "FLSH Aïn Chock", "FLSH Ben M'Sick", "FLSH Mohammedia"]
+    },
+    {
+      "code": "UH1",
+      "nom": "Université Hassan 1er de Settat",
+      "ville": "Settat",
+      "provinces_et_prefectures": ["Settat", "Berrechid"],
+      "etablissements_ouverts": ["Faculté des Sciences et Techniques (FST)", "Faculté des Sciences Juridiques et Politiques", "Faculté d'Économie et de Gestion"]
+    },
+    {
+      "code": "UCD",
+      "nom": "Université Chouaïb Doukkali",
+      "ville": "El Jadida",
+      "provinces_et_prefectures": ["El Jadida", "Sidi Bennour"],
+      "etablissements_ouverts": ["Faculté des Sciences El Jadida", "FSJES El Jadida", "FLSH El Jadida"]
+    },
+    {
+      "code": "UCA",
+      "nom": "Université Cadi Ayyad",
+      "ville": "Marrakech",
+      "provinces_et_prefectures": ["Marrakech", "Al Haouz", "Chichaoua", "El Kelâa des Sraghna", "Essaouira", "Rehamna", "Safi", "Youssoufia"],
+      "etablissements_ouverts": ["Faculté des Sciences Semlalia (FSSM)", "FSJES Marrakech", "FLSH Marrakech", "Faculté Polydisciplinaire de Safi", "Centre Universitaire Kelâa des Sraghna"]
+    },
+    {
+      "code": "UIZ",
+      "nom": "Université Ibn Zohr",
+      "ville": "Agadir",
+      "provinces_et_prefectures": ["Agadir Ida-Outanane", "Inezgane-Aït Melloul", "Chtouka-Aït Baha", "Taroudant", "Tiznit", "Tata", "Guelmim", "Tan-Tan", "Sidi Ifni", "Assa-Zag", "Laâyoune", "Boujdour", "Tarfaya", "Es-Semara", "Oued Ed-Dahab", "Aousserd"],
+      "etablissements_ouverts": ["Faculté des Sciences Agadir", "FSJES Agadir", "FLSH Agadir", "Faculté des Langues, Arts et Sciences Humaines Aït Melloul", "Faculté des Sciences Juridiques, Économiques et Sociales Aït Melloul", "Faculté Polydisciplinaire de Taroudant", "Faculté Polydisciplinaire d'Ouarzazate", "Faculté de la Chariâa d'Agadir", "Faculté de la Chariâa d'Es-Semara"]
+    },
+    {
+      "code": "USMBA",
+      "nom": "Université Sidi Mohamed Ben Abdellah",
+      "ville": "Fès",
+      "provinces_et_prefectures": ["Fès", "Moulay Yacoub", "Sefrou", "Boulemane", "Taounate", "Taza"],
+      "etablissements_ouverts": ["Faculté des Sciences Dhar El Mahraz", "FSJES Fès", "FLSH Dhar El Mahraz", "FLSH Saïs", "Faculté Polydisciplinaire de Taza", "Faculté de la Chariâa Fès"]
+    },
+    {
+      "code": "UMI",
+      "nom": "Université Moulay Ismaïl",
+      "ville": "Meknès",
+      "provinces_et_prefectures": ["Meknès", "El Hajeb", "Ifrane", "Khénifra", "Midelt", "Errachidia"],
+      "etablissements_ouverts": ["Faculté des Sciences Meknès", "FSJES Meknès", "FLSH Meknès", "Faculté Polydisciplinaire d'Errachidia"]
+    },
+    {
+      "code": "UMP",
+      "nom": "Université Mohammed 1er",
+      "ville": "Oujda",
+      "provinces_et_prefectures": ["Oujda-Angad", "Berkane", "Nador", "Driouch", "Jerada", "Taourirt", "Figuig", "Guercif"],
+      "etablissements_ouverts": ["Faculté des Sciences Oujda", "FSJES Oujda", "FLSH Oujda", "Faculté Pluridisciplinaire de Nador"]
+    },
+    {
+      "code": "UAE",
+      "nom": "Université Abdelmalek Essaâdi",
+      "ville": "Tétouan - Tanger",
+      "provinces_et_prefectures": ["Tanger-Assilah", "Tétouan", "M'diq-Fnideq", "Fahs-Anjra", "Larache", "Chefchaouen", "Ouazzane", "Al Hoceima"],
+      "etablissements_ouverts": ["Faculté des Sciences de Tétouan", "FSJES Tanger", "FSJES Tétouan", "FLSH Tétouan", "Faculté Polydisciplinaire de Larache", "Faculté Oussoul Eddine Tétouan"]
+    },
+    {
+      "code": "USMS",
+      "nom": "Université Sultan Moulay Slimane",
+      "ville": "Béni Mellal",
+      "provinces_et_prefectures": ["Béni Mellal", "Fquih Ben Salah", "Azilal", "Khouribga"],
+      "etablissements_ouverts": ["Faculté des Sciences et Techniques (FST)", "FSJES Béni Mellal", "FLSH Béni Mellal", "Faculté Polydisciplinaire de Khouribga"]
+    },
+    {
+      "code": "UIT",
+      "nom": "Université Ibn Tofail",
+      "ville": "Kénitra",
+      "provinces_et_prefectures": ["Kénitra", "Sidi Kacem", "Sidi Slimane"],
+      "etablissements_ouverts": ["Faculté des Sciences Kénitra", "FSJES Kénitra", "FLSH Kénitra", "Faculté des Langues, Lettres et Arts"]
+    },
+    {
+      "code": "UQUARA",
+      "nom": "Université Al Quaraouiyine",
+      "ville": "Fès",
+      "provinces_et_prefectures": ["Territoire national (Accès sur concours et test de mémorisation du Coran)"],
+      "etablissements_ouverts": ["Faculté de la Langue Arabe (Marrakech)", "Faculté de Théologie (Oussoul Eddine - Tétouan)", "Faculté de la Chariâa (Fès)", "Faculté de la Chariâa (Agadir)", "Faculté de la Chariâa (Es-Semara)"]
+    }
+  ]
+}

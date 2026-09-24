@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SchoolOrientationDataSchema",
+  "description": "Schéma standard pour les fiches d'orientation post-bac de la plateforme Cours Maroc",
+  "type": "object",
+  "required": [
+    "id",
+    "nom_fr",
+    "nom_ar",
+    "abreviation",
+    "type_etablissement",
+    "duree_etudes",
+    "diplome_delivre",
+    "villes",
+    "conditions_admission",
+    "modalites_selection",
+    "seuils_historiques_preselection"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifiant unique (ex: ensa, est, fst, encg)"
+    },
+    "nom_fr": {
+      "type": "string",
+      "description": "Nom complet de l'établissement en français"
+    },
+    "nom_ar": {
+      "type": "string",
+      "description": "Nom officiel de l'établissement en arabe"
+    },
+    "abreviation": {
+      "type": "string",
+      "description": "Sigle ou abréviation officielle (ex: ENSA, EST)"
+    },
+    "tutelle": {
+      "type": "string",
+      "description": "Ministère ou autorité de tutelle"
+    },
+    "type_etablissement": {
+      "type": "string",
+      "description": "Statut (Établissement public d'ingénieurs, institut supérieur, etc.)"
+    },
+    "duree_etudes": {
+      "type": "string",
+      "description": "Durée et organisation des études (ex: 5 ans, 2 ans, 3 ans)"
+    },
+    "diplome_delivre": {
+      "type": "string",
+      "description": "Titre ou diplôme délivré (ex: Diplôme d'Ingénieur d'État, DUT)"
+    },
+    "nombre_etablissements": {
+      "type": "integer",
+      "description": "Nombre de campus ou d'écoles dans le réseau national"
+    },
+    "villes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ville": { "type": "string" },
+          "universite": { "type": "string" }
+        },
+        "required": ["ville"]
+      },
+      "description": "Villes et universités d'implantation"
+    },
+    "conditions_admission": {
+      "type": "object",
+      "properties": {
+        "bacs_admissibles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Séries de Baccalauréat autorisées à postuler"
+        },
+        "annees_bac_acceptees": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "plateforme_candidature": { "type": "string" },
+        "frais_candidature": { "type": "string" }
+      },
+      "required": ["bacs_admissibles"]
+    },
+    "modalites_selection": {
+      "type": "object",
+      "description": "Étapes de sélection (présélection calculée, concours écrit, entretien)"
+    },
+    "seuils_historiques_preselection": {
+      "type": "object",
+      "description": "Historique pluriannuel des seuils de présélection par filière de baccalauréat"
+    }
+  }
+}

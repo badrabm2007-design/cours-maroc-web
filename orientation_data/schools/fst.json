@@ -1,0 +1,129 @@
+{
+  "id": "fst_maroc",
+  "nom_fr": "Réseau des Facultés des Sciences et Techniques",
+  "nom_ar": "كليات العلوم والتقنيات",
+  "abreviation": "FST Maroc",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation",
+  "type_etablissement": "Facultés publiques d'enseignement scientifique et technologique à régulation pédagogique",
+  "duree_etudes": "Système LMD : Licence Sciences & Techniques (3 ans) / Cycle Ingénieur (3 ans) / Master Sciences & Techniques (2 ans) / Doctorat",
+  "diplomes_delivres": [
+    "Licence Sciences et Techniques (LST)",
+    "Diplôme d'Ingénieur d'État des FST",
+    "Master Sciences et Techniques (MST)",
+    "Doctorat en Sciences et Techniques"
+  ],
+  "nombre_places_licence": 11450,
+  "nombre_places_cycle_ingenieur": 1670,
+  "facultes_du_reseau": [
+    { "ville": "Fès", "universite": "Université Sidi Mohamed Ben Abdellah" },
+    { "ville": "Mohammedia", "universite": "Université Hassan II" },
+    { "ville": "Marrakech", "universite": "Université Cadi Ayyad" },
+    { "ville": "Settat", "universite": "Université Hassan 1er" },
+    { "ville": "Tanger", "universite": "Université Abdelmalek Essaâdi" },
+    { "ville": "Béni Mellal", "universite": "Université Sultan Moulay Slimane" },
+    { "ville": "Errachidia", "universite": "Université Moulay Ismaïl" },
+    { "ville": "Al Hoceima", "universite": "Université Abdelmalek Essaâdi" },
+    { "ville": "Taourirt", "universite": "Université Mohammed 1er" }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Expérimentales (PC, SVT, Agronomie)",
+      "Sciences et Technologies (STE, STM)",
+      "Baccalauréat Professionnel Industriel"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat 2026", "Baccalauréat 2025"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit"
+  },
+  "modalites_selection": {
+    "principe": "Sélection automatisée sans concours écrit basée sur le mérite et le classement national",
+    "formule_calcul": "Moyenne = (75% Note Examen National + 25% Note Examen Régional) × Coefficient de pondération selon le tronc commun"
+  },
+  "troncs_communs_et_coefficients_de_selection": [
+    {
+      "intitule": "Mathématiques et Sciences des Données",
+      "coefficients": {
+        "sciences_maths_a_et_b": 1.4,
+        "sciences_physiques": 1.3
+      }
+    },
+    {
+      "intitule": "Génie Informatique",
+      "coefficients": {
+        "sciences_maths_a_et_b": 1.4,
+        "sciences_physiques": 1.3,
+        "svt": 1.1,
+        "sciences_agronomiques": 1.1,
+        "sciences_technologiques_ste_stm": 1.1,
+        "bac_pro_informatique_et_systemes": 1.0
+      }
+    },
+    {
+      "intitule": "Génie Mécanique et Systèmes Industriels",
+      "coefficients": {
+        "sciences_maths_a_et_b": 1.4,
+        "sciences_technologiques_stm": 1.4,
+        "sciences_physiques": 1.3,
+        "sciences_technologiques_ste": 1.2,
+        "bac_pro_industriel": 1.0
+      }
+    },
+    {
+      "intitule": "Génie Électrique et Systèmes Embarqués",
+      "coefficients": {
+        "sciences_technologiques_ste": 1.4,
+        "sciences_maths_a_et_b": 1.4,
+        "sciences_physiques": 1.3,
+        "sciences_technologiques_stm": 1.2,
+        "bac_pro_industriel": 1.0
+      }
+    },
+    {
+      "intitule": "Génie Chimique",
+      "coefficients": {
+        "sciences_physiques": 1.4,
+        "sciences_maths_a_et_b": 1.3,
+        "svt": 1.3,
+        "sciences_agronomiques": 1.3
+      }
+    },
+    {
+      "intitule": "Génie Biologique",
+      "coefficients": {
+        "sciences_physiques": 1.4,
+        "svt": 1.4,
+        "sciences_agronomiques": 1.4,
+        "sciences_maths_a_et_b": 1.1,
+        "bac_pro_gestion_agricole": 1.0
+      }
+    },
+    {
+      "intitule": "Génie de l'Environnement et Géosciences",
+      "coefficients": {
+        "svt": 1.4,
+        "sciences_agronomiques": 1.4,
+        "sciences_physiques": 1.3,
+        "sciences_maths_a_et_b": 1.1,
+        "bac_pro_gestion_agricole": 1.0
+      }
+    }
+  ],
+  "passerelles_et_cycle_ingenieur": {
+    "acces_cycle_ingenieur_1ere_annee": "Ouvert aux titulaires du DEUST, DEUG, DUT, BTS ou aux candidats admissibles aux écrits du Concours National Commun (CNC)",
+    "acces_cycle_ingenieur_2eme_annee": "Ouvert sur concours/dossier aux titulaires d'une Licence en Sciences et Techniques (Bac+3)",
+    "poursuite_en_master": "Accès de plein droit sur dossier et entretien aux Masters Sciences & Techniques (MST) pour les diplômés de LST"
+  },
+  "debouches_professionnels": [
+    "Ingénieur d'État ou cadre scientifique dans les industries chimiques, minières, pharmaceutiques et agroalimentaires",
+    "Analyste de données, ingénieur en intelligence artificielle, développeur de solutions logicielles avancées",
+    "Ingénieur en automatisme, mécatronique industrielle, conception automobile et aéronautique",
+    "Ingénieur environnemental, gestionnaire des ressources hydriques, expert en énergies renouvelables et transition écologique",
+    "Carrières dans l'enseignement supérieur et la recherche scientifique de pointe"
+  ],
+  "conseils_candidats": [
+    "La FST offre un compromis idéal entre rigueur théorique universitaire et professionnalisation technique appliquée.",
+    "La validation des semestres repose sur un contrôle continu exigeant : soyez assidu aux travaux pratiques (TP) et examens de mi-semestre.",
+    "Grâce aux filières d'ingénieurs intégrées directement au sein des FST (1 670 places), vous pouvez décrocher le titre d'ingénieur d'État en restant dans le même établissement après les 2 premières années (DEUST)."
+  ]
+}

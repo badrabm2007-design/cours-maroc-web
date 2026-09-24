@@ -1,0 +1,92 @@
+{
+  "id": "ensam",
+  "nom_fr": "Réseau des Écoles Nationales Supérieures d'Arts et Métiers",
+  "nom_ar": "المدارس الوطنية العليا للفنون والمهن",
+  "abreviation": "ENSAM Maroc",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation",
+  "type_etablissement": "Grande école publique d'ingénieurs à forte dominante technologique et industrielle",
+  "duree_etudes": "5 ans (10 semestres) : 2 ans de Classes Préparatoires Intégrées + 3 ans de Cycle Ingénieur",
+  "diplome_delivre": "Diplôme d'Ingénieur d'État des Arts et Métiers",
+  "nombre_etablissements": 3,
+  "villes": [
+    { "ville": "Meknès", "universite": "Université Moulay Ismaïl", "annee_creation": 1997 },
+    { "ville": "Casablanca", "universite": "Université Hassan II", "annee_creation": 2010 },
+    { "ville": "Rabat", "universite": "Université Mohammed V", "annee_creation": 2021 }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Physiques et Chimie (PC)",
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences et Technologies Mécaniques (STM)",
+      "Sciences et Technologies Électriques (STE)",
+      "Baccalauréat Professionnel Industriel"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026)", "Baccalauréat de l'année précédente (2025)"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit (Plateforme nationale)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection nationale informatisée calculée selon la formule officielle : 75% Examen National + 25% Examen Régional",
+    "etape_2": "Concours écrit commun national (Épreuves de Mathématiques et de Physique / Sciences industrielles)",
+    "nature_epreuves": "QCM rigoureux axé sur la rigueur scientifique, le raisonnement géométrique, la mécanique et l'électricité"
+  },
+  "seuils_historiques_preselection": {
+    "annee_2025": {
+      "sciences_maths": 12.25,
+      "sciences_physiques": 15.40,
+      "svt": 16.17,
+      "sciences_technologiques_stm_ste": 15.00,
+      "bac_professionnel": 16.17
+    },
+    "annee_2024": {
+      "sciences_maths": 12.50,
+      "sciences_physiques": 15.80,
+      "svt": 16.40,
+      "sciences_technologiques_stm_ste": 15.25,
+      "bac_professionnel": 16.40
+    },
+    "annee_2023": {
+      "sciences_maths": 12.50,
+      "sciences_physiques": 16.25,
+      "svt": 16.50,
+      "sciences_technologiques_stm_ste": 15.50,
+      "bac_professionnel": 16.50
+    }
+  },
+  "filières_et_specialisations": [
+    {
+      "filiere": "Génie Mécanique et Productique",
+      "competences": "Conception assistée par ordinateur (CAO/FAO), Usinage de précision, Robotique manufacturière, Analyse des contraintes mécaniques"
+    },
+    {
+      "filiere": "Génie Électromécanique et Systèmes Automatisés",
+      "competences": "Électronique de puissance, Automates programmables, Commande de moteurs, Maintenance prédictive"
+    },
+    {
+      "filiere": "Génie Industriel et Management des Systèmes de Production",
+      "competences": "Gestion de production intégrée, Optimisation logistique, Management de la qualité (Six Sigma, Lean), Ergonomie industrielle"
+    },
+    {
+      "filiere": "Génie des Matériaux et Procédés",
+      "competences": "Métallurgie de pointe, Élaboration des composites, Traitement thermique des surfaces, Caractérisation physico-chimique"
+    },
+    {
+      "filiere": "Intelligence Artificielle et Ingénierie des Données Industrielles",
+      "competences": "Industrie 4.0, Jumeaux numériques (Digital Twins), Maintenance prédictive par IA, Capteurs connectés IoT"
+    }
+  ],
+  "debouches_professionnels": [
+    "Industrie automobile (usines de construction, équipementiers de rang 1 et 2)",
+    "Industrie aéronautique et spatiale (fabrication d'éléments structuraux, maintenance aéronautique)",
+    "Secteur de l'énergie et des mines (OCP, centrales thermiques et solaires, cimenteries)",
+    "Grandes entreprises de transport et logistique (ferroviaire, maritime, fret aérien)",
+    "Ingénierie-conseil en conception mécanique, automatisme et amélioration continue",
+    "Directions de sites industriels, direction technique d'usines et direction de production"
+  ],
+  "conseils_candidats": [
+    "Les Arts et Métiers cultivent une tradition d'excellence pratique et technique : une affinité pour la conception concrète et le travail d'atelier est un atout majeur.",
+    "Pour les filières SVT et PC, le seuil de présélection est traditionnellement parmi les plus élevés du Royaume (> 15.40 à 16.50).",
+    "La préparation au concours écrit doit cibler la rapidité de calcul mental, la géométrie spatiale et les lois fondamentales de la physique newtonienne."
+  ]
+}

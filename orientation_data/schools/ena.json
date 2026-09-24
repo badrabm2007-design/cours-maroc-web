@@ -1,0 +1,57 @@
+{
+  "id": "ena_architecture",
+  "nom_fr": "Réseau des Écoles Nationales d'Architecture",
+  "nom_ar": "المدارس الوطنية للهندسة المعمارية",
+  "abreviation": "ENA Maroc",
+  "tutelle": "Ministère de l'Aménagement du Territoire National, de l'Urbanisme, de l'Habitat et de la Politique de la Ville",
+  "type_etablissement": "Établissement public d'enseignement supérieur d'architecture et du cadre bâti",
+  "duree_etudes": "6 ans (12 semestres)",
+  "diplome_delivre": "Diplôme d'Architecte (reconnu par l'Ordre National des Architectes du Maroc)",
+  "sites_ena": [
+    { "ville": "Rabat", "nom": "ENA Rabat (École mère)", "annee_creation": 1980 },
+    { "ville": "Fès", "nom": "ENA Fès" },
+    { "ville": "Tétouan", "nom": "ENA Tétouan" },
+    { "ville": "Agadir", "nom": "ENA Agadir" },
+    { "ville": "Oujda", "nom": "ENA Oujda" },
+    { "ville": "Marrakech", "nom": "ENA Marrakech" }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences Expérimentales (Physique-Chimie, SVT, Agronomie)",
+      "Sciences et Technologies (STE, STM)",
+      "Baccalauréat Professionnel (Bâtiment et Travaux Publics)"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat 2026", "Baccalauréat 2025"],
+    "plateforme_candidature": "https://concoursena.ma",
+    "frais_dossier": "100 DH (frais de participation au concours)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection nationale informatisée par site : 75% Examen National + 25% Examen Régional",
+    "etape_2": "Concours écrit national comprenant :",
+    "epreuves_ecrites": [
+      { "matiere": "Épreuve d'Expression écrite et Culture générale", "duree": "1 heure", "objectif": "Aptitude rédactionnelle, synthèse d'un texte et réflexion critique" },
+      { "matiere": "Épreuve d'Expression graphique et Dessin", "duree": "1 heure", "objectif": "Sens de l'espace, proportion, perspective, créativité et précision du trait" }
+    ]
+  },
+  "seuils_historiques_preselection": {
+    "rabat": { "sciences_maths": 13.75, "sciences_experimentales": 15.80 },
+    "marrakech": { "sciences_maths": 13.50, "sciences_experimentales": 15.25 },
+    "fes": { "sciences_maths": 13.25, "sciences_experimentales": 15.00 },
+    "agadir": { "sciences_maths": 13.00, "sciences_experimentales": 14.80 },
+    "tetouan": { "sciences_maths": 13.00, "sciences_experimentales": 14.75 },
+    "oujda": { "sciences_maths": 12.80, "sciences_experimentales": 14.50 }
+  },
+  "debouches_professionnels": [
+    "Exercice libéral en ouvrant son propre cabinet d'architecte (après inscription à l'Ordre National des Architectes)",
+    "Architecte au sein d'agences d'architecture et de design urbain",
+    "Cadre supérieur au sein des Agences Urbaines, Ministères de l'Habitat, Communes et Régions",
+    "Direction de projets immobiliers et aménagement du territoire auprès de promoteurs et institutionnels (Al Omrane, CDG)",
+    "Expertise technique en patrimoine architectural et restauration des monuments historiques"
+  ],
+  "conseils_candidats": [
+    "L'épreuve de dessin ne requiert pas d'être un artiste confirmé, mais exige la maîtrise de la perspective, des ombres et de la géométrie dans l'espace.",
+    "L'inscription au concours d'architecture nécessite de choisir son centre d'affectation dès la phase d'inscription en ligne.",
+    "La culture générale architecturale (monuments célèbres, styles urbains du Maroc, architecture durable) fait souvent la différence lors de l'écrit."
+  ]
+}

@@ -1345,6 +1345,7 @@ class _OrientationSchoolCardState extends State<_OrientationSchoolCard> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
+                    settings: RouteSettings(name: '/orientation/${s.id}'),
                     builder: (_) => SchoolDetailScreen(school: s),
                   ),
                 );

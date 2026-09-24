@@ -636,7 +636,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               visualDensity: VisualDensity.compact,
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const OrientationScreen()),
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: '/orientation'),
+                    builder: (_) => const OrientationScreen(),
+                  ),
                 );
               },
             ),
@@ -788,7 +791,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 isDark: isDark,
                                 onTap: () {
                                   Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (_) => const OrientationScreen()),
+                                    MaterialPageRoute(
+                                      settings: const RouteSettings(name: '/orientation'),
+                                      builder: (_) => const OrientationScreen(),
+                                    ),
                                   );
                                 },
                               ),

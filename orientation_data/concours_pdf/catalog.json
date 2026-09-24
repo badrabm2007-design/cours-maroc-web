@@ -1,0 +1,34 @@
+{
+  "description": "Catalogue des épreuves et annales des concours d'accès aux grandes écoles au Maroc avec corrigés",
+  "storage": "Google Drive Cloud Storage via download/streaming links",
+  "concours": [
+    {
+      "school_id": "ensa",
+      "nom": "Concours Commun ENSA Maroc",
+      "matiere": "Mathématiques et Physique-Chimie",
+      "annees_disponibles": ["2024", "2023", "2022", "2021", "2020", "2019"],
+      "has_corriges": true
+    },
+    {
+      "school_id": "medecine",
+      "nom": "Concours Commun Facultés de Médecine, Pharmacie et Dentaire (FMP/FMD)",
+      "matiere": "SVT, Mathématiques, Physique, Chimie",
+      "annees_disponibles": ["2024", "2023", "2022", "2021", "2020"],
+      "has_corriges": true
+    },
+    {
+      "school_id": "encg",
+      "nom": "Concours Commun ENCG (TAFEM)",
+      "matiere": "Mémorisation, Résolution de problèmes, Français, Anglais",
+      "annees_disponibles": ["2024", "2023", "2022", "2021"],
+      "has_corriges": true
+    },
+    {
+      "school_id": "ensam",
+      "nom": "Concours Commun ENSAM Maroc",
+      "matiere": "Mathématiques et Physique",
+      "annees_disponibles": ["2024", "2023", "2022"],
+      "has_corriges": true
+    }
+  ]
+}

@@ -35,6 +35,7 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
   final Set<String> _expandedRegionIds = {};
   bool _onlyCorriges = false;
   String _selectedExamSession = 'all'; // 'all', 'normale', 'rattrapage'
+  String _selected3AcExamType = 'all'; // 'all', 'regional', 'local'
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
@@ -76,6 +77,9 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
   }
 
   bool _isOfficialExamSubject(String level, String subjectId) {
+    if (level == '3eme-annee-college') {
+      return true;
+    }
     if (level == '1ere-bac') {
       if (_effectiveBranchId == 'lettres-et-sciences-humaines') {
         return regionalSubjects1BacLettres.contains(subjectId);
@@ -258,6 +262,9 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
         if (_effectiveLevelId == '2eme-bac') {
           return langService.tr('tab_nationaux');
         }
+        if (_effectiveLevelId == '3eme-annee-college') {
+          return langService.isArabic ? 'امتحانات' : 'Examens';
+        }
         return langService.tr('tab_examens');
       case 'resumes':
         return langService.tr('tab_resumes');
@@ -421,6 +428,16 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
     return true;
   }
 
+  bool _docMatches3AcExamType(DocumentItem doc, String type) {
+    if (type == 'all') return true;
+    final t = '${doc.title} ${doc.name}'.toLowerCase();
+    final isLocal = t.contains('local') || t.contains('محلي') || t.contains('locaux') || t.contains('موحد محلي');
+    final isRegional = t.contains('région') || t.contains('region') || t.contains('جهوي') || t.contains('régionaux') || t.contains('موحد جهوي');
+    if (type == 'local') return isLocal;
+    if (type == 'regional') return isRegional || !isLocal;
+    return true;
+  }
+
   List<DocumentItem> _getFilteredDocuments(String category) {
     final list = widget.subject.documents.where((doc) {
       if (_effectiveDocCategory(doc) != category) return false;
@@ -430,6 +447,8 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
         if (_onlyCorriges && !doc.isCorrige) return false;
         if (_effectiveLevelId == '2eme-bac' && _selectedExamSession != 'all') {
           if (!_docMatchesExamSession(doc, _selectedExamSession)) return false;
+        } else if (_effectiveLevelId == '3eme-annee-college') {
+          if (!_docMatches3AcExamType(doc, _selected3AcExamType)) return false;
         }
       }
 
@@ -1215,8 +1234,10 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
     required int count,
     required bool isDark,
     required Color activeColor,
+    bool? isSelectedOverride,
+    VoidCallback? onSelectOverride,
   }) {
-    final isSelected = _selectedExamSession == value;
+    final isSelected = isSelectedOverride ?? (_selectedExamSession == value);
     return ChoiceChip(
       label: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1259,9 +1280,13 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
           isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
       onSelected: (selected) {
         if (selected) {
-          setState(() {
-            _selectedExamSession = value;
-          });
+          if (onSelectOverride != null) {
+            onSelectOverride();
+          } else {
+            setState(() {
+              _selectedExamSession = value;
+            });
+          }
         }
       },
     );
@@ -1277,6 +1302,131 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
     final isArabic = langService.currentLanguageCode == 'ar';
     final totalCorriges = examDocs.where((d) => d.isCorrige).length;
     final is1Bac = _effectiveLevelId == '1ere-bac';
+    final is3Ac = _effectiveLevelId == '3eme-annee-college';
+
+    if (is3Ac) {
+      final localCount =
+          examDocs.where((d) => _docMatches3AcExamType(d, 'local')).length;
+      final regionalCount =
+          examDocs.where((d) => _docMatches3AcExamType(d, 'regional')).length;
+
+      return Container(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+        color: isDark ? const Color(0xFF111A2E) : Colors.white,
+        child: Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildExamSessionPill(
+                  label: isArabic ? 'الكل' : 'Tous',
+                  value: 'all',
+                  count: examDocs.length,
+                  isDark: isDark,
+                  activeColor: color,
+                  isSelectedOverride: _selected3AcExamType == 'all',
+                  onSelectOverride: () {
+                    setState(() {
+                      _selected3AcExamType = 'all';
+                    });
+                  },
+                ),
+                const SizedBox(width: 8),
+                _buildExamSessionPill(
+                  label: isArabic ? 'امتحانات جهوية' : 'Régionaux',
+                  value: 'regional',
+                  count: regionalCount,
+                  isDark: isDark,
+                  activeColor: const Color(0xFF2563EB),
+                  isSelectedOverride: _selected3AcExamType == 'regional',
+                  onSelectOverride: () {
+                    setState(() {
+                      _selected3AcExamType = 'regional';
+                    });
+                  },
+                ),
+                const SizedBox(width: 8),
+                _buildExamSessionPill(
+                  label: isArabic ? 'امتحانات محلية' : 'Locaux',
+                  value: 'local',
+                  count: localCount,
+                  isDark: isDark,
+                  activeColor: const Color(0xFFD97706),
+                  isSelectedOverride: _selected3AcExamType == 'local',
+                  onSelectOverride: () {
+                    setState(() {
+                      _selected3AcExamType = 'local';
+                    });
+                  },
+                ),
+                const SizedBox(width: 12),
+                Container(
+                  width: 1,
+                  height: 20,
+                  color: Colors.grey.withValues(alpha: 0.3),
+                ),
+                const SizedBox(width: 12),
+                FilterChip(
+                  avatar: Icon(
+                    Icons.check_circle_rounded,
+                    size: 16,
+                    color: _onlyCorriges ? Colors.white : const Color(0xFF10B981),
+                  ),
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(langService.tr('filter_corrige')),
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 1.5),
+                        decoration: BoxDecoration(
+                          color: _onlyCorriges
+                              ? Colors.white.withValues(alpha: 0.25)
+                              : (isDark
+                                  ? const Color(0xFF1E293B)
+                                  : const Color(0xFFE2E8F0)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          '$totalCorriges',
+                          style: TextStyle(
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w700,
+                            color: _onlyCorriges
+                                ? Colors.white
+                                : (isDark
+                                    ? Colors.white70
+                                    : const Color(0xFF475569)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  selected: _onlyCorriges,
+                  selectedColor: const Color(0xFF10B981),
+                  checkmarkColor: Colors.white,
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: _onlyCorriges
+                        ? Colors.white
+                        : (isDark ? Colors.white70 : Colors.black87),
+                  ),
+                  onSelected: (val) {
+                    setState(() {
+                      _onlyCorriges = val;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     if (!is1Bac) {
       final normaleCount =

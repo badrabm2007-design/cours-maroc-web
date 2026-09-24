@@ -1,0 +1,61 @@
+{
+  "id": "isss_settat",
+  "nom_fr": "Institut Supérieur des Sciences de la Santé de Settat",
+  "nom_ar": "المعهد العالي لعلوم الصحة بسطات",
+  "abreviation": "ISSS Settat (I3SS)",
+  "universite": "Université Hassan 1er de Settat",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation & Ministère de la Santé et de la Protection Sociale",
+  "statut_reglementaire": "Diplômes nationaux d'État reconnus pour l'intégration dans les cadres de la fonction publique de santé (Bulletin Officiel n° 7515)",
+  "type_etablissement": "Institut public supérieur spécialisé dans les sciences médicales appliquées et technologies de santé",
+  "duree_etudes": "3 ans (6 semestres)",
+  "diplome_delivre": "Licence Professionnelle en Sciences de la Santé",
+  "filieres_licences_professionnelles": [
+    {
+      "intitule": "Sciences Infirmières (Infirmier Polyvalent)",
+      "bacs_admissibles": ["Sciences Expérimentales (SVT, PC)", "Sciences Mathématiques (A et B)"],
+      "debouches": "Soins infirmiers en CHU, hôpitaux régionaux, cliniques privées, services d'urgence et réanimation"
+    },
+    {
+      "intitule": "Sciences de la Sage-Femme",
+      "bacs_admissibles": ["Sciences de la Vie et de la Terre (SVT)", "Sciences Physiques (PC)"],
+      "debouches": "Maternités hospitalières, centres de santé de la reproduction, cliniques obstétricales, suivi pré et post-natal"
+    },
+    {
+      "intitule": "Sciences de Laboratoire Biomédical",
+      "bacs_admissibles": ["Sciences de la Vie et de la Terre (SVT)", "Sciences Physiques (PC)", "Sciences Mathématiques"],
+      "debouches": "Laboratoires d'analyses de biologie médicale (biochimie, hématologie, microbiologie, immunologie), centres de transfusion sanguine"
+    },
+    {
+      "intitule": "Radiophysique et Imagerie Médicale",
+      "bacs_admissibles": ["Sciences Physiques (PC)", "Sciences Mathématiques (A et B)", "Sciences de la Vie et de la Terre (SVT)"],
+      "debouches": "Services d'imagerie hospitalière (IRM, Scanner, Radiologie conventionnelle), centres de radiothérapie et oncologie, médecine nucléaire"
+    },
+    {
+      "intitule": "Instrumentation et Maintenance Biomédicale",
+      "bacs_admissibles": ["Sciences Physiques (PC)", "Sciences Mathématiques", "Sciences et Technologies Électriques (STE)", "Sciences et Technologies Mécaniques (STM)"],
+      "debouches": "Gestion et maintenance du parc technologique biomédical en hôpital, ingénierie d'application chez les fabricants d'équipements médicaux"
+    }
+  ],
+  "modalites_selection": {
+    "etape_1": "Présélection sur dossier basée sur les notes du baccalauréat (75% Examen National + 25% Examen Régional)",
+    "etape_2": "Concours écrit portant sur les disciplines scientifiques fondamentales (SVT, Chimie, Physique, Mathématiques) et un test de langue française",
+    "plateforme_candidature": "Portail numérique de l'Université Hassan 1er (uh1.ac.ma / isss.uh1.ac.ma)"
+  },
+  "seuils_historiques_preselection": {
+    "sciences_infirmieres": { "svt": 15.20, "sciences_physiques": 15.00, "sciences_maths": 14.00 },
+    "sage_femme": { "svt": 14.80, "sciences_physiques": 14.50, "sciences_maths": 13.80 },
+    "sciences_laboratoire": { "svt": 15.80, "sciences_physiques": 15.40, "sciences_maths": 14.50 },
+    "radiophysique_imagerie": { "svt": 16.20, "sciences_physiques": 15.90, "sciences_maths": 14.80 },
+    "maintenance_biomedicale": { "sciences_physiques": 14.00, "sciences_maths": 13.00, "sciences_technologiques": 14.20 }
+  },
+  "poursuite_etudes": [
+    "Masters spécialisés en Santé Publique, Ingénierie Biomédicale, Biologie Clinique et Gestion des Établissements de Soins",
+    "Études doctorales en Sciences de la Santé et Technologies Médicales",
+    "Passerelles vers les concours d'accès aux cycles d'ingénieurs biomédicaux"
+  ],
+  "conseils_candidats": [
+    "L'ISSS Settat est le premier institut universitaire de santé au Maroc délivrant ces spécialités sous statut d'université publique.",
+    "La filière Radiophysique et Imagerie Médicale requiert un excellent niveau en physique appliquée et mathématiques.",
+    "Tous les étudiants bénéficient de stages cliniques immersifs au CHU Ibn Rochd de Casablanca et au Centre Hospitalier Provincial Hassan II de Settat."
+  ]
+}

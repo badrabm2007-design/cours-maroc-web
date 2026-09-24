@@ -101,11 +101,18 @@ class SubjectGridCard extends StatelessWidget {
           splashColor: color.withValues(alpha: 0.15),
           highlightColor: color.withValues(alpha: 0.06),
           onTap: () {
+            final lvl = context.read<UserProfileService>().savedLevelId;
+            final shortLvl = lvl == '2eme-bac'
+                ? '2bac'
+                : (lvl == '1ere-bac'
+                    ? '1bac'
+                    : (lvl == 'tronc-commun' ? 'tc' : '3ac'));
             Navigator.of(context).push(
               MaterialPageRoute(
+                settings: RouteSettings(name: '/$shortLvl/${subject.id}'),
                 builder: (_) => SubjectDetailScreen(
                   subject: subject,
-                  levelId: context.read<UserProfileService>().savedLevelId,
+                  levelId: lvl,
                 ),
               ),
             );

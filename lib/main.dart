@@ -17,6 +17,9 @@ import 'services/user_sync_service.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/level_selection_screen.dart';
+import 'screens/orientation_screen.dart';
+import 'screens/school_detail_screen.dart';
+import 'screens/subject_detail_screen.dart';
 import 'widgets/floating_focus_timer.dart';
 
 void main() async {
@@ -187,14 +190,94 @@ class _CoursLyceeAppState extends State<CoursLyceeApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      // If student hasn't selected their grade yet, launch onboarding selector.
-      // Otherwise, open straight into their courses!
-      home: userProfile.hasSelectedGrade
-          ? HomeScreen(
-              onToggleTheme: _toggleTheme,
-              isDarkMode: _isDarkMode,
-            )
-          : const LevelSelectionScreen(),
+      onGenerateRoute: (settings) {
+        final uri = Uri.parse(settings.name ?? '/');
+        final segments = uri.pathSegments;
+
+        // 1. Root / Dashboard
+        if (segments.isEmpty || (segments.length == 1 && segments[0].isEmpty)) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => userProfile.hasSelectedGrade
+                ? HomeScreen(
+                    onToggleTheme: _toggleTheme,
+                    isDarkMode: _isDarkMode,
+                  )
+                : const LevelSelectionScreen(),
+          );
+        }
+
+        // 2. /orientation -> Section Orientation Post-Bac
+        if (segments.length == 1 && segments[0] == 'orientation') {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => const OrientationScreen(),
+          );
+        }
+
+        // 3. /orientation/:schoolId (ex: /orientation/ensa, /orientation/est)
+        if (segments.length == 2 && segments[0] == 'orientation') {
+          final schoolId = segments[1];
+          final orientService = context.read<OrientationService>();
+          final school = orientService.getSchoolById(schoolId);
+          if (school != null) {
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (_) => SchoolDetailScreen(school: school),
+            );
+          }
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => const OrientationScreen(),
+          );
+        }
+
+        // 4. Curriculum route: /:level/:subject (ex: /2bac/maths, /2bac/pc, /3ac/maths)
+        if (segments.length == 2) {
+          final rawLevel = segments[0].toLowerCase();
+          final rawSubj = segments[1].toLowerCase();
+
+          String levelId = '2eme-bac';
+          if (rawLevel == '3ac' || rawLevel.contains('college')) {
+            levelId = '3eme-annee-college';
+          } else if (rawLevel == 'tc' || rawLevel.contains('tronc')) {
+            levelId = 'tronc-commun';
+          } else if (rawLevel == '1bac') {
+            levelId = '1ere-bac';
+          } else if (rawLevel == '2bac') {
+            levelId = '2eme-bac';
+          }
+
+          String subjectId = rawSubj;
+          if (rawSubj == 'maths' || rawSubj == 'math') subjectId = 'mathematiques';
+          if (rawSubj == 'pc' || rawSubj == 'physique') subjectId = 'physique-chimie';
+          if (rawSubj == 'ei' || rawSubj == 'islamique') subjectId = 'education-islamique';
+          if (rawSubj == 'hg' || rawSubj == 'histoire') subjectId = 'histoire-geographie';
+
+          final curriculumService = context.read<CurriculumService>();
+          final subject = curriculumService.getSubjectById(subjectId);
+          if (subject != null) {
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (_) => SubjectDetailScreen(
+                subject: subject,
+                levelId: levelId,
+              ),
+            );
+          }
+        }
+
+        // Fallback default
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => userProfile.hasSelectedGrade
+              ? HomeScreen(
+                  onToggleTheme: _toggleTheme,
+                  isDarkMode: _isDarkMode,
+                )
+              : const LevelSelectionScreen(),
+        );
+      },
     );
   }
 }

@@ -1,0 +1,85 @@
+{
+  "id": "fmp_fmd_pharmacie",
+  "nom_fr": "Facultés de Médecine, de Pharmacie et de Médecine Dentaire",
+  "nom_ar": "كليات الطب والصيدلة وطب الأسنان",
+  "abreviation": "FMP / FMD Maroc",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation & Ministère de la Santé et de la Protection Sociale",
+  "type_etablissement": "Facultés publiques d'enseignement supérieur des sciences médicales et pharmaceutiques",
+  "filieres_proposees": [
+    {
+      "filiere": "Médecine Générale",
+      "duree_etudes": "6 ans (Réforme nationale du cursus médical)",
+      "diplome_delivre": "Diplôme National de Docteur en Médecine"
+    },
+    {
+      "filiere": "Pharmacie",
+      "duree_etudes": "6 ans",
+      "diplome_delivre": "Diplôme National de Docteur en Pharmacie"
+    },
+    {
+      "filiere": "Médecine Dentaire",
+      "duree_etudes": "6 ans",
+      "diplome_delivre": "Diplôme National de Docteur en Chirurgie Dentaire"
+    }
+  ],
+  "facultes_et_villes": [
+    { "faculte": "FMP Rabat", "ville": "Rabat", "universite": "Université Mohammed V" },
+    { "faculte": "FMP Casablanca", "ville": "Casablanca", "universite": "Université Hassan II" },
+    { "faculte": "FMD Rabat", "ville": "Rabat", "universite": "Université Mohammed V" },
+    { "faculte": "FMD Casablanca", "ville": "Casablanca", "universite": "Université Hassan II" },
+    { "faculte": "FMP Marrakech", "ville": "Marrakech", "universite": "Université Cadi Ayyad" },
+    { "faculte": "FMP Fès", "ville": "Fès", "universite": "Université Sidi Mohamed Ben Abdellah" },
+    { "faculte": "FMP Oujda", "ville": "Oujda", "universite": "Université Mohammed 1er" },
+    { "faculte": "FMP Tanger", "ville": "Tanger", "universite": "Université Abdelmalek Essaâdi" },
+    { "faculte": "FMP Agadir", "ville": "Agadir", "universite": "Université Ibn Zohr" },
+    { "faculte": "FMP Laâyoune", "ville": "Laâyoune", "universite": "Université Ibn Zohr" },
+    { "faculte": "FMP Béni Mellal", "ville": "Béni Mellal", "universite": "Université Sultan Moulay Slimane" },
+    { "faculte": "FMP Guelmim", "ville": "Guelmim", "universite": "Université Ibn Zohr" },
+    { "faculte": "FMP Errachidia", "ville": "Errachidia", "universite": "Université Moulay Ismaïl" }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Mathématiques (A et B)",
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences Physiques et Chimie (PC)"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026)", "Baccalauréat de l'année précédente (2025)"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit (Concours national unifié)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection nationale calculée sur la base de la moyenne pondérée : 75% Examen National + 25% Examen Régional",
+    "seuil_national_unifie": "Un seuil de présélection unique est appliqué pour toutes les filières scientifiques et pour l'ensemble du territoire",
+    "etape_2": "Concours écrit commun national sous forme de QCM (Questions à Choix Multiples)",
+    "structure_epreuve_ecrite": [
+      { "matiere": "Sciences de la Vie et de la Terre (SVT)", "nombre_questions": 20, "duree_minutes": 45 },
+      { "matiere": "Chimie", "nombre_questions": 20, "duree_minutes": 45 },
+      { "matiere": "Physique", "nombre_questions": 20, "duree_minutes": 45 },
+      { "matiere": "Mathématiques", "nombre_questions": 20, "duree_minutes": 45 }
+    ]
+  },
+  "seuils_historiques_preselection": {
+    "annee_2025": { "seuil_unifie": 12.00, "commentaire": "Seuil national unifié toutes filières scientifiques confondues" },
+    "annee_2024": { "seuil_unifie": 13.00, "commentaire": "Seuil national unifié toutes filières scientifiques confondues" },
+    "annee_2023": { "seuil_unifie": 12.00, "commentaire": "Seuil national unifié toutes filières scientifiques confondues" },
+    "annee_2022": { "seuil_unifie": 12.00, "commentaire": "Seuil national unifié toutes filières scientifiques confondues" }
+  },
+  "structure_des_etudes": {
+    "cycle_1": "1ère et 2ème années : Sciences fondamentales et pré-cliniques (Anatomie, Physiologie, Histologie, Biochimie, Sémiologie)",
+    "cycle_2": "3ème à 5ème années : Enseignements cliniques, stages hospitaliers journaliers en CHU, pathologies d'organes, pharmacologie clinique",
+    "cycle_3": "6ème année : Stages d'internat plein temps dans les centres hospitaliers, préparation de la thèse d'exercice et soutenance"
+  },
+  "debouches_professionnels": [
+    "Médecin praticien dans les Centres Hospitaliers Universitaires (CHU), régionaux (CHR) et provinciaux (CHP)",
+    "Médecine générale ou spécialisée en cabinet privé ou clinique privée",
+    "Poursuite de spécialité via le Concours National de Résidanat (4 à 5 ans selon la spécialité médicale, chirurgicale ou biologique)",
+    "Pharmacie d'officine, pharmacie hospitalière, industrie pharmaceutique nationale et multinationale, laboratoires d'analyses médicales",
+    "Chirurgien-dentiste en pratique libérale, hospitalière ou odontologie pédiatrique/orthodontie",
+    "Organismes de santé publique (Ministère de la Santé, OMS, agences sanitaires nationales)"
+  ],
+  "conseils_candidats": [
+    "La baisse du seuil d'admissibilité à 12.00 permet à un large nombre de bacheliers de passer l'épreuve écrite : la véritable sélection s'opère donc lors du concours écrit.",
+    "L'épreuve est minutée (45 minutes par matière) : la gestion du temps et la rapidité de lecture des énoncés sont primordiales.",
+    "Révisez scrupuleusement la génétique, l'immunologie, l'optique, la chimie organique et les fonctions mathématiques du programme du Baccalauréat."
+  ]
+}

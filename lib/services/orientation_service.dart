@@ -159,6 +159,19 @@ class OrientationService extends ChangeNotifier {
     }
   }
 
+  SchoolSummary? getSchoolById(String id) {
+    try {
+      final normalized = id.toLowerCase().trim();
+      return _schools.firstWhere(
+        (s) =>
+            s.id.toLowerCase() == normalized ||
+            s.fichier.replaceAll('.json', '').toLowerCase() == normalized,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
   List<SchoolSummary> filterSchools({
     String? query,
     String? categoryId,

@@ -1,0 +1,140 @@
+{
+  "id": "encg",
+  "nom_fr": "Réseau des Écoles Nationales de Commerce et de Gestion",
+  "nom_ar": "المدارس الوطنية للتجارة والتسيير",
+  "abreviation": "ENCG Maroc",
+  "tutelle": "Ministère de l'Enseignement Supérieur, de la Recherche Scientifique et de l'Innovation",
+  "type_etablissement": "Établissement public d'enseignement supérieur de commerce et de gestion",
+  "duree_etudes": "5 ans (10 semestres) répartis en deux cycles : Tronc commun (3 ans / 6 semestres) et Cycle de spécialisation (2 ans / 4 semestres)",
+  "diplome_delivre": "Diplôme des Écoles Nationales de Commerce et de Gestion (Grade Master d'État)",
+  "nombre_etablissements": 12,
+  "villes": [
+    { "ville": "Settat", "universite": "Université Hassan 1er" },
+    { "ville": "Tanger", "universite": "Université Abdelmalek Essaâdi" },
+    { "ville": "Agadir", "universite": "Université Ibn Zohr" },
+    { "ville": "Marrakech", "universite": "Université Cadi Ayyad" },
+    { "ville": "Oujda", "universite": "Université Mohammed 1er" },
+    { "ville": "Kénitra", "universite": "Université Ibn Tofail" },
+    { "ville": "El Jadida", "universite": "Université Chouaïb Doukkali" },
+    { "ville": "Fès", "universite": "Université Sidi Mohamed Ben Abdellah" },
+    { "ville": "Casablanca", "universite": "Université Hassan II" },
+    { "ville": "Dakhla", "universite": "Université Ibn Zohr" },
+    { "ville": "Béni Mellal", "universite": "Université Sultan Moulay Slimane" },
+    { "ville": "Meknès", "universite": "Université Moulay Ismaïl" }
+  ],
+  "conditions_admission": {
+    "bacs_admissibles": [
+      "Sciences Économiques",
+      "Sciences de Gestion Comptable (SGC)",
+      "Sciences Mathématiques A et B",
+      "Sciences Physiques et Chimie (PC)",
+      "Sciences de la Vie et de la Terre (SVT)",
+      "Sciences Agronomiques",
+      "Baccaleuréat Professionnel (Filières Commerce, Gestion, Logistique)"
+    ],
+    "annees_bac_acceptees": ["Baccalauréat de l'année en cours (2026)", "Baccalauréat de l'année précédente (2025)"],
+    "plateforme_candidature": "https://cursussup.gov.ma",
+    "frais_candidature": "Gratuit (Plateforme ministérielle nationale)"
+  },
+  "modalites_selection": {
+    "etape_1": "Présélection nationale sur dossier basée sur les notes du baccalauréat (75% Examen National + 25% Examen Régional)",
+    "etape_2": "Test d'Admissibilité à la Formation En Management (TAFEM Maroc) - Épreuve écrite nationale sous forme de QCM",
+    "structure_tafem": {
+      "format": "QCM (Questionnaire à Choix Multiples) comprenant 100 questions",
+      "duree_totale": "2 heures",
+      "bareme_notation": "+3 points pour réponse correcte, -1 point pour réponse fausse, 0 point pour omission",
+      "sous_tests": [
+        {
+          "domaine": "Mémorisation et Compréhension de texte",
+          "description": "Capacité à lire, analyser, mémoriser des données textuelles et répondre à des questions précises"
+        },
+        {
+          "domaine": "Raisonnement Logique et Mathématiques",
+          "description": "Résolution de problèmes numériques, logique formelle, suites logiques, analyse de données chiffrées"
+        },
+        {
+          "domaine": "Culture Générale",
+          "description": "Actualité nationale et internationale, histoire-géographie, repères économiques et institutionnels"
+        },
+        {
+          "domaine": "Langues (Français et Anglais)",
+          "description": "Maîtrise grammaticale, vocabulaire professionnel, syntaxe et compréhension linguistique"
+        }
+      ]
+    }
+  },
+  "seuils_historiques_preselection": {
+    "annee_2025": {
+      "sciences_maths": 12.00,
+      "sciences_economiques_gestion": 12.00,
+      "sciences_physiques_svt": 14.00,
+      "bac_professionnel": 14.00
+    },
+    "annee_2024": {
+      "sciences_maths": 12.00,
+      "sciences_economiques_gestion": 12.00,
+      "sciences_physiques_svt": 14.00,
+      "bac_professionnel": 14.00
+    },
+    "annee_2023": {
+      "sciences_maths": 12.00,
+      "sciences_economiques_gestion": 12.00,
+      "sciences_physiques_svt": 14.00,
+      "bac_professionnel": 14.00
+    },
+    "annee_2022": {
+      "sciences_maths": 12.00,
+      "sciences_economiques_gestion": 12.00,
+      "sciences_physiques_svt": 14.00,
+      "bac_professionnel": 14.00
+    }
+  },
+  "filieres_et_specialisations": {
+    "filiere_commerce": [
+      {
+        "specialite": "Marketing et Action Commerciale (MAC)",
+        "debouches": "Chef de produit, Responsable marketing, Responsable commercial, Brand manager"
+      },
+      {
+        "specialite": "Commerce International (CI)",
+        "debouches": "Responsable import/export, Courtier international, Gestionnaire de fret international"
+      },
+      {
+        "specialite": "Publicité et Communication (PC)",
+        "debouches": "Directeur de clientèle en agence, Responsable relations publiques, Chargé de communication d'entreprise"
+      }
+    ],
+    "filiere_gestion": [
+      {
+        "specialite": "Gestion Financière et Comptable (GFC)",
+        "debouches": "Analyste financier, Trésorier d'entreprise, Contrôleur financier, Auditeur junior"
+      },
+      {
+        "specialite": "Audit et Contrôle de Gestion (ACG)",
+        "debouches": "Auditeur interne/externe en cabinet (Big Four), Contrôleur de gestion, Consultant en organisation"
+      },
+      {
+        "specialite": "Management des Ressources Humaines (MRH)",
+        "debouches": "Responsable du développement RH, Responsable du recrutement, Responsable formation"
+      },
+      {
+        "specialite": "Management Logistique et Achats (MLA)",
+        "debouches": "Supply chain manager, Acheteur industriel, Responsable de plateforme logistique"
+      }
+    ]
+  },
+  "debouches_professionnels": [
+    "Secteur bancaire, institutions financières et assurances",
+    "Cabinets d'audit, de conseil en stratégie et d'expertise comptable",
+    "Grandes entreprises multinationales et PME/PMI marocaines",
+    "Offices publics et entreprises d'État (OCP, ONEE, RAM, CDG)",
+    "Création d'entreprises et entrepreneuriat innovant",
+    "Administrations publiques et ministères (Finances, Commerce, Industrie)"
+  ],
+  "conseils_candidats": [
+    "La sélection initiale est uniforme au niveau national via CursusSup.",
+    "L'épreuve du TAFEM applique des pénalités pour les réponses erronées (-1) : ne répondez jamais au hasard.",
+    "Une bonne gestion du temps lors du TAFEM est déterminante : chaque section nécessite un rythme de 1 à 1,5 minute par question.",
+    "Les désistements sont nombreux lors des listes d'attente (affectations vers prépas ou médecine) : suivez attentivement chaque appel de liste d'attente."
+  ]
+}
