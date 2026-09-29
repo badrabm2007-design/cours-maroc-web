@@ -644,7 +644,7 @@ class SmartBannerService {
         score: 75.0,
         title: 'App PC Windows',
         titleAr: 'تطبيق ويندوز للكمبيوتر',
-        subtitle: 'Cours Maroc pour Windows',
+        subtitle: 'Qrayti pour Windows',
         subtitleAr: 'نسخة الكمبيوتر الرسمية',
         description: 'Installez l\'application officielle sur votre PC pour réviser 100% hors-ligne sur grand écran.',
         descriptionAr: 'استمتع بمذاكرة مريحة 100% بدون إنترنت على شاشة حاسوبك.',

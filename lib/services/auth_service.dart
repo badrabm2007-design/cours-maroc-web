@@ -84,7 +84,7 @@ class AuthService extends ChangeNotifier {
               id: user.uid,
               displayName: (user.displayName != null && user.displayName!.isNotEmpty)
                   ? user.displayName!
-                  : (user.email?.split('@').first ?? 'Élève Cours Maroc'),
+                  : (user.email?.split('@').first ?? 'Élève Qrayti'),
               email: user.email ?? '',
               photoUrl: user.photoURL,
             );
@@ -102,7 +102,7 @@ class AuthService extends ChangeNotifier {
             id: user.uid,
             displayName: (user.displayName != null && user.displayName!.isNotEmpty)
                 ? user.displayName!
-                : (user.email?.split('@').first ?? 'Élève Cours Maroc'),
+                : (user.email?.split('@').first ?? 'Élève Qrayti'),
             email: user.email ?? '',
             photoUrl: user.photoURL,
           );
@@ -122,7 +122,7 @@ class AuthService extends ChangeNotifier {
           id: fbUser.uid,
           displayName: (fbUser.displayName != null && fbUser.displayName!.isNotEmpty)
               ? fbUser.displayName!
-              : (fbUser.email?.split('@').first ?? 'Élève Cours Maroc'),
+              : (fbUser.email?.split('@').first ?? 'Élève Qrayti'),
           email: fbUser.email ?? '',
           photoUrl: fbUser.photoURL,
         );
@@ -178,7 +178,7 @@ class AuthService extends ChangeNotifier {
               id: user.uid,
               displayName: (user.displayName != null && user.displayName!.isNotEmpty)
                   ? user.displayName!
-                  : (user.email?.split('@').first ?? 'Élève Cours Maroc'),
+                  : (user.email?.split('@').first ?? 'Élève Qrayti'),
               email: user.email ?? '',
               photoUrl: user.photoURL,
             );
@@ -217,7 +217,7 @@ class AuthService extends ChangeNotifier {
             id: user.uid,
             displayName: (user.displayName != null && user.displayName!.isNotEmpty)
                 ? user.displayName!
-                : (account.displayName ?? 'Élève Cours Maroc'),
+                : (account.displayName ?? 'Élève Qrayti'),
             email: user.email ?? account.email,
             photoUrl: user.photoURL ?? account.photoUrl,
           );

@@ -2,7 +2,7 @@
   "auth": {
     "providers": {
       "googleSignIn": {
-        "oAuthBrandDisplayName": "Cours Maroc",
+        "oAuthBrandDisplayName": "Qrayti",
         "supportEmail": "badrabm2007@gmail.com"
       }
     }

@@ -170,7 +170,7 @@ class _CoursLyceeAppState extends State<CoursLyceeApp> {
     final langService = context.watch<AppLanguageService>();
 
     return MaterialApp(
-      title: 'Cours Maroc',
+      title: 'Qrayti',
       debugShowCheckedModeBanner: false,
       navigatorKey: FocusTimerService.navigatorKey,
       builder: (context, child) => FocusTimerOverlayWrapper(

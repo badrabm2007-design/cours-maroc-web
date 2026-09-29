@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Future<void> _openWindowsDownload() async {
     const url =
-        'https://github.com/badrabm2007-design/CoursMaroc-Windows/releases/download/v1.1.0/CoursMaroc_Windows_v1.1.0.zip';
+        'https://github.com/badrabm2007-design/CoursMaroc-Windows/releases/download/v1.2.0/Qrayti_Windows_v1.2.0.zip';
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -349,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'Cours Maroc',
+                  'Qrayti',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -358,8 +358,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
                 Text(
                   langService.isArabic
-                      ? 'دروس المغرب'
-                      : 'دروس المغرب • الثانوي',
+                      ? 'قرايتي'
+                      : 'قرايتي • الثانوي',
                   style: const TextStyle(
                     fontSize: 10.5,
                     color: Color(0xFF0F5132),
