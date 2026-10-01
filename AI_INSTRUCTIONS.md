@@ -130,6 +130,11 @@ flutter/app/
 * **Description** : Le téléversement direct de fichiers >15 Mo vers GitHub Release coupait brutalement la connexion.
 * **Solution** : Création de la release via `gh release create` et stockage de l'archive ZIP directement sur le bureau (`Desktop\Qrayti_Logos\Qrayti_Windows_v1.2.0.zip`) pour mise à disposition directe ou téléversement morcelé.
 
+### ⚠️ Problème 6 : Erreur de Compilation Android sur `isGradeSelectionActive`
+* **Description** : L'exécution de `flutter run` sur appareil Android a échoué avec l'erreur `The getter 'isGradeSelectionActive' isn't defined for the type 'FocusTimerService'`.
+* **Cause** : Le widget `floating_focus_timer.dart` synchronisé utilisait le getter `isGradeSelectionActive` qui n'avait été ajouté initialement que dans le projet Web `cours_web`.
+* **Solution** : Synchronisation complète de `focus_timer_service.dart`, `level_selection_screen.dart` et `branch_selection_screen.dart` entre `cours_web`, `cours` et `cours_windows`. Analyse `dart analyze` validée à 100% avec zéro erreur.
+
 ---
 
 ## 5. Guide d'Exécution & Commandes de Déploiement
