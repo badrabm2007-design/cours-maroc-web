@@ -70,9 +70,16 @@ flutter/app/
      * Windows Desktop : `windows/runner/resources/app_icon.ico` (multi-résolution jusqu'à 256x256).
    * Rebranding textuel : `AndroidManifest.xml` (`android:label="Qrayti"`), `index.html`, `manifest.json`, système d'internationalisation `app_strings.dart` (fr: *Qrayti*, ar: *قرايتي*, en: *Qrayti*).
 
-2. **Élimination des Indicateurs d'Attente & Nouveau Splash Screen Web** :
+2. **Élimination des Indicateurs d'Attente & Nouveau Splash Screen Web (Animation Claude)** :
    * Suppression complète de la barre de progression (`.cm-progress-bar`) et des éléments de chargement classiques.
-   * Création d'une animation d'accueil de marque luxueuse : véritable logo transparent officiel avec aura lumineuse respirante émeraude & or, typographie noble et transition de fondu instantané.
+   * Intégration de l'animation d'ouverture luxueuse créée avec Claude :
+     - Trame géométrique islamique marocaine (étoile à 8 pointes en filigrane or subtil).
+     - Particules d'or flottantes symbolisant la « lumière du savoir ».
+     - Logo officiel transparent avec aura respirante émeraude & or, et faisceau lumineux traversant (`qs-shine`).
+     - Typographie noble dorée pour le logotype `Qrayti` et la calligraphie arabe `قرايتي`.
+     - Filet séparateur doré animé et slogan « Excellence & Réussite • التميز الدراسي ».
+     - Transition fluide sans à-coups (`cubic-bezier`), dissimulation instantanée dès l'événement `flutter-first-frame` ou détection du canvas Flutter, avec durée minimale esthétique de 800 ms (`MIN_SHOW`).
+     - Page de démonstration interactive autonome intégrée sur `/demo.html` pour tester et rejouer l'animation à volonté sur localhost.
 
 3. **Correction & Stabilisation Définitive du Widget Chrono Flottant** :
    * Masquage strict sur la première page (sélection du niveau d'études) via `isGradeSelectionActive`.
