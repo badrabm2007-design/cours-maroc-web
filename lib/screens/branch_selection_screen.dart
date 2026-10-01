@@ -6,6 +6,7 @@ import '../services/curriculum_service.dart';
 import '../services/download_service.dart';
 import '../services/smart_prefetch_service.dart';
 import '../services/user_profile_service.dart';
+import '../services/focus_timer_service.dart';
 import 'home_screen.dart';
 
 class BranchSelectionScreen extends StatefulWidget {
@@ -28,6 +29,11 @@ class _BranchSelectionScreenState extends State<BranchSelectionScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<FocusTimerService>().setGradeSelectionActive(true);
+      }
+    });
     final profile = context.read<UserProfileService>();
     if (profile.hasSelectedGrade &&
         widget.level.branches.any((b) => b.id == profile.savedBranchId)) {
@@ -35,6 +41,14 @@ class _BranchSelectionScreenState extends State<BranchSelectionScreen> {
     } else {
       _selectedBranchId = widget.level.branches.first.id;
     }
+  }
+
+  @override
+  void dispose() {
+    FocusTimerService.navigatorKey.currentContext
+        ?.read<FocusTimerService>()
+        .setGradeSelectionActive(false);
+    super.dispose();
   }
 
   Future<void> _onSelectBranch(BranchOption branch) async {

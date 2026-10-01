@@ -7,6 +7,7 @@ import '../services/auth_service.dart';
 import '../services/user_sync_service.dart';
 import '../services/favorites_service.dart';
 import '../services/curriculum_service.dart';
+import '../services/focus_timer_service.dart';
 import 'branch_selection_screen.dart';
 import 'home_screen.dart';
 import 'orientation_screen.dart';
@@ -27,6 +28,11 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<FocusTimerService>().setGradeSelectionActive(true);
+      }
+    });
     final profile = context.read<UserProfileService>();
     if (profile.hasSelectedGrade) {
       _selectedLevelId = profile.savedLevelId;
@@ -36,6 +42,9 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    FocusTimerService.navigatorKey.currentContext
+        ?.read<FocusTimerService>()
+        .setGradeSelectionActive(false);
     super.dispose();
   }
 

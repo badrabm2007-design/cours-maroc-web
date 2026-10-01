@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/app_language_service.dart';
 import '../services/focus_timer_service.dart';
+import '../services/user_profile_service.dart';
 import '../screens/focus_mode_screen.dart';
 
 /// Top-level overlay wrapper for MaterialApp.builder
@@ -139,281 +140,79 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
   static const double _badgeWidth = 168.0;
   static const double _badgeHeight = 36.0;
 
-  Offset? _position;
-  ActiveDockingScreen? _lastActiveScreen;
-  bool? _lastHasCorriges;
-  bool _isFreeFloating = false;
-  final Map<ActiveDockingScreen, Offset> _screenDockedOffsets = {};
+  // Global static offset so the timer keeps its exact position across the entire session!
+  static Offset? _persistedPosition;
+  bool _isDragging = false;
 
-  bool _checkIsDocked(ActiveDockingScreen screen, Offset pos) {
-    if (screen == ActiveDockingScreen.subjectDetail) {
-      return (pos.dy - 70.0).abs() <= 15;
-    }
-    return pos.dy <= 45 || (pos.dy - 65.0).abs() <= 10;
-  }
-
-  Offset _defaultDockPositionFor(
-    ActiveDockingScreen screen,
-    Size screenSize,
-    bool hasCorriges,
-  ) {
-    final double screenW = screenSize.width;
-
-    switch (screen) {
-      case ActiveDockingScreen.home:
-        const double dockY = 9.0;
-        const double minSlotX = 350.0;
-        final double rightBoundary = kIsWeb ? 580.0 : 440.0;
-        final double maxSlotX = screenW - rightBoundary - _badgeWidth;
-        if (minSlotX <= maxSlotX) {
-          return const Offset(minSlotX, dockY);
-        } else {
-          final double fallbackX = (screenW - _badgeWidth) / 2;
-          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
-        }
-
-      case ActiveDockingScreen.pdfViewer:
-        const double dockY = 9.0;
-        final double minSlotX = (screenW / 2) + 20.0;
-        final double maxSlotX = screenW - 260.0 - _badgeWidth;
-        if (minSlotX <= maxSlotX) {
-          return Offset(minSlotX, dockY);
-        } else {
-          final double fallbackX = (screenW - _badgeWidth - 180.0).clamp(180.0, 9999.0);
-          return Offset(fallbackX, dockY);
-        }
-
-      case ActiveDockingScreen.subjectDetail:
-        const double dockY = 70.0;
-        final double chipSpan = hasCorriges ? 220.0 : 135.0;
-        final double chipsRight = (screenW / 2) + chipSpan;
-        final double rightSlotX = chipsRight + 16.0;
-        final double maxRightX = screenW - _badgeWidth - 16.0;
-
-        if (maxRightX >= rightSlotX) {
-          return Offset(maxRightX, dockY);
-        } else {
-          final double chipsLeft = (screenW / 2) - chipSpan;
-          final double maxLeftX = chipsLeft - _badgeWidth - 16.0;
-          if (maxLeftX >= 16.0) {
-            return const Offset(16.0, dockY);
-          } else {
-            return Offset(maxRightX.clamp(16.0, 9999.0), dockY);
-          }
-        }
-
-      case ActiveDockingScreen.orientation:
-        const double dockY = 9.0;
-        const double minSlotX = 330.0;
-        final double maxSlotX = screenW - 430.0 - _badgeWidth;
-        if (minSlotX <= maxSlotX) {
-          return const Offset(minSlotX, dockY);
-        } else {
-          final double fallbackX = (screenW - _badgeWidth) / 2;
-          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
-        }
-
-      case ActiveDockingScreen.other:
-        return const Offset(60.0, 9.0);
-    }
-  }
-
-  Offset _computeDockedPosition({
-    required ActiveDockingScreen screen,
-    required Offset currentPos,
-    required Size screenSize,
-    required bool hasCorriges,
-  }) {
-    final double screenW = screenSize.width;
-
-    switch (screen) {
-      case ActiveDockingScreen.subjectDetail:
-        // Top row (Y = 0..64) is STRICTLY FORBIDDEN.
-        // Dock into lower filter bar at Y = 70.0 in the empty space outside filter pills.
-        const double dockY = 70.0;
-        final double chipSpan = hasCorriges ? 220.0 : 135.0;
-        final double chipsLeft = (screenW / 2) - chipSpan;
-        final double chipsRight = (screenW / 2) + chipSpan;
-
-        final double maxLeftSlot = chipsLeft - _badgeWidth - 12.0;
-        final double minRightSlot = chipsRight + 12.0;
-        final double maxRightSlot = screenW - _badgeWidth - 16.0;
-
-        double finalX;
-        if (currentPos.dx + (_badgeWidth / 2) < (screenW / 2)) {
-          // Snap to left slot
-          if (maxLeftSlot >= 16.0) {
-            finalX = currentPos.dx.clamp(16.0, maxLeftSlot);
-          } else {
-            finalX = currentPos.dx.clamp(minRightSlot, maxRightSlot.clamp(minRightSlot, screenW));
-          }
-        } else {
-          // Snap to right slot
-          if (maxRightSlot >= minRightSlot) {
-            finalX = currentPos.dx.clamp(minRightSlot, maxRightSlot);
-          } else {
-            finalX = currentPos.dx.clamp(16.0, maxLeftSlot.clamp(16.0, screenW));
-          }
-        }
-        return Offset(finalX, dockY);
-
-      case ActiveDockingScreen.pdfViewer:
-        // Dock in AppBar row (Y = 9.0)
-        const double dockY = 9.0;
-        final double minSlotX = (screenW / 2) + 20.0;
-        final double maxSlotX = screenW - 260.0 - _badgeWidth;
-        if (minSlotX <= maxSlotX) {
-          return Offset(currentPos.dx.clamp(minSlotX, maxSlotX), dockY);
-        } else {
-          final double fallbackX = (screenW - _badgeWidth - 180.0).clamp(180.0, 9999.0);
-          return Offset(fallbackX, dockY);
-        }
-
-      case ActiveDockingScreen.home:
-        const double dockY = 9.0;
-        const double minSlotX = 350.0;
-        final double rightBoundary = kIsWeb ? 580.0 : 440.0;
-        final double maxSlotX = screenW - rightBoundary - _badgeWidth;
-
-        if (minSlotX <= maxSlotX) {
-          final double finalX = currentPos.dx.clamp(minSlotX, maxSlotX);
-          return Offset(finalX, dockY);
-        } else {
-          final double fallbackX = (screenW - _badgeWidth) / 2;
-          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
-        }
-
-      case ActiveDockingScreen.orientation:
-        const double dockY = 9.0;
-        const double minSlotX = 330.0;
-        final double maxSlotX = screenW - 430.0 - _badgeWidth;
-
-        if (minSlotX <= maxSlotX) {
-          final double finalX = currentPos.dx.clamp(minSlotX, maxSlotX);
-          return Offset(finalX, dockY);
-        } else {
-          final double fallbackX = (screenW - _badgeWidth) / 2;
-          return Offset(fallbackX.clamp(180.0, (screenW - _badgeWidth - 16.0).clamp(180.0, 9999.0)), dockY);
-        }
-
-      case ActiveDockingScreen.other:
-        const double dockY = 9.0;
-        return Offset(currentPos.dx.clamp(60.0, screenW - _badgeWidth - 60.0), dockY);
-    }
+  bool _checkIsDocked(Offset pos) {
+    return pos.dy <= 45;
   }
 
   @override
   Widget build(BuildContext context) {
     final timerService = context.watch<FocusTimerService>();
+    final userProfile = context.watch<UserProfileService>();
 
-    // Hide if disabled by user or if the student is currently inside FocusModeScreen
-    if (!timerService.isFloatingEnabled || timerService.isFocusScreenOpen) {
+    // Hide if student hasn't selected their grade yet (first page / welcome screen),
+    // or if grade selection is active, or if disabled by user, or if focus screen is open
+    if (!userProfile.hasSelectedGrade ||
+        timerService.isGradeSelectionActive ||
+        !timerService.isFloatingEnabled ||
+        timerService.isFocusScreenOpen) {
       return const SizedBox.shrink();
     }
 
     final screenSize = MediaQuery.of(context).size;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final activeScreen = timerService.activeDockingScreen;
-    final hasCorriges = timerService.subjectDetailHasCorriges;
-
-    // Detect screen or filter state changes: adapt docking to the active screen
-    if (_lastActiveScreen != activeScreen || _lastHasCorriges != hasCorriges) {
-      _lastActiveScreen = activeScreen;
-      _lastHasCorriges = hasCorriges;
-
-      // Always adapt to the newly active screen's dedicated docking slot!
-      // This guarantees that leaving SubjectDetailScreen (dockY=70) resets position cleanly to Y=9 on HomeScreen,
-      // and leaving PdfViewerScreen cleanly adopts HomeScreen's designated slot.
-      final preferred = _screenDockedOffsets[activeScreen] ??
-          _defaultDockPositionFor(activeScreen, screenSize, hasCorriges);
-      _position = _computeDockedPosition(
-        screen: activeScreen,
-        currentPos: preferred,
-        screenSize: screenSize,
-        hasCorriges: hasCorriges,
-      );
-      _isFreeFloating = false;
+    // Stable default position: docked harmoniously in the top header row at Y=10
+    // Horizontally positioned safely in the open space before the right utility actions
+    if (_persistedPosition == null) {
+      final double defaultX = (screenSize.width - _badgeWidth - 270.0).clamp(20.0, screenSize.width - _badgeWidth - 16.0);
+      _persistedPosition = Offset(defaultX, 10.0);
     }
 
-    // Default position: magnetically docked according to active screen
-    _position ??= _defaultDockPositionFor(activeScreen, screenSize, hasCorriges);
-
-    // Keep clamped inside screen bounds
-    final clampedX = _position!.dx.clamp(8.0, (screenSize.width - _badgeWidth - 8.0).clamp(8.0, 9999.0));
-    final clampedY = _position!.dy.clamp(6.0, (screenSize.height - _badgeHeight - 8.0).clamp(6.0, 9999.0));
-    _position = Offset(clampedX, clampedY);
+    // Keep clamped inside screen bounds if window was resized
+    final clampedX = _persistedPosition!.dx.clamp(8.0, (screenSize.width - _badgeWidth - 8.0).clamp(8.0, 9999.0));
+    final clampedY = _persistedPosition!.dy.clamp(6.0, (screenSize.height - _badgeHeight - 8.0).clamp(6.0, 9999.0));
+    _persistedPosition = Offset(clampedX, clampedY);
 
     final isBreak = timerService.isRestPhase;
     final primaryColor = isBreak ? const Color(0xFF0284C7) : const Color(0xFF0F5132);
+    final bool isDocked = _checkIsDocked(_persistedPosition!);
 
-    final bool isDocked = !_isFreeFloating && _checkIsDocked(activeScreen, _position!);
-
-    return Positioned(
-      left: _position!.dx,
-      top: _position!.dy,
+    return AnimatedPositioned(
+      duration: _isDragging ? Duration.zero : const Duration(milliseconds: 250),
+      curve: Curves.easeOutCubic,
+      left: _persistedPosition!.dx,
+      top: _persistedPosition!.dy,
       child: GestureDetector(
+        onPanStart: (_) {
+          setState(() {
+            _isDragging = true;
+          });
+        },
         onPanUpdate: (details) {
           setState(() {
-            _position = Offset(
-              _position!.dx + details.delta.dx,
-              _position!.dy + details.delta.dy,
+            _persistedPosition = Offset(
+              _persistedPosition!.dx + details.delta.dx,
+              _persistedPosition!.dy + details.delta.dy,
             );
           });
         },
         onPanEnd: (details) {
-          double finalX = _position!.dx;
-          double finalY = _position!.dy;
-
-          if (activeScreen == ActiveDockingScreen.subjectDetail) {
-            // SubjectDetailScreen: Top row (0..64) is FORBIDDEN.
-            // If dragged near header (Y < 115), snap to filter bar (Y = 70) outside filter pills!
-            if (finalY < 115.0) {
-              final docked = _computeDockedPosition(
-                screen: activeScreen,
-                currentPos: Offset(finalX, finalY),
-                screenSize: screenSize,
-                hasCorriges: hasCorriges,
-              );
-              finalX = docked.dx;
-              finalY = docked.dy;
-              _isFreeFloating = false;
-              _screenDockedOffsets[activeScreen] = Offset(finalX, finalY);
-            } else {
-              // Free movement in body
-              _isFreeFloating = true;
-              if (finalX > screenSize.width - _badgeWidth - 40) {
-                finalX = screenSize.width - _badgeWidth - 12.0;
-              } else if (finalX < 40) {
-                finalX = 12.0;
-              }
-            }
-          } else {
-            // HomeScreen / PdfViewerScreen / OrientationScreen / Other:
-            if (finalY < 60.0) {
-              final docked = _computeDockedPosition(
-                screen: activeScreen,
-                currentPos: Offset(finalX, finalY),
-                screenSize: screenSize,
-                hasCorriges: hasCorriges,
-              );
-              finalX = docked.dx;
-              finalY = docked.dy;
-              _isFreeFloating = false;
-              _screenDockedOffsets[activeScreen] = Offset(finalX, finalY);
-            } else {
-              // Free movement in body
-              _isFreeFloating = true;
-              if (finalX > screenSize.width - _badgeWidth - 40) {
-                finalX = screenSize.width - _badgeWidth - 12.0;
-              } else if (finalX < 40) {
-                finalX = 12.0;
-              }
-            }
-          }
-
           setState(() {
-            _position = Offset(finalX, finalY);
+            _isDragging = false;
+            double finalX = _persistedPosition!.dx.clamp(12.0, screenSize.width - _badgeWidth - 12.0);
+            double finalY = _persistedPosition!.dy;
+
+            // Magnetic snap to top row if dragged near header
+            if (finalY < 55.0) {
+              finalY = 10.0;
+            } else if (finalY > screenSize.height - _badgeHeight - 20.0) {
+              finalY = screenSize.height - _badgeHeight - 16.0;
+            }
+            _persistedPosition = Offset(finalX, finalY);
           });
         },
         child: Material(

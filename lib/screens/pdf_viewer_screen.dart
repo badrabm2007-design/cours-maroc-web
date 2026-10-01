@@ -38,7 +38,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   final GlobalKey _stackKey = GlobalKey();
   bool _hasLoadError = false;
-  bool _useDirectDriveUrl = false;
+  int _loadAttempt = 0; // 0: origin /api/pdf, 1: live proxy https://qrayti.online/api/pdf, 2: direct usercontent drive
 
   PdfTool _activeTool = PdfTool.none;
   Color _penColor = const Color(0xFF0F172A);
@@ -491,7 +491,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                     onPressed: () {
                       setState(() {
                         _hasLoadError = false;
-                        _useDirectDriveUrl = false;
+                        _loadAttempt = 0;
                       });
                     },
                   ),
@@ -512,11 +512,16 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       );
     }
 
-    final String pdfUrl = _useDirectDriveUrl
-        ? 'https://drive.usercontent.google.com/download?id=${widget.document.id}&export=download&confirm=t'
-        : (kIsWeb
-            ? Uri.base.resolve('/api/pdf?id=${widget.document.id}').toString()
-            : 'https://drive.usercontent.google.com/download?id=${widget.document.id}&export=download&confirm=t');
+    final String pdfUrl;
+    if (!kIsWeb) {
+      pdfUrl = 'https://drive.usercontent.google.com/download?id=${widget.document.id}&export=download&confirm=t';
+    } else if (_loadAttempt == 0) {
+      pdfUrl = Uri.base.resolve('/api/pdf?id=${widget.document.id}').toString();
+    } else if (_loadAttempt == 1) {
+      pdfUrl = 'https://qrayti.online/api/pdf?id=${widget.document.id}';
+    } else {
+      pdfUrl = 'https://drive.usercontent.google.com/download?id=${widget.document.id}&export=download&confirm=t';
+    }
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -552,11 +557,11 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                 }
               },
               onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-                debugPrint('PDF load failed (${_useDirectDriveUrl ? "direct" : "proxy"}): ${details.error} - ${details.description}');
+                debugPrint('PDF load failed (attempt $_loadAttempt): ${details.error} - ${details.description}');
                 if (mounted) {
-                  if (!_useDirectDriveUrl) {
+                  if (_loadAttempt < 2) {
                     setState(() {
-                      _useDirectDriveUrl = true;
+                      _loadAttempt++;
                     });
                   } else {
                     setState(() {

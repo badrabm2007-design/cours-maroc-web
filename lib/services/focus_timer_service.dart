@@ -193,7 +193,17 @@ class FocusTimerService extends ChangeNotifier {
 
   bool _isFloatingEnabled = true;
   bool _isFocusScreenOpen = false;
+  bool _isGradeSelectionActive = false;
   Offset? _floatingOffset;
+
+  bool get isGradeSelectionActive => _isGradeSelectionActive;
+
+  void setGradeSelectionActive(bool value) {
+    if (_isGradeSelectionActive != value) {
+      _isGradeSelectionActive = value;
+      notifyListeners();
+    }
+  }
 
   final List<FocusTaskItem> _tasks = [];
   Timer? _ticker;
