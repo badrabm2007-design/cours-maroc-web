@@ -142,6 +142,14 @@ flutter/app/
 * **Cause** : Le widget `floating_focus_timer.dart` synchronisé utilisait le getter `isGradeSelectionActive` qui n'avait été ajouté initialement que dans le projet Web `cours_web`.
 * **Solution** : Synchronisation complète de `focus_timer_service.dart`, `level_selection_screen.dart` et `branch_selection_screen.dart` entre `cours_web`, `cours` et `cours_windows`. Analyse `dart analyze` validée à 100% avec zéro erreur.
 
+### ⚠️ Problème 7 : Refus Google Play Console (Politique de Confidentialité non concordante)
+* **Description** : Google Play Console a refusé la mise à jour (« Mise à jour refusée — Les renseignements sur l'appli ou le développeur ne concordent pas »).
+* **Cause** : Le document en ligne mentionnait encore l'ancien nom « Cours Maroc », n'affichait pas explicitement l'identifiant du package (`com.lyceemaroc.cours.cours_lycee_maroc`), et la redirection Netlify servait le shell SPA au lieu d'une page HTML statique pure.
+* **Solution** :
+  1. Rédaction d'une page statique ultra-conforme [`privacy.html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours_web/web/privacy.html) contenant un tableau d'identifiants concordant à 100% avec la fiche Play Store (Nom d'app : **Qrayti**, Package : `com.lyceemaroc.cours.cours_lycee_maroc`, Développeur : **Qrayti**, Email : `contact.coursmaroc@gmail.com`).
+  2. Intégration de la clause officielle de non-affiliation gouvernementale (obligatoire pour les apps éducatives).
+  3. Déploiement des routes statiques `/privacy`, `/privacy.html` et `/PRIVACY_POLICY.html` dans `netlify.toml` avec `force = true` pour garantir un rendu HTML statique direct (HTTP 200) sans dépendance au moteur Flutter SPA.
+
 ---
 
 ## 5. Guide d'Exécution & Commandes de Déploiement
