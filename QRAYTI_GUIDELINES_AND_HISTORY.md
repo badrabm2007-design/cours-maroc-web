@@ -186,6 +186,19 @@ flutter build windows --release
 L'exécutable final est généré dans :
 `build\windows\x64\runner\Release\cours_windows.exe`
 
+### 5.5. Compiler l'App Bundle Android pour Google Play Store
+Dans `c:\Users\HPi5book\Desktop\flutter\app\cours` :
+1. Incrémenter la version dans `pubspec.yaml` (ex. : `version: 1.2.0+6`).
+2. Vérifier l'intégrité du code (`dart analyze lib`).
+3. Compiler le bundle signé :
+```powershell
+flutter build appbundle --release
+```
+L'App Bundle signé est généré dans :
+`build\app\outputs\bundle\release\app-release.aab`
+*Dernière version produite le 2 Octobre 2026 : Version `1.2.0+6` (78.0 MB), signée avec `upload-keystore.jks` prête pour soumission sur Google Play Console.*
+
+
 ---
 
 ## 6. Consignes Spécifiques pour les Prochaines Mises à Jour
