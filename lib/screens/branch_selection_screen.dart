@@ -265,6 +265,7 @@ class _BranchCardItemState extends State<_BranchCardItem> {
   @override
   Widget build(BuildContext context) {
     final active = widget.isSelected || _isHovered;
+    final bool isDesktop = MediaQuery.of(context).size.width >= 850;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -275,6 +276,7 @@ class _BranchCardItemState extends State<_BranchCardItem> {
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOutCubic,
         child: AnimatedContainer(
+          height: isDesktop ? null : 88,
           duration: const Duration(milliseconds: 180),
           curve: Curves.easeOutCubic,
           decoration: BoxDecoration(
@@ -306,7 +308,7 @@ class _BranchCardItemState extends State<_BranchCardItem> {
               borderRadius: BorderRadius.circular(18),
               onTap: widget.onTap,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Row(
                   children: [
                     Container(
@@ -333,7 +335,7 @@ class _BranchCardItemState extends State<_BranchCardItem> {
                         size: 26,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -342,10 +344,11 @@ class _BranchCardItemState extends State<_BranchCardItem> {
                           Text(
                             widget.branch.localizedName(widget.currentLang),
                             style: TextStyle(
-                              fontSize: 16.5,
+                              fontSize: isDesktop ? 16.5 : 15.0,
                               fontWeight: active ? FontWeight.w800 : FontWeight.w700,
                               color: widget.isDark ? Colors.white : const Color(0xFF0F172A),
                               letterSpacing: -0.2,
+                              height: 1.2,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -354,11 +357,12 @@ class _BranchCardItemState extends State<_BranchCardItem> {
                           Text(
                             widget.currentLang != 'ar' ? widget.branch.nameAr : widget.branch.nameFr,
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: isDesktop ? 13 : 12.0,
                               fontWeight: FontWeight.w600,
                               color: active
                                   ? const Color(0xFF0F5132)
                                   : (widget.isDark ? Colors.white60 : Colors.black54),
+                              height: 1.2,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

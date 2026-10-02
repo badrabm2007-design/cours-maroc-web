@@ -1303,11 +1303,15 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        isArabic
-                            ? 'وضع الصامت الفوري'
-                            : 'Mode Silencieux (Zéro Distraction)',
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      Flexible(
+                        child: Text(
+                          isArabic
+                              ? 'وضع الصامت الفوري'
+                              : 'Mode Silencieux',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const SizedBox(width: 6),
                       Container(

@@ -150,6 +150,27 @@ flutter/app/
   2. Intégration de la clause officielle de non-affiliation gouvernementale (obligatoire pour les apps éducatives).
   3. Déploiement des routes statiques `/privacy`, `/privacy.html` et `/PRIVACY_POLICY.html` dans `netlify.toml` avec `force = true` pour garantir un rendu HTML statique direct (HTTP 200) sans dépendance au moteur Flutter SPA.
 
+### ⚠️ Problème 8 : Tailles inégales des cartes de filières sur mobile
+* **Description** : Les cartes de filières variaient en hauteur selon que le nom tenait sur une ligne ou deux (ex. Sciences Expérimentales vs Sciences Économiques et Gestion).
+* **Cause** : `_BranchCardItem` dans `branch_selection_screen.dart` calculait sa hauteur de façon dynamique sans contrainte fixe sur mobile.
+* **Solution** : Fixation d'une hauteur uniforme de `88px` (`height: isDesktop ? null : 88`), padding ajusté à `16x10`, centrage vertical harmonieux des intitulés en français et en arabe.
+
+### ⚠️ Problème 9 : Dépassement horizontal de 48 pixels sur le Mode Silencieux
+* **Description** : Dans l'« Espace Mode Concentration », la carte du mode silencieux affichait un bandeau d'erreur rayé jaune/rouge : `RIGHT OVERFLOWED BY 48 PIXELS`.
+* **Cause** : Le titre `Mode Silencieux (Zéro Distraction)` et le badge `Inactif` étaient placés dans une `Row` rigide sans `Flexible` ni `Expanded`, excédant la largeur disponible à côté de l'interrupteur `Switch`.
+* **Solution** : Remplacement par `Flexible(child: Text('Mode Silencieux', overflow: TextOverflow.ellipsis))` garantissant zéro débordement sur tout type d'écran.
+
+### ⚠️ Problème 10 : Incomplétude et mutualisation du catalogue 3AC (Collège)
+* **Description** : La filière 3AC Général manquait des matières fondamentales en arabe (Maths, Physique, SVT) et les matières communes n'étaient pas synchronisées entre Parcours Général et BIOF.
+* **Cause** : Les scrapers initiaux ne ciblaient que les cours BIOF en français ou n'extrayaient pas les liens d'éléments enfants AlloSchool.
+* **Solution** :
+  1. Développement du script d'ingestion complète [`scripts/expand_3ac.py`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours/scripts/expand_3ac.py).
+  2. Téléchargement et téléversement de **46 nouveaux documents authentiques sur Google Drive** (Mathématiques, Physique-Chimie, SVT, Arabe, Histoire-Géo).
+  3. Partage sans doublon de stockage (zéro duplication Drive) des matières communes :
+     - Vers BIOF : `arabe` (9 docs), `education-islamique` (8 docs), `histoire-geographie` (9 docs).
+     - Vers Général : `francais` (3 docs), `anglais` (10 docs).
+  4. Les deux filières 3AC disposent désormais de **toutes les 8 matières scolaires** complètes.
+
 ---
 
 ## 5. Guide d'Exécution & Commandes de Déploiement

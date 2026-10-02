@@ -2,10 +2,10 @@
   "metadata": {
     "title": "Cours Lycée Maroc",
     "description": "Programme officiel du lycée au Maroc - Tronc Commun, 1BAC, 2BAC",
-    "totalPdfs": 20183,
+    "totalPdfs": 20268,
     "generatedAt": "2026-09-03",
-    "catalogVersion": 39,
-    "lastUpdated": "2026-10-01 17:32:21",
+    "catalogVersion": 40,
+    "lastUpdated": "2026-10-02 16:22:17",
     "version": 32,
     "totalDocuments": 21639,
     "pedagogicalSorted": true
@@ -205756,6 +205756,16 @@
             "driveUrl": "https://drive.google.com/uc?id=1UNCAI6rX2DfDfYy4kTi3DMPtFjo07qjN&export=download"
           },
           {
+            "id": "1LRySfQSSymbjEMzAnvB3OyIwDh7tGzaQ",
+            "name": "3eme-annee-college_biof_mathematiques_exercices_d-veloppement-et-factorisation-exercices_120620.pdf",
+            "title": "d veloppement et factorisation (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 441646,
+            "driveUrl": "https://drive.google.com/uc?id=1LRySfQSSymbjEMzAnvB3OyIwDh7tGzaQ&export=download"
+          },
+          {
             "id": "1HBOUR0QMdGgknb8wJJdXvGBU_w9GUvcU",
             "name": "3eme-annee-college_biof_mathematiques_exercices_th-or-me-de-pythagore-exercices_120764.pdf",
             "title": "Négocier le projet (Cours)",
@@ -205774,6 +205784,26 @@
             "isCorrige": false,
             "size": 510349,
             "driveUrl": "https://drive.google.com/uc?id=1W44Dj0YHVD3RFXpdHXMqIshFmCuEVoyA&export=download"
+          },
+          {
+            "id": "1PDQD8KtOBjnQzZQpWOkgCp1SZtBnRDwH",
+            "name": "3eme-annee-college_biof_mathematiques_exercices_puissances-exercices_120621.pdf",
+            "title": "puissances (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 502495,
+            "driveUrl": "https://drive.google.com/uc?id=1PDQD8KtOBjnQzZQpWOkgCp1SZtBnRDwH&export=download"
+          },
+          {
+            "id": "1d2ZESIuwiRDShRYANTi2ZLYDGyq3euMj",
+            "name": "3eme-annee-college_biof_mathematiques_exercices_racines-carr-es-exercices_120622.pdf",
+            "title": "racines carr es (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 447833,
+            "driveUrl": "https://drive.google.com/uc?id=1d2ZESIuwiRDShRYANTi2ZLYDGyq3euMj&export=download"
           },
           {
             "id": "1esDMzgkFj65XEkjmggR8vDULtSBy6zTz",
@@ -205804,49 +205834,9 @@
             "isCorrige": false,
             "size": 419218,
             "driveUrl": "https://drive.google.com/uc?id=135OwhO7IW-rCOj-M8dL8B9P0E-3CceWV&export=download"
-          },
-          {
-            "id": "1LRySfQSSymbjEMzAnvB3OyIwDh7tGzaQ",
-            "name": "3eme-annee-college_biof_mathematiques_exercices_d-veloppement-et-factorisation-exercices_120620.pdf",
-            "title": "d veloppement et factorisation (Exercices)",
-            "category": "exercices",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 441646,
-            "driveUrl": "https://drive.google.com/uc?id=1LRySfQSSymbjEMzAnvB3OyIwDh7tGzaQ&export=download"
-          },
-          {
-            "id": "1PDQD8KtOBjnQzZQpWOkgCp1SZtBnRDwH",
-            "name": "3eme-annee-college_biof_mathematiques_exercices_puissances-exercices_120621.pdf",
-            "title": "puissances (Exercices)",
-            "category": "exercices",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 502495,
-            "driveUrl": "https://drive.google.com/uc?id=1PDQD8KtOBjnQzZQpWOkgCp1SZtBnRDwH&export=download"
-          },
-          {
-            "id": "1d2ZESIuwiRDShRYANTi2ZLYDGyq3euMj",
-            "name": "3eme-annee-college_biof_mathematiques_exercices_racines-carr-es-exercices_120622.pdf",
-            "title": "racines carr es (Exercices)",
-            "category": "exercices",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 447833,
-            "driveUrl": "https://drive.google.com/uc?id=1d2ZESIuwiRDShRYANTi2ZLYDGyq3euMj&export=download"
           }
         ],
         "physique-chimie": [
-          {
-            "id": "1t_2Hd-dya6Q4m5JJ2KpRZ3raebrEVSa-",
-            "name": "3eme-annee-college_biof_physique-chimie_exercices_oxydation-des-m-taux-dans-l-air-exercices_120365.pdf",
-            "title": "Oxydation des métaux dans l'air (Exercices)",
-            "category": "exercices",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 327458,
-            "driveUrl": "https://drive.google.com/uc?id=1t_2Hd-dya6Q4m5JJ2KpRZ3raebrEVSa-&export=download"
-          },
           {
             "id": "15z-98k4alkEG0MjwBYoO3sWvBNG12Lzd",
             "name": "3eme-annee-college_biof_physique-chimie_exercices_les-atomes-et-les-ions-exercices_120364.pdf",
@@ -205856,6 +205846,16 @@
             "isCorrige": false,
             "size": 491663,
             "driveUrl": "https://drive.google.com/uc?id=15z-98k4alkEG0MjwBYoO3sWvBNG12Lzd&export=download"
+          },
+          {
+            "id": "1t_2Hd-dya6Q4m5JJ2KpRZ3raebrEVSa-",
+            "name": "3eme-annee-college_biof_physique-chimie_exercices_oxydation-des-m-taux-dans-l-air-exercices_120365.pdf",
+            "title": "Oxydation des métaux dans l'air (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 327458,
+            "driveUrl": "https://drive.google.com/uc?id=1t_2Hd-dya6Q4m5JJ2KpRZ3raebrEVSa-&export=download"
           },
           {
             "id": "1ijCOl0giq_05LcydjY4gmaD70HEU6XkL",
@@ -205972,16 +205972,6 @@
         ],
         "francais": [
           {
-            "id": "1dKOZ9LfFP4SZAOlL_kgKjqJgmbNvNP56",
-            "name": "3eme-annee-college_biof_francais_cours_lecture-1-1-identifier-les-caract-ristiques-d_129950.pdf",
-            "title": "Lecture 1-1 : Identifier les caractéristiques d'une nouvelle",
-            "category": "cours",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 175429,
-            "driveUrl": "https://drive.google.com/uc?id=1dKOZ9LfFP4SZAOlL_kgKjqJgmbNvNP56&export=download"
-          },
-          {
             "id": "1dXRlgF-Knkz_1pT2hPTr4kZgKIg8KheR",
             "name": "3eme-annee-college_biof_francais_cours_n-gocier-le-projet_129949.pdf",
             "title": "N gocier le projet",
@@ -205990,6 +205980,16 @@
             "isCorrige": false,
             "size": 45592,
             "driveUrl": "https://drive.google.com/uc?id=1dXRlgF-Knkz_1pT2hPTr4kZgKIg8KheR&export=download"
+          },
+          {
+            "id": "1dKOZ9LfFP4SZAOlL_kgKjqJgmbNvNP56",
+            "name": "3eme-annee-college_biof_francais_cours_lecture-1-1-identifier-les-caract-ristiques-d_129950.pdf",
+            "title": "Lecture 1-1 : Identifier les caractéristiques d'une nouvelle",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 175429,
+            "driveUrl": "https://drive.google.com/uc?id=1dKOZ9LfFP4SZAOlL_kgKjqJgmbNvNP56&export=download"
           },
           {
             "id": "1QjxLyZSA1diwVBhqlWH46Ilfi6ifdZuy",
@@ -206103,9 +206103,7 @@
             "size": 242353,
             "driveUrl": "https://drive.google.com/uc?id=1TqRDyyL44p8b8It4h3G5ziqjNiNz6OIw&export=download"
           }
-        ]
-      },
-      "general": {
+        ],
         "arabe": [
           {
             "id": "1oVUcITOYknLXx4RXrtRGAuwxnXaZi71v",
@@ -206116,6 +206114,86 @@
             "isCorrige": false,
             "size": 655198,
             "driveUrl": "https://drive.google.com/uc?id=1oVUcITOYknLXx4RXrtRGAuwxnXaZi71v&export=download"
+          },
+          {
+            "id": "1BGSNkMrbwuEo7pfvqao7AnJsQSNvCMkf",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13446_13446.pdf",
+            "title": "النصوص القرائية الدورة الأولى الأغنية الأبدية",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 82360,
+            "driveUrl": "https://drive.google.com/uc?id=1BGSNkMrbwuEo7pfvqao7AnJsQSNvCMkf&export=download"
+          },
+          {
+            "id": "1I09h1Bx0PX2Fa9zZS5cesNQYl9WfUy9h",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13442_13442.pdf",
+            "title": "النصوص القرائية الدورة الأولى الإسلام وحقوق الإنسان",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 104169,
+            "driveUrl": "https://drive.google.com/uc?id=1I09h1Bx0PX2Fa9zZS5cesNQYl9WfUy9h&export=download"
+          },
+          {
+            "id": "1f6iaOaL1pJcAaMfipaBTmNmudbP9qQOm",
+            "name": "3eme-annee-college_general_arabe_cours_doc-36725_36725.pdf",
+            "title": "النصوص القرائية الدورة الأولى المنفى",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 83701,
+            "driveUrl": "https://drive.google.com/uc?id=1f6iaOaL1pJcAaMfipaBTmNmudbP9qQOm&export=download"
+          },
+          {
+            "id": "1cTcEQCdMEWT31pKk1aP0Myg3eXacNiMH",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13443_13443.pdf",
+            "title": "النصوص القرائية الدورة الأولى حديث الروح",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 80109,
+            "driveUrl": "https://drive.google.com/uc?id=1cTcEQCdMEWT31pKk1aP0Myg3eXacNiMH&export=download"
+          },
+          {
+            "id": "1uY_T8bqpzkStAjPDa7JmqOoChWReYaYB",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13445_13445.pdf",
+            "title": "النصوص القرائية الدورة الأولى حوار عجيب",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 94618,
+            "driveUrl": "https://drive.google.com/uc?id=1uY_T8bqpzkStAjPDa7JmqOoChWReYaYB&export=download"
+          },
+          {
+            "id": "1GcYBX9FID_gfwoOt_hFmImcGUiltsWCB",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13441_13441.pdf",
+            "title": "النصوص القرائية الدورة الأولى خصال المسلم",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 111426,
+            "driveUrl": "https://drive.google.com/uc?id=1GcYBX9FID_gfwoOt_hFmImcGUiltsWCB&export=download"
+          },
+          {
+            "id": "1GHzjQa2MUJMLvPshcJo-_oTrJrhPVORY",
+            "name": "3eme-annee-college_general_arabe_cours_doc-36724_36724.pdf",
+            "title": "النصوص القرائية الدورة الأولى كليم الله",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 98575,
+            "driveUrl": "https://drive.google.com/uc?id=1GHzjQa2MUJMLvPshcJo-_oTrJrhPVORY&export=download"
+          },
+          {
+            "id": "1wrYoX0C8jE-1Bc13VF0erVsUXGvMCvSc",
+            "name": "3eme-annee-college_general_arabe_examens_2023_13447.pdf",
+            "title": "الامتحان الوطني 2023 (الدورة العادية)",
+            "category": "examens",
+            "semester": "nationaux",
+            "isCorrige": false,
+            "size": 96638,
+            "driveUrl": "https://drive.google.com/uc?id=1wrYoX0C8jE-1Bc13VF0erVsUXGvMCvSc&export=download"
           }
         ],
         "education-islamique": [
@@ -206160,26 +206238,6 @@
             "driveUrl": "https://drive.google.com/uc?id=1bUWkNMS-0hi8t6IEfM2JlVuscMzefBuh&export=download"
           },
           {
-            "id": "1WZhBUnwqpABHdTYlcyKe6zLezHHXScoZ",
-            "name": "3eme-annee-college_general_education-islamique_cours_1-1-7_139392.pdf",
-            "title": "مدخل التزكية (القرآن الكريم) 1 : الشطر الأول من سورة الحشر (الآية 1 إلى 7)",
-            "category": "cours",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 626374,
-            "driveUrl": "https://drive.google.com/uc?id=1WZhBUnwqpABHdTYlcyKe6zLezHHXScoZ&export=download"
-          },
-          {
-            "id": "18sQiJhyu8eWbjy_oLV6hEEvENiXohfS1",
-            "name": "3eme-annee-college_general_education-islamique_cours_2-8-17_139903.pdf",
-            "title": "مدخل التزكية (القرآن الكريم) 2 : الشطر الثاني من سورة الحشر (الآية 8 إلى 17)",
-            "category": "cours",
-            "semester": "semestre-1",
-            "isCorrige": false,
-            "size": 626963,
-            "driveUrl": "https://drive.google.com/uc?id=18sQiJhyu8eWbjy_oLV6hEEvENiXohfS1&export=download"
-          },
-          {
             "id": "1w95krwPuqVMI1VMaJ-MM3LRiMwMEXzCB",
             "name": "3eme-annee-college_general_education-islamique_cours_1_139397.pdf",
             "title": "مدخل الحكمة 1 : الهجرة المتجددة (المهاجر من هجر ما نهى الله عنه)",
@@ -206198,6 +206256,26 @@
             "isCorrige": false,
             "size": 589224,
             "driveUrl": "https://drive.google.com/uc?id=16FmzPwSSEx7PX1g_wu_v86vUWcXyuJ9H&export=download"
+          },
+          {
+            "id": "1WZhBUnwqpABHdTYlcyKe6zLezHHXScoZ",
+            "name": "3eme-annee-college_general_education-islamique_cours_1-1-7_139392.pdf",
+            "title": "مدخل التزكية (القرآن الكريم) 1 : الشطر الأول من سورة الحشر (الآية 1 إلى 7)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 626374,
+            "driveUrl": "https://drive.google.com/uc?id=1WZhBUnwqpABHdTYlcyKe6zLezHHXScoZ&export=download"
+          },
+          {
+            "id": "18sQiJhyu8eWbjy_oLV6hEEvENiXohfS1",
+            "name": "3eme-annee-college_general_education-islamique_cours_2-8-17_139903.pdf",
+            "title": "مدخل التزكية (القرآن الكريم) 2 : الشطر الثاني من سورة الحشر (الآية 8 إلى 17)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 626963,
+            "driveUrl": "https://drive.google.com/uc?id=18sQiJhyu8eWbjy_oLV6hEEvENiXohfS1&export=download"
           }
         ],
         "histoire-geographie": [
@@ -206230,6 +206308,794 @@
             "isCorrige": false,
             "size": 977536,
             "driveUrl": "https://drive.google.com/uc?id=1_M5ujnoRzHV8jJCT9b3uqFBEgRCJTLuw&export=download"
+          },
+          {
+            "id": "1YpFEjROsjBwC4E73K4PdJz1CpN4it_vX",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_1929_107701.pdf",
+            "title": "دروس التاريخ: الدورة الأولى أزمة 1929 (الأسباب والمظاهر والنتائج)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 63409,
+            "driveUrl": "https://drive.google.com/uc?id=1YpFEjROsjBwC4E73K4PdJz1CpN4it_vX&export=download"
+          },
+          {
+            "id": "1O7vZIy55W4zdfhfhyaVMXuGuYBt8N_HO",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_19_107696.pdf",
+            "title": "دروس التاريخ: الدورة الأولى ازدهار الرأسمالية الأوربية خلال القرن 19م",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 64488,
+            "driveUrl": "https://drive.google.com/uc?id=1O7vZIy55W4zdfhfhyaVMXuGuYBt8N_HO&export=download"
+          },
+          {
+            "id": "1qL4GA_S9b-A-gnQmr22RrLy1D39FB3gv",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107697_107697.pdf",
+            "title": "دروس التاريخ: الدورة الأولى الإمبريالية وليدة الرأسمالية",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 62229,
+            "driveUrl": "https://drive.google.com/uc?id=1qL4GA_S9b-A-gnQmr22RrLy1D39FB3gv&export=download"
+          },
+          {
+            "id": "1Uc4Pp8d2UGEUT5OfVn5_UC2V9dbyWobs",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107699_107699.pdf",
+            "title": "دروس التاريخ: الدورة الأولى الحرب العالمية الأولى (الأسباب والنتائج)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 67649,
+            "driveUrl": "https://drive.google.com/uc?id=1Uc4Pp8d2UGEUT5OfVn5_UC2V9dbyWobs&export=download"
+          },
+          {
+            "id": "1qQBGL5s7_2qtrRcPBJ01vvJKxV_q3y9-",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107698_107698.pdf",
+            "title": "دروس التاريخ: الدورة الأولى الضغط الاستعماري على المغرب",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 63919,
+            "driveUrl": "https://drive.google.com/uc?id=1qQBGL5s7_2qtrRcPBJ01vvJKxV_q3y9-&export=download"
+          },
+          {
+            "id": "1LAQj6AezmMCQQ5-Kk5R7_jjStAup2uF7",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107700_107700.pdf",
+            "title": "دروس التاريخ: الدورة الأولى انهيار الإمبراطورية العثمانية والتدخل الاستعماري في المشرق العربي",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 68549,
+            "driveUrl": "https://drive.google.com/uc?id=1LAQj6AezmMCQQ5-Kk5R7_jjStAup2uF7&export=download"
+          }
+        ]
+      },
+      "general": {
+        "arabe": [
+          {
+            "id": "1oVUcITOYknLXx4RXrtRGAuwxnXaZi71v",
+            "name": "3eme-annee-college_general_arabe_cours__129902.pdf",
+            "title": "الدرس اللغوي 1 : إعمال المصدر",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 655198,
+            "driveUrl": "https://drive.google.com/uc?id=1oVUcITOYknLXx4RXrtRGAuwxnXaZi71v&export=download"
+          },
+          {
+            "id": "1BGSNkMrbwuEo7pfvqao7AnJsQSNvCMkf",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13446_13446.pdf",
+            "title": "النصوص القرائية الدورة الأولى الأغنية الأبدية",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 82360,
+            "driveUrl": "https://drive.google.com/uc?id=1BGSNkMrbwuEo7pfvqao7AnJsQSNvCMkf&export=download"
+          },
+          {
+            "id": "1I09h1Bx0PX2Fa9zZS5cesNQYl9WfUy9h",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13442_13442.pdf",
+            "title": "النصوص القرائية الدورة الأولى الإسلام وحقوق الإنسان",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 104169,
+            "driveUrl": "https://drive.google.com/uc?id=1I09h1Bx0PX2Fa9zZS5cesNQYl9WfUy9h&export=download"
+          },
+          {
+            "id": "1f6iaOaL1pJcAaMfipaBTmNmudbP9qQOm",
+            "name": "3eme-annee-college_general_arabe_cours_doc-36725_36725.pdf",
+            "title": "النصوص القرائية الدورة الأولى المنفى",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 83701,
+            "driveUrl": "https://drive.google.com/uc?id=1f6iaOaL1pJcAaMfipaBTmNmudbP9qQOm&export=download"
+          },
+          {
+            "id": "1cTcEQCdMEWT31pKk1aP0Myg3eXacNiMH",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13443_13443.pdf",
+            "title": "النصوص القرائية الدورة الأولى حديث الروح",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 80109,
+            "driveUrl": "https://drive.google.com/uc?id=1cTcEQCdMEWT31pKk1aP0Myg3eXacNiMH&export=download"
+          },
+          {
+            "id": "1uY_T8bqpzkStAjPDa7JmqOoChWReYaYB",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13445_13445.pdf",
+            "title": "النصوص القرائية الدورة الأولى حوار عجيب",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 94618,
+            "driveUrl": "https://drive.google.com/uc?id=1uY_T8bqpzkStAjPDa7JmqOoChWReYaYB&export=download"
+          },
+          {
+            "id": "1GcYBX9FID_gfwoOt_hFmImcGUiltsWCB",
+            "name": "3eme-annee-college_general_arabe_cours_doc-13441_13441.pdf",
+            "title": "النصوص القرائية الدورة الأولى خصال المسلم",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 111426,
+            "driveUrl": "https://drive.google.com/uc?id=1GcYBX9FID_gfwoOt_hFmImcGUiltsWCB&export=download"
+          },
+          {
+            "id": "1GHzjQa2MUJMLvPshcJo-_oTrJrhPVORY",
+            "name": "3eme-annee-college_general_arabe_cours_doc-36724_36724.pdf",
+            "title": "النصوص القرائية الدورة الأولى كليم الله",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 98575,
+            "driveUrl": "https://drive.google.com/uc?id=1GHzjQa2MUJMLvPshcJo-_oTrJrhPVORY&export=download"
+          },
+          {
+            "id": "1wrYoX0C8jE-1Bc13VF0erVsUXGvMCvSc",
+            "name": "3eme-annee-college_general_arabe_examens_2023_13447.pdf",
+            "title": "الامتحان الوطني 2023 (الدورة العادية)",
+            "category": "examens",
+            "semester": "nationaux",
+            "isCorrige": false,
+            "size": 96638,
+            "driveUrl": "https://drive.google.com/uc?id=1wrYoX0C8jE-1Bc13VF0erVsUXGvMCvSc&export=download"
+          }
+        ],
+        "education-islamique": [
+          {
+            "id": "1FalM_d6a-K3Oa7ynbnk6saaL0oNsVN2h",
+            "name": "3eme-annee-college_general_education-islamique_cours_1_139395.pdf",
+            "title": "مدخل الاستجابة 1 : العبادة غاية الخلق (العبادة صفة إيمان ودليل خضوع)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 609613,
+            "driveUrl": "https://drive.google.com/uc?id=1FalM_d6a-K3Oa7ynbnk6saaL0oNsVN2h&export=download"
+          },
+          {
+            "id": "1GyA2V_tZQeep52TRmRXkv65oczvAgHcF",
+            "name": "3eme-annee-college_general_education-islamique_cours_1_139394.pdf",
+            "title": "مدخل الاقتداء 1 : حماية الدعوة وبناء الدولة (الهجرة)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 612077,
+            "driveUrl": "https://drive.google.com/uc?id=1GyA2V_tZQeep52TRmRXkv65oczvAgHcF&export=download"
+          },
+          {
+            "id": "1o81knlEK5cH8bLKCtH87NxS0beQ39Z7x",
+            "name": "3eme-annee-college_general_education-islamique_cours_1_139393.pdf",
+            "title": "مدخل التزكية (العقيدة) 1 : أسماء الله الحسنى",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 600824,
+            "driveUrl": "https://drive.google.com/uc?id=1o81knlEK5cH8bLKCtH87NxS0beQ39Z7x&export=download"
+          },
+          {
+            "id": "1bUWkNMS-0hi8t6IEfM2JlVuscMzefBuh",
+            "name": "3eme-annee-college_general_education-islamique_cours_2_140247.pdf",
+            "title": "مدخل التزكية (العقيدة) 2 : أهمية التدين في حياة الفرد والمجتمع",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 601006,
+            "driveUrl": "https://drive.google.com/uc?id=1bUWkNMS-0hi8t6IEfM2JlVuscMzefBuh&export=download"
+          },
+          {
+            "id": "1w95krwPuqVMI1VMaJ-MM3LRiMwMEXzCB",
+            "name": "3eme-annee-college_general_education-islamique_cours_1_139397.pdf",
+            "title": "مدخل الحكمة 1 : الهجرة المتجددة (المهاجر من هجر ما نهى الله عنه)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 641999,
+            "driveUrl": "https://drive.google.com/uc?id=1w95krwPuqVMI1VMaJ-MM3LRiMwMEXzCB&export=download"
+          },
+          {
+            "id": "16FmzPwSSEx7PX1g_wu_v86vUWcXyuJ9H",
+            "name": "3eme-annee-college_general_education-islamique_cours_1_139396.pdf",
+            "title": "مدخل القسط 1 : حق الله (تقوى الله)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 589224,
+            "driveUrl": "https://drive.google.com/uc?id=16FmzPwSSEx7PX1g_wu_v86vUWcXyuJ9H&export=download"
+          },
+          {
+            "id": "1WZhBUnwqpABHdTYlcyKe6zLezHHXScoZ",
+            "name": "3eme-annee-college_general_education-islamique_cours_1-1-7_139392.pdf",
+            "title": "مدخل التزكية (القرآن الكريم) 1 : الشطر الأول من سورة الحشر (الآية 1 إلى 7)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 626374,
+            "driveUrl": "https://drive.google.com/uc?id=1WZhBUnwqpABHdTYlcyKe6zLezHHXScoZ&export=download"
+          },
+          {
+            "id": "18sQiJhyu8eWbjy_oLV6hEEvENiXohfS1",
+            "name": "3eme-annee-college_general_education-islamique_cours_2-8-17_139903.pdf",
+            "title": "مدخل التزكية (القرآن الكريم) 2 : الشطر الثاني من سورة الحشر (الآية 8 إلى 17)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 626963,
+            "driveUrl": "https://drive.google.com/uc?id=18sQiJhyu8eWbjy_oLV6hEEvENiXohfS1&export=download"
+          }
+        ],
+        "histoire-geographie": [
+          {
+            "id": "1iP5kwVdp3HRsICRjEF5KyJmkEqo2zlNs",
+            "name": "3eme-annee-college_general_histoire-geographie_cours__129936.pdf",
+            "title": "",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 1033955,
+            "driveUrl": "https://drive.google.com/uc?id=1iP5kwVdp3HRsICRjEF5KyJmkEqo2zlNs&export=download"
+          },
+          {
+            "id": "1jHgAsd7zkl3DMnBfjMyzIclO6nCXvuNE",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_19_129935.pdf",
+            "title": "19",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 988423,
+            "driveUrl": "https://drive.google.com/uc?id=1jHgAsd7zkl3DMnBfjMyzIclO6nCXvuNE&export=download"
+          },
+          {
+            "id": "1_M5ujnoRzHV8jJCT9b3uqFBEgRCJTLuw",
+            "name": "3eme-annee-college_general_histoire-geographie_cours__129937.pdf",
+            "title": "درس التاريخ 3 : الضغط الاستعماري على المغرب",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 977536,
+            "driveUrl": "https://drive.google.com/uc?id=1_M5ujnoRzHV8jJCT9b3uqFBEgRCJTLuw&export=download"
+          },
+          {
+            "id": "1YpFEjROsjBwC4E73K4PdJz1CpN4it_vX",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_1929_107701.pdf",
+            "title": "دروس التاريخ: الدورة الأولى أزمة 1929 (الأسباب والمظاهر والنتائج)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 63409,
+            "driveUrl": "https://drive.google.com/uc?id=1YpFEjROsjBwC4E73K4PdJz1CpN4it_vX&export=download"
+          },
+          {
+            "id": "1O7vZIy55W4zdfhfhyaVMXuGuYBt8N_HO",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_19_107696.pdf",
+            "title": "دروس التاريخ: الدورة الأولى ازدهار الرأسمالية الأوربية خلال القرن 19م",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 64488,
+            "driveUrl": "https://drive.google.com/uc?id=1O7vZIy55W4zdfhfhyaVMXuGuYBt8N_HO&export=download"
+          },
+          {
+            "id": "1qL4GA_S9b-A-gnQmr22RrLy1D39FB3gv",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107697_107697.pdf",
+            "title": "دروس التاريخ: الدورة الأولى الإمبريالية وليدة الرأسمالية",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 62229,
+            "driveUrl": "https://drive.google.com/uc?id=1qL4GA_S9b-A-gnQmr22RrLy1D39FB3gv&export=download"
+          },
+          {
+            "id": "1Uc4Pp8d2UGEUT5OfVn5_UC2V9dbyWobs",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107699_107699.pdf",
+            "title": "دروس التاريخ: الدورة الأولى الحرب العالمية الأولى (الأسباب والنتائج)",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 67649,
+            "driveUrl": "https://drive.google.com/uc?id=1Uc4Pp8d2UGEUT5OfVn5_UC2V9dbyWobs&export=download"
+          },
+          {
+            "id": "1qQBGL5s7_2qtrRcPBJ01vvJKxV_q3y9-",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107698_107698.pdf",
+            "title": "دروس التاريخ: الدورة الأولى الضغط الاستعماري على المغرب",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 63919,
+            "driveUrl": "https://drive.google.com/uc?id=1qQBGL5s7_2qtrRcPBJ01vvJKxV_q3y9-&export=download"
+          },
+          {
+            "id": "1LAQj6AezmMCQQ5-Kk5R7_jjStAup2uF7",
+            "name": "3eme-annee-college_general_histoire-geographie_cours_doc-107700_107700.pdf",
+            "title": "دروس التاريخ: الدورة الأولى انهيار الإمبراطورية العثمانية والتدخل الاستعماري في المشرق العربي",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 68549,
+            "driveUrl": "https://drive.google.com/uc?id=1LAQj6AezmMCQQ5-Kk5R7_jjStAup2uF7&export=download"
+          }
+        ],
+        "mathematiques": [
+          {
+            "id": "1tlhxC_LYCkdaoFu7b4_SoK_uQYQm-qYe",
+            "name": "3eme-annee-college_general_mathematiques_cours_1_107485.pdf",
+            "title": "الجذور المربعة الدرس 1",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 3361321,
+            "driveUrl": "https://drive.google.com/uc?id=1tlhxC_LYCkdaoFu7b4_SoK_uQYQm-qYe&export=download"
+          },
+          {
+            "id": "1tFnAdlnNWyGb9ii3WXJQMFHRkpkEX9AR",
+            "name": "3eme-annee-college_general_mathematiques_cours_2_87382.pdf",
+            "title": "الجذور المربعة الدرس 2",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 978069,
+            "driveUrl": "https://drive.google.com/uc?id=1tFnAdlnNWyGb9ii3WXJQMFHRkpkEX9AR&export=download"
+          },
+          {
+            "id": "1r3eAiMS6ML7oCmyN3BLGgR_nKMzKTN0u",
+            "name": "3eme-annee-college_general_mathematiques_cours_3_12875.pdf",
+            "title": "الجذور المربعة الدرس 3",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 141993,
+            "driveUrl": "https://drive.google.com/uc?id=1r3eAiMS6ML7oCmyN3BLGgR_nKMzKTN0u&export=download"
+          },
+          {
+            "id": "1GcBAVBProkwmlPIyNflZz4v9XrLVrxiV",
+            "name": "3eme-annee-college_general_mathematiques_cours_4_106428.pdf",
+            "title": "الجذور المربعة الدرس 4",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 179527,
+            "driveUrl": "https://drive.google.com/uc?id=1GcBAVBProkwmlPIyNflZz4v9XrLVrxiV&export=download"
+          },
+          {
+            "id": "1A16GU-Qjac8dttLPfSBUUmtqthM1CqiW",
+            "name": "3eme-annee-college_general_mathematiques_cours_doc-118693_118693.pdf",
+            "title": "الجذور المربعة درس مكتوب بخط اليد",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 1084730,
+            "driveUrl": "https://drive.google.com/uc?id=1A16GU-Qjac8dttLPfSBUUmtqthM1CqiW&export=download"
+          },
+          {
+            "id": "14wsyWYstBx9hv2kOBsfVk1MDsGVfAXbT",
+            "name": "3eme-annee-college_general_mathematiques_exercices_1-exercices_12877.pdf",
+            "title": "الجذور المربعة - تصحيح سلسلة التمارين 1 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 1017143,
+            "driveUrl": "https://drive.google.com/uc?id=14wsyWYstBx9hv2kOBsfVk1MDsGVfAXbT&export=download"
+          },
+          {
+            "id": "1Y6IZ26Dhan7vu4JpXSXI5zP-uZsvnzi2",
+            "name": "3eme-annee-college_general_mathematiques_exercices_2-exercices_12879.pdf",
+            "title": "الجذور المربعة - تصحيح سلسلة التمارين 2 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 213459,
+            "driveUrl": "https://drive.google.com/uc?id=1Y6IZ26Dhan7vu4JpXSXI5zP-uZsvnzi2&export=download"
+          },
+          {
+            "id": "1YfE-qDCwJi3sc_BJrwP8jzAvVrWdV3pX",
+            "name": "3eme-annee-college_general_mathematiques_exercices_1-exercices_107486.pdf",
+            "title": "الجذور المربعة - سلسلة التمارين 1 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 79294,
+            "driveUrl": "https://drive.google.com/uc?id=1YfE-qDCwJi3sc_BJrwP8jzAvVrWdV3pX&export=download"
+          },
+          {
+            "id": "1Zl-ecJduZVCoApawe3eqRwZztYXU6VE1",
+            "name": "3eme-annee-college_general_mathematiques_exercices_2-exercices_12878.pdf",
+            "title": "الجذور المربعة - سلسلة التمارين 2 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 44233,
+            "driveUrl": "https://drive.google.com/uc?id=1Zl-ecJduZVCoApawe3eqRwZztYXU6VE1&export=download"
+          },
+          {
+            "id": "1TiIlqxhSkKAj1g6LW2uM6_qYgWeW0Gzh",
+            "name": "3eme-annee-college_general_mathematiques_resumes_1_87383.pdf",
+            "title": "الجذور المربعة ملخص الدرس 1",
+            "category": "resumes",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 85342,
+            "driveUrl": "https://drive.google.com/uc?id=1TiIlqxhSkKAj1g6LW2uM6_qYgWeW0Gzh&export=download"
+          },
+          {
+            "id": "1LCpE_bsSJTx6HdLygMauu1ZDJ4HCO86w",
+            "name": "3eme-annee-college_general_mathematiques_resumes_2_106443.pdf",
+            "title": "الجذور المربعة ملخص الدرس 2",
+            "category": "resumes",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 146482,
+            "driveUrl": "https://drive.google.com/uc?id=1LCpE_bsSJTx6HdLygMauu1ZDJ4HCO86w&export=download"
+          },
+          {
+            "id": "1QalqFFjzWRxo0-nmHOwsiy8RAYe86h9B",
+            "name": "3eme-annee-college_general_mathematiques_resumes_doc-118698_118698.pdf",
+            "title": "الجذور المربعة ملخص درس مكتوب بخط اليد",
+            "category": "resumes",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 247619,
+            "driveUrl": "https://drive.google.com/uc?id=1QalqFFjzWRxo0-nmHOwsiy8RAYe86h9B&export=download"
+          }
+        ],
+        "physique-chimie": [
+          {
+            "id": "1_SBtKQapFLg0r3kilE0WlN4YdWbeH2SO",
+            "name": "3eme-annee-college_general_physique-chimie_cours_1_107542.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية الدرس 1",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 353746,
+            "driveUrl": "https://drive.google.com/uc?id=1_SBtKQapFLg0r3kilE0WlN4YdWbeH2SO&export=download"
+          },
+          {
+            "id": "16MSyTcYJ3dq4BKL55d0BYrX04HDLhskN",
+            "name": "3eme-annee-college_general_physique-chimie_cours_2_54867.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية الدرس 2",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 595367,
+            "driveUrl": "https://drive.google.com/uc?id=16MSyTcYJ3dq4BKL55d0BYrX04HDLhskN&export=download"
+          },
+          {
+            "id": "1mLEWVJ-AvjRxfWXg4q2jUTBPG_kD5iWG",
+            "name": "3eme-annee-college_general_physique-chimie_cours_3_54868.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية الدرس 3",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 349390,
+            "driveUrl": "https://drive.google.com/uc?id=1mLEWVJ-AvjRxfWXg4q2jUTBPG_kD5iWG&export=download"
+          },
+          {
+            "id": "1WVmGxjCUXx5QthwPAsMlbIQcat6_EE9B",
+            "name": "3eme-annee-college_general_physique-chimie_exercices_1-exercices_89169.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية - تصحيح سلسلة التمارين 1 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 227689,
+            "driveUrl": "https://drive.google.com/uc?id=1WVmGxjCUXx5QthwPAsMlbIQcat6_EE9B&export=download"
+          },
+          {
+            "id": "1BchTMciCvo1AtCSzXCAcSJg1k57GSq1R",
+            "name": "3eme-annee-college_general_physique-chimie_exercices_2-exercices_41111.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية - تصحيح سلسلة التمارين 2 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 57710,
+            "driveUrl": "https://drive.google.com/uc?id=1BchTMciCvo1AtCSzXCAcSJg1k57GSq1R&export=download"
+          },
+          {
+            "id": "1ZIXXT9iGM1ZGn8dvZyIzTMFsy9u0QPcs",
+            "name": "3eme-annee-college_general_physique-chimie_exercices_1-exercices_107543.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية - سلسلة التمارين 1 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 228722,
+            "driveUrl": "https://drive.google.com/uc?id=1ZIXXT9iGM1ZGn8dvZyIzTMFsy9u0QPcs&export=download"
+          },
+          {
+            "id": "1NXGFPHhn8UJbGEtR90itfjypPCFMWX_7",
+            "name": "3eme-annee-college_general_physique-chimie_exercices_2-exercices_41110.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية - سلسلة التمارين 2 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 70957,
+            "driveUrl": "https://drive.google.com/uc?id=1NXGFPHhn8UJbGEtR90itfjypPCFMWX_7&export=download"
+          },
+          {
+            "id": "1HQgwwWPQ5_pzWJay3d6SxKCwPTmoravr",
+            "name": "3eme-annee-college_general_physique-chimie_resumes_1_13128.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية ملخص الدرس 1",
+            "category": "resumes",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 301612,
+            "driveUrl": "https://drive.google.com/uc?id=1HQgwwWPQ5_pzWJay3d6SxKCwPTmoravr&export=download"
+          },
+          {
+            "id": "1RdEi2ACNqXnDzuZ_1JRLWUveYkex8BgP",
+            "name": "3eme-annee-college_general_physique-chimie_resumes_2_54869.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية ملخص الدرس 2",
+            "category": "resumes",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 791711,
+            "driveUrl": "https://drive.google.com/uc?id=1RdEi2ACNqXnDzuZ_1JRLWUveYkex8BgP&export=download"
+          },
+          {
+            "id": "1bp8vW-KSO8m-gImFSH0Po7Q_ktgFYrAt",
+            "name": "3eme-annee-college_general_physique-chimie_resumes_3_54870.pdf",
+            "title": "أمثلة لبعض المواد المستعملة في حياتنا اليومية ملخص الدرس 3",
+            "category": "resumes",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 297796,
+            "driveUrl": "https://drive.google.com/uc?id=1bp8vW-KSO8m-gImFSH0Po7Q_ktgFYrAt&export=download"
+          }
+        ],
+        "svt": [
+          {
+            "id": "1KIXLASnax_oVrE4gowSIIg23q2uzwMhp",
+            "name": "3eme-annee-college_general_svt_cours_1_107594.pdf",
+            "title": "التربية الغذائية الدرس 1",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 1210683,
+            "driveUrl": "https://drive.google.com/uc?id=1KIXLASnax_oVrE4gowSIIg23q2uzwMhp&export=download"
+          },
+          {
+            "id": "1t5Io28btK7hYFyqfLX6jgtoEAj06uFkc",
+            "name": "3eme-annee-college_general_svt_cours_2_13324.pdf",
+            "title": "التربية الغذائية الدرس 2",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 215408,
+            "driveUrl": "https://drive.google.com/uc?id=1t5Io28btK7hYFyqfLX6jgtoEAj06uFkc&export=download"
+          },
+          {
+            "id": "1k6ZRo_yScJZObhudDCWnJ2OmEd9MKM0m",
+            "name": "3eme-annee-college_general_svt_cours_doc-13325_13325.pdf",
+            "title": "التربية الغذائية وثائق بالألوان",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 6522853,
+            "driveUrl": "https://drive.google.com/uc?id=1k6ZRo_yScJZObhudDCWnJ2OmEd9MKM0m&export=download"
+          },
+          {
+            "id": "1T5dgOaxsrzGWHstXgfEzXNdXwVrAemKN",
+            "name": "3eme-annee-college_general_svt_exercices_1-exercices_89221.pdf",
+            "title": "التربية الغذائية - تصحيح سلسلة التمارين 1 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 367986,
+            "driveUrl": "https://drive.google.com/uc?id=1T5dgOaxsrzGWHstXgfEzXNdXwVrAemKN&export=download"
+          },
+          {
+            "id": "1b8ocZXL7trJSvzAWcsBZuVpfQh1FecXK",
+            "name": "3eme-annee-college_general_svt_exercices_2-exercices_89223.pdf",
+            "title": "التربية الغذائية - تصحيح سلسلة التمارين 2 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 888151,
+            "driveUrl": "https://drive.google.com/uc?id=1b8ocZXL7trJSvzAWcsBZuVpfQh1FecXK&export=download"
+          },
+          {
+            "id": "1TSfu1nZDo4MJvbXA9ToQGXXn1AbTiKTM",
+            "name": "3eme-annee-college_general_svt_exercices_3-exercices_89225.pdf",
+            "title": "التربية الغذائية - تصحيح سلسلة التمارين 3 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 1011518,
+            "driveUrl": "https://drive.google.com/uc?id=1TSfu1nZDo4MJvbXA9ToQGXXn1AbTiKTM&export=download"
+          },
+          {
+            "id": "1wcPZ29XCKL7m7sCJXxfMsC1Jhee51Ka7",
+            "name": "3eme-annee-college_general_svt_exercices_1-exercices_107595.pdf",
+            "title": "التربية الغذائية - سلسلة التمارين 1 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 339066,
+            "driveUrl": "https://drive.google.com/uc?id=1wcPZ29XCKL7m7sCJXxfMsC1Jhee51Ka7&export=download"
+          },
+          {
+            "id": "1_xOt8cBS6jsh0ytQCJOAX7T1GGZlRoIk",
+            "name": "3eme-annee-college_general_svt_exercices_2-exercices_89222.pdf",
+            "title": "التربية الغذائية - سلسلة التمارين 2 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 564905,
+            "driveUrl": "https://drive.google.com/uc?id=1_xOt8cBS6jsh0ytQCJOAX7T1GGZlRoIk&export=download"
+          },
+          {
+            "id": "1hjRF0Owd4Kn-zHueYTAc6Fo4ugaKocwZ",
+            "name": "3eme-annee-college_general_svt_exercices_3-exercices_89224.pdf",
+            "title": "التربية الغذائية - سلسلة التمارين 3 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 762437,
+            "driveUrl": "https://drive.google.com/uc?id=1hjRF0Owd4Kn-zHueYTAc6Fo4ugaKocwZ&export=download"
+          },
+          {
+            "id": "1-r2pMm63tQGqrJXUAB8WooSu56rSTnqd",
+            "name": "3eme-annee-college_general_svt_exercices_4-exercices_89226.pdf",
+            "title": "التربية الغذائية - سلسلة التمارين 4 (Exercices)",
+            "category": "exercices",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 872040,
+            "driveUrl": "https://drive.google.com/uc?id=1-r2pMm63tQGqrJXUAB8WooSu56rSTnqd&export=download"
+          }
+        ],
+        "francais": [
+          {
+            "id": "1dXRlgF-Knkz_1pT2hPTr4kZgKIg8KheR",
+            "name": "3eme-annee-college_biof_francais_cours_n-gocier-le-projet_129949.pdf",
+            "title": "N gocier le projet",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 45592,
+            "driveUrl": "https://drive.google.com/uc?id=1dXRlgF-Knkz_1pT2hPTr4kZgKIg8KheR&export=download"
+          },
+          {
+            "id": "1dKOZ9LfFP4SZAOlL_kgKjqJgmbNvNP56",
+            "name": "3eme-annee-college_biof_francais_cours_lecture-1-1-identifier-les-caract-ristiques-d_129950.pdf",
+            "title": "Lecture 1-1 : Identifier les caractéristiques d'une nouvelle",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 175429,
+            "driveUrl": "https://drive.google.com/uc?id=1dKOZ9LfFP4SZAOlL_kgKjqJgmbNvNP56&export=download"
+          },
+          {
+            "id": "1QjxLyZSA1diwVBhqlWH46Ilfi6ifdZuy",
+            "name": "3eme-annee-college_biof_francais_controles_contr-le-1-mod-le-1_129948.pdf",
+            "title": "Contrôle 1 (Modèle 1)",
+            "category": "controles",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 50470,
+            "driveUrl": "https://drive.google.com/uc?id=1QjxLyZSA1diwVBhqlWH46Ilfi6ifdZuy&export=download"
+          }
+        ],
+        "anglais": [
+          {
+            "id": "1rqZvBsLjFxBQH2bvfqqf_imunpjqP62Y",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-1-hello-communication_129988.pdf",
+            "title": "Unit 1 (Hello) : Communication",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 336444,
+            "driveUrl": "https://drive.google.com/uc?id=1rqZvBsLjFxBQH2bvfqqf_imunpjqP62Y&export=download"
+          },
+          {
+            "id": "1mOPv-x-3YoTrPvxhR0UnbNowFDUMZ7HI",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-1-hello-cultural-studies_129992.pdf",
+            "title": "Unit 1 (Hello) : Cultural Studies",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 133169,
+            "driveUrl": "https://drive.google.com/uc?id=1mOPv-x-3YoTrPvxhR0UnbNowFDUMZ7HI&export=download"
+          },
+          {
+            "id": "1enUMFVxXLXaXSbC9CuT1LP6tyo7_NdQA",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-1-hello-review_129993.pdf",
+            "title": "Unit 1 (Hello) : Review",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 75064,
+            "driveUrl": "https://drive.google.com/uc?id=1enUMFVxXLXaXSbC9CuT1LP6tyo7_NdQA&export=download"
+          },
+          {
+            "id": "1gJ6VXAxpUYO60KTUCpxFRs1SSG6lhliG",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-1-hello-skills-work_129991.pdf",
+            "title": "Unit 1 (Hello) : Skills Work",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 96455,
+            "driveUrl": "https://drive.google.com/uc?id=1gJ6VXAxpUYO60KTUCpxFRs1SSG6lhliG&export=download"
+          },
+          {
+            "id": "1SWvZAdhEh7Hpt0NVm2WnZLORCfpZvgg9",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-1-hello-study-skills_129990.pdf",
+            "title": "Unit 1 (Hello) : Study Skills",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 220492,
+            "driveUrl": "https://drive.google.com/uc?id=1SWvZAdhEh7Hpt0NVm2WnZLORCfpZvgg9&export=download"
+          },
+          {
+            "id": "1W71MUJlB67qJ_IMbharaqGupEtLza4oy",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-1-hello-grammar_129989.pdf",
+            "title": "Unit 1 hello grammar",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 259440,
+            "driveUrl": "https://drive.google.com/uc?id=1W71MUJlB67qJ_IMbharaqGupEtLza4oy&export=download"
+          },
+          {
+            "id": "1sHRQbeMxJ0sn2nJOWVbnyU5a7GYorSqE",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-2-school-communication_129994.pdf",
+            "title": "Unit 2 (School) : Communication",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 355479,
+            "driveUrl": "https://drive.google.com/uc?id=1sHRQbeMxJ0sn2nJOWVbnyU5a7GYorSqE&export=download"
+          },
+          {
+            "id": "1hFbruuJ4jIBoR2FgekW4WXmH2aF_zl2o",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-2-school-grammar_129995.pdf",
+            "title": "Unit 2 (School) : Grammar",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 319493,
+            "driveUrl": "https://drive.google.com/uc?id=1hFbruuJ4jIBoR2FgekW4WXmH2aF_zl2o&export=download"
+          },
+          {
+            "id": "1DvjmLFIAikD3sJ00cq500DpDtJ_037Vv",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-2-school-skills-work_129997.pdf",
+            "title": "Unit 2 (School) : Skills Work",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 257157,
+            "driveUrl": "https://drive.google.com/uc?id=1DvjmLFIAikD3sJ00cq500DpDtJ_037Vv&export=download"
+          },
+          {
+            "id": "1TqRDyyL44p8b8It4h3G5ziqjNiNz6OIw",
+            "name": "3eme-annee-college_biof_anglais_cours_unit-2-school-study-skills_129996.pdf",
+            "title": "Unit 2 (School) : Study Skills",
+            "category": "cours",
+            "semester": "semestre-1",
+            "isCorrige": false,
+            "size": 242353,
+            "driveUrl": "https://drive.google.com/uc?id=1TqRDyyL44p8b8It4h3G5ziqjNiNz6OIw&export=download"
           }
         ]
       }
