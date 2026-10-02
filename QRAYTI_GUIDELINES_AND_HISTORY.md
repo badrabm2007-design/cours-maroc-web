@@ -168,10 +168,15 @@ flutter build web --release
 ```
 
 ### 5.3. Déployer sur Netlify en Production
+Le site est déployé directement sur le site ID Netlify `0088a766-7a9a-4029-8a96-1ffb3af547e6` lié au domaine officiel `https://qrayti.online` :
+* Via MCP Netlify : `netlify-deploy-services-updater` avec `operation: deploy-site`, `deployDirectory: "c:\Users\HPi5book\Desktop\flutter\app\cours_web"`, `siteId: "0088a766-7a9a-4029-8a96-1ffb3af547e6"`.
+* Via CLI Netlify (si installé) :
 ```powershell
 $env:NODE_OPTIONS="--dns-result-order=ipv4first"
 netlify deploy --prod --dir=build/web
 ```
+*Vérification réussie le 2 Octobre 2026 : Déploiement `6abf97954c7a1fda48873736` en état `ready` sur `https://qrayti.online`.*
+
 
 ### 5.4. Compiler la Version Windows
 Dans `c:\Users\HPi5book\Desktop\flutter\app\cours_windows` :
