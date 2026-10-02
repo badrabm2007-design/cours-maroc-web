@@ -1,3 +1,38 @@
+# Cache statique agressif pour les assets immuables
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/canvaskit/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/icons/*
+  Cache-Control: public, max-age=2592000
+  Access-Control-Allow-Origin: *
+
+# Bundle Flutter Dart : mise en cache avec reutilisation instantanee (stale-while-revalidate)
+/main.dart.js
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/flutter.js
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+# Toujours revalider les points d'entree HTML et bootstrap pour detecter les mises a jour immediatement
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/flutter_bootstrap.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/version.json
+  Cache-Control: public, max-age=0, must-revalidate
+
+/manifest.json
+  Cache-Control: public, max-age=86400
+
 /api/pdf*
   Access-Control-Allow-Origin: *
   Content-Type: application/pdf
