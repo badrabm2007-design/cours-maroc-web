@@ -173,6 +173,28 @@ flutter/app/
 
 ---
 
+### ⚠️ Problème 11 : Optimisation et Réduction Maximale du Retard de Lancement du Site Web
+* **Description** : Lancement perçu comme lent sur le site web (https://qrayti.online) avec un écran de démarrage (splash screen) qui tardait à s'effacer.
+* **Causes identifiées** :
+  1. `MIN_SHOW = 1600` ms : Verrou artificiel de 1,6 seconde imposé dans `web/index.html` avant de lancer la disparition du splash, même lorsque Flutter était prêt en 400ms.
+  2. Scripts bloquants dans `<head>` : La bibliothèque `pdf.min.js` (280 Ko) était chargée de manière synchrone, bloquant le rendu initial et le démarrage du moteur Flutter.
+  3. Téléchargement séquentiel : Le bundle Flutter `main.dart.js` (5,3 Mo) n'était demandé qu'après l'analyse et l'exécution de `flutter_bootstrap.js`.
+  4. Connexion tardive à CanvasKit : Absence de préconnexion TLS vers `https://www.gstatic.com`.
+  5. Cache navigateur sous-exploité : `no-store` et effacement forcé des caches empêchaient le navigateur de réutiliser instantanément `main.dart.js` et `canvaskit.wasm`.
+* **Solutions appliquées** :
+  1. **Suppression du délai artificiel** : `MIN_SHOW` ramené de 1600ms à 350ms, temporisation MutationObserver réduite à 40ms, transition d'effacement raccourcie à 0.35s.
+  2. **Accélération des keyframes CSS** : L'apparition du logo, du nom doré et du slogan s'accomplit en 250ms (contre 750ms auparavant).
+  3. **Préchargement parallèle HTTP/2** : Ajout de `<link rel="preload" href="main.dart.js" as="script">` et `flutter_bootstrap.js` dans `<head>`.
+  4. **Préconnexion réseau** : `<link rel="preconnect" href="https://www.gstatic.com" crossorigin>` et `dns-prefetch`.
+  5. **Déféré sans blocage** : `pdf.min.js` déplacé en `defer` non-bloquant.
+  6. **Règles de cache HTTP Netlify (`_headers`)** :
+     - `index.html` et `flutter_bootstrap.js` : `max-age=0, must-revalidate` (mises à jour détectées immédiatement).
+     - `main.dart.js` : `max-age=604800, stale-while-revalidate=86400` (ouverture instantanée en ~10-30ms dès la seconde visite).
+     - `canvaskit/*` et `assets/*` : `max-age=31536000, immutable`.
+  7. **Compilation de production optimisée** : Compilation effectuée avec `flutter build web --release -O4`.
+
+---
+
 ## 5. Guide d'Exécution & Commandes de Déploiement
 
 ### 5.1. Prévisualisation Web en Local (Localhost)
