@@ -195,6 +195,17 @@ flutter/app/
 
 ---
 
+### ⚠️ Problème 12 : Échec de Git Push avec 'Could not resolve host: github.com' (Réseau IPv6)
+* **Description** : L'exécution de `git push origin main` échouait avec `fatal: unable to access: Could not resolve host: github.com`.
+* **Cause** : Comme pour Node.js (Problème 4), la couche libcurl de Git sous Windows tentait de résoudre et se connecter à GitHub via une route IPv6 non routable (`64:ff9b::8c52:7903`) avec dépassement de délai (timeout 21s).
+* **Solution** : Configuration globale de Git pour forcer la résolution d'adresses IPv4 :
+  ```powershell
+  git config --global http.ipResolve ipv4
+  ```
+  Le push vers GitHub (`main -> main`) s'effectue alors immédiatement en ~1 seconde sans blocage.
+
+---
+
 ## 5. Guide d'Exécution & Commandes de Déploiement
 
 ### 5.1. Prévisualisation Web en Local (Localhost)
