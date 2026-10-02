@@ -10,6 +10,18 @@
   force = true
 
 [[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/PRIVACY_POLICY.html"
+  to = "/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
