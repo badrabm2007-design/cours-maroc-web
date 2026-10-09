@@ -126,6 +126,16 @@ class _FocusModeScreenState extends State<FocusModeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: Navigator.of(context).canPop()
+              ? const BackButton()
+              : IconButton(
+                  icon: const Icon(Icons.arrow_back_rounded),
+                  tooltip: isArabic ? 'رجوع' : 'Retour',
+                  onPressed: () {
+                    timerService.setFocusScreenOpen(false);
+                    Navigator.of(context).pushReplacementNamed('/');
+                  },
+                ),
           title: Text(
             isArabic ? 'مساحة التركيز والإنتاجية' : 'Espace Mode Concentration',
             style: const TextStyle(fontWeight: FontWeight.w800),

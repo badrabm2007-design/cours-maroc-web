@@ -42,6 +42,7 @@ class UserProfileService extends ChangeNotifier {
   static const String _keyLevelId = 'user_saved_level_id_v1';
   static const String _keyBranchId = 'user_saved_branch_id_v1';
   static const String _keyHistory = 'user_reading_history_v1';
+  static const String _keyViewedDocIds = 'user_viewed_doc_ids_v1';
   static const String _keySubjectStats = 'user_subject_stats_v1';
   static const String _keyCategoryStats = 'user_category_stats_v1';
   static const String _keyLastLessons = 'user_last_lessons_v1';
@@ -53,6 +54,7 @@ class UserProfileService extends ChangeNotifier {
   String _savedBranchId = 'sciences-physiques';
 
   final List<HistoryEntry> _history = [];
+  final Set<String> _viewedDocIds = {};
   final Map<String, int> _subjectConsultationCounts = {};
   final Map<String, int> _categoryStats = {};
   final Map<String, String> _lastStudiedLessons = {};
@@ -63,6 +65,12 @@ class UserProfileService extends ChangeNotifier {
   String get savedLevelId => _savedLevelId;
   String get savedBranchId => _savedBranchId;
   List<HistoryEntry> get history => List.unmodifiable(_history);
+  Set<String> get viewedDocIds => Set.unmodifiable(_viewedDocIds);
+
+  bool isDocumentViewed(String docId) {
+    return _viewedDocIds.contains(docId) || _history.any((h) => h.docId == docId);
+  }
+
   Map<String, int> get subjectStats => Map.unmodifiable(_subjectConsultationCounts);
   Map<String, int> get categoryStats => Map.unmodifiable(_categoryStats);
   Map<String, String> get lastStudiedLessons => Map.unmodifiable(_lastStudiedLessons);
@@ -84,6 +92,16 @@ class UserProfileService extends ChangeNotifier {
         for (final item in list) {
           _history.add(HistoryEntry.fromJson(item as Map<String, dynamic>));
         }
+      }
+
+      // Load viewed document IDs (persisted forever)
+      _viewedDocIds.clear();
+      final rawViewed = prefs.getStringList(_keyViewedDocIds);
+      if (rawViewed != null) {
+        _viewedDocIds.addAll(rawViewed);
+      }
+      for (final h in _history) {
+        _viewedDocIds.add(h.docId);
       }
 
       // Load subject stats
@@ -231,6 +249,9 @@ class UserProfileService extends ChangeNotifier {
     // Record last studied lesson title
     _lastStudiedLessons[catKey] = doc.title;
 
+    // Track viewed doc ID
+    _viewedDocIds.add(doc.id);
+
     // Add to history (remove old duplicate if exists to keep top fresh)
     _history.removeWhere((h) => h.docId == doc.id);
     _history.insert(
@@ -257,6 +278,8 @@ class UserProfileService extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(
           _keyHistory, json.encode(_history.map((h) => h.toJson()).toList()));
+      await prefs.setStringList(
+          _keyViewedDocIds, _viewedDocIds.toList());
       await prefs.setString(
           _keySubjectStats, json.encode(_subjectConsultationCounts));
       await prefs.setString(
@@ -284,6 +307,7 @@ class UserProfileService extends ChangeNotifier {
       'savedLevelId': _savedLevelId,
       'savedBranchId': _savedBranchId,
       'history': _history.map((h) => h.toJson()).toList(),
+      'viewedDocIds': _viewedDocIds.toList(),
       'subjectStats': _subjectConsultationCounts,
       'categoryStats': _categoryStats,
       'lastStudiedLessons': _lastStudiedLessons,
@@ -298,6 +322,15 @@ class UserProfileService extends ChangeNotifier {
         _hasSelectedGrade = true;
         _savedLevelId = data['savedLevelId'] as String;
         _savedBranchId = data['savedBranchId'] as String? ?? _savedBranchId;
+      }
+
+      // Viewed document IDs: Union
+      if (data['viewedDocIds'] is List) {
+        for (final id in data['viewedDocIds'] as List) {
+          if (id is String && id.isNotEmpty) {
+            _viewedDocIds.add(id);
+          }
+        }
       }
 
       // History: Intelligent union by docId and timestamp

@@ -380,6 +380,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
+                        settings: const RouteSettings(name: '/niveaux'),
                         builder: (_) =>
                             const LevelSelectionScreen(isChangingGrade: true),
                       ),
@@ -492,6 +493,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
+                    settings: const RouteSettings(name: '/hors-ligne'),
                     builder: (_) => const OfflineDownloadsScreen(),
                   ),
                 );
@@ -509,6 +511,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
+                    settings: const RouteSettings(name: '/favoris'),
                     builder: (_) => const FavoritesScreen(),
                   ),
                 );
@@ -621,7 +624,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                    builder: (_) => const ProfileAnalyticsScreen()),
+                  settings: const RouteSettings(name: '/statistiques'),
+                  builder: (_) => const ProfileAnalyticsScreen(),
+                ),
               );
             },
           ),
@@ -654,7 +659,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               visualDensity: VisualDensity.compact,
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const FocusModeScreen()),
+                  MaterialPageRoute(
+                    settings: const RouteSettings(name: '/concentration'),
+                    builder: (_) => const FocusModeScreen(),
+                  ),
                 );
               },
             ),
@@ -666,7 +674,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             visualDensity: VisualDensity.compact,
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const SearchScreen()),
+                MaterialPageRoute(
+                  settings: const RouteSettings(name: '/recherche'),
+                  builder: (_) => const SearchScreen(),
+                ),
               );
             },
           ),
@@ -692,6 +703,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
+                  settings: const RouteSettings(name: '/parametres'),
                   builder: (_) => SettingsScreen(
                     onToggleTheme: widget.onToggleTheme,
                     isDarkMode: isDark,
@@ -750,6 +762,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
+                                      settings: const RouteSettings(name: '/hors-ligne'),
                                       builder: (_) =>
                                           const OfflineDownloadsScreen(),
                                     ),
@@ -772,6 +785,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
+                                      settings: const RouteSettings(name: '/favoris'),
                                       builder: (_) => const FavoritesScreen(),
                                     ),
                                   );
@@ -801,6 +815,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+
+                  // Dynamic Announcement Banner on compact / mobile screens
+                  if (!showSideBanners)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                        child: _buildMobileBanner(context, isDark, langService),
                       ),
                     ),
 
@@ -965,6 +988,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
+  Widget _buildMobileBanner(
+    BuildContext context,
+    bool isDark,
+    AppLanguageService langService,
+  ) {
+    final curriculum = context.watch<CurriculumService>();
+    final userProfile = context.watch<UserProfileService>();
+    final focusTimer = context.watch<FocusTimerService>();
+
+    final banner = SmartBannerService.getMobileBanner(
+      context: context,
+      curriculum: curriculum,
+      userProfile: userProfile,
+      focusTimer: focusTimer,
+      langService: langService,
+      onWindowsDownload: _openWindowsDownload,
+    );
+
+    return SmartBannerCardWidget(
+      item: banner,
+      isDark: isDark,
+      langService: langService,
+    );
+  }
 
   Widget _buildQuickActionCard({
     required BuildContext context,

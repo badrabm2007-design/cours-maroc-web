@@ -150,6 +150,14 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
     return Scaffold(
       appBar: widget.isChangingGrade
           ? AppBar(
+              leading: Navigator.of(context).canPop()
+                  ? const BackButton()
+                  : IconButton(
+                      icon: const Icon(Icons.arrow_back_rounded),
+                      tooltip: langService.isArabic ? 'رجوع' : 'Retour',
+                      onPressed: () =>
+                          Navigator.of(context).pushReplacementNamed('/'),
+                    ),
               title: Text(
                 langService.isArabic
                     ? 'المستوى الدراسي والتوجيه'

@@ -37,6 +37,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.of(context).canPop()
+            ? const BackButton()
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                tooltip: langService.isArabic ? 'رجوع' : 'Retour',
+                onPressed: () => Navigator.of(context).pushReplacementNamed('/'),
+              ),
         title: Text(
           langService.tr('settings_title'),
           style: const TextStyle(fontWeight: FontWeight.w700),
@@ -254,6 +261,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
+                          settings: const RouteSettings(name: '/niveaux'),
                           builder: (_) => const LevelSelectionScreen(isChangingGrade: true),
                         ),
                       );
@@ -388,7 +396,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: const Icon(Icons.chevron_right_rounded),
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const FocusModeScreen()),
+                      MaterialPageRoute(
+                        settings: const RouteSettings(name: '/concentration'),
+                        builder: (_) => const FocusModeScreen(),
+                      ),
                     );
                   },
                 ),

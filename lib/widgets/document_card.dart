@@ -199,12 +199,14 @@ class DocumentCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final downloadService = context.watch<DownloadService>();
     final favoritesService = context.watch<FavoritesService>();
+    final userProfile = context.watch<UserProfileService>();
     final langService = context.watch<AppLanguageService>();
 
     final isDownloaded = downloadService.isDownloaded(document.id);
     final isDownloading = downloadService.isDownloading(document.id);
     final downloadProgress = downloadService.getProgress(document.id);
     final isFav = favoritesService.isFavorite(document.id);
+    final isViewed = userProfile.isDocumentViewed(document.id);
     final catColor = _getCategoryColor(document.category);
 
     return Container(
@@ -415,6 +417,57 @@ class DocumentCard extends StatelessWidget {
                               ),
                             ),
                           ),
+
+                          // Déjà Consulté Badge (placed right next to file size)
+                          if (isViewed)
+                            Tooltip(
+                              message: langService.isArabic
+                                  ? 'ملف تمت مراجعته وقراءته من قبل'
+                                  : 'Document déjà consulté',
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 1.5),
+                                decoration: BoxDecoration(
+                                  color: isDark
+                                      ? const Color(0xFF10B981)
+                                          .withValues(alpha: 0.18)
+                                      : const Color(0xFF0F5132)
+                                          .withValues(alpha: 0.10),
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: isDark
+                                        ? const Color(0xFF10B981)
+                                            .withValues(alpha: 0.40)
+                                        : const Color(0xFF0F5132)
+                                            .withValues(alpha: 0.25),
+                                    width: 0.8,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.check_circle_rounded,
+                                      size: 11,
+                                      color: isDark
+                                          ? const Color(0xFF34D399)
+                                          : const Color(0xFF0F5132),
+                                    ),
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      langService.isArabic ? 'تمت قراءته' : 'Consulté',
+                                      style: TextStyle(
+                                        fontSize: 9.5,
+                                        fontWeight: FontWeight.w700,
+                                        color: isDark
+                                            ? const Color(0xFF34D399)
+                                            : const Color(0xFF0F5132),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ],

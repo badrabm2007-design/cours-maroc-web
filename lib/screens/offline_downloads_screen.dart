@@ -15,6 +15,14 @@ class OfflineDownloadsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.of(context).canPop()
+            ? const BackButton()
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                tooltip: 'Retour',
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/'),
+              ),
         title: const Text('Mes Cours Hors-ligne'),
         actions: [
           if (downloads.isNotEmpty)

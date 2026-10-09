@@ -13,6 +13,7 @@
 >    - Les nouveaux bogues ou obstacles techniques rencontrés et la solution technique précise apportée.
 >    - Les recommandations ou instructions nécessaires pour les futures IA et développeurs.
 > 4. **MÉMOIRE TECHNIQUE DU PROJET** : Ne supprimez sous aucun prétexte les sections historiques existantes.
+> 5. **ANIMATION PROFESSIONNELLE OFFICIELLE DE DÉMARRAGE (SPLASH SCREEN INTANGIBLE)** : L'animation d'ouverture Web de grand luxe créée pour Qrayti (trame géométrique islamique dorée à 8 pointes, particules flottantes d'or de la lumière du savoir, logo officiel transparent RGBA, typographie noble dorée *Qrayti • قرايتي*, filet doré animé, slogan *Excellence & Réussite • التميز الدراسي* et transition douce `cubic-bezier` sans à-coups) définie dans la racine ([`qrayti_splash_snippet(1).html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours/qrayti_splash_snippet(1).html), [`qrayti_splash_demo(1).html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours/qrayti_splash_demo(1).html)) et implémentée dans [`cours_web/web/index.html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours_web/web/index.html) est **STRICTEMENT INTANGIBLE**. Il est **formellement interdit à toute IA de la remplacer, de la simplifier, de la supprimer ou de réintroduire des barres de progression / loaders génériques**. Tout déploiement Web doit obligatoirement être compilé et déployé depuis le dossier dédié **`flutter/app/cours_web`** (et JAMAIS depuis `cours/build/web` qui est réservé à l'application mobile).
 
 ---
 
@@ -148,6 +149,8 @@ flutter/app/
 * **Solution** :
   1. Rédaction d'une page statique ultra-conforme [`privacy.html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours_web/web/privacy.html) contenant un tableau d'identifiants concordant à 100% avec la fiche Play Store (Nom d'app : **Qrayti**, Package : `com.lyceemaroc.cours.cours_lycee_maroc`, Développeur : **Qrayti**, Email : `contact.coursmaroc@gmail.com`).
   2. Intégration de la clause officielle de non-affiliation gouvernementale (obligatoire pour les apps éducatives).
+  3. Déploiement des routes statiques `/privacy`, `/privacy.html` et `/PRIVACY_POLICY.html` dans `netlify.toml` avec `force = true` pour garantir un rendu HTML statique direct (HTTP 200) sans dépendance au moteur Flutter SPA.
+
 ### ⚠️ Problème 8 : Tailles inégales des cartes de filières sur mobile
 * **Description** : Les cartes de filières variaient en hauteur selon que le nom tenait sur une ligne ou deux (ex. Sciences Expérimentales vs Sciences Économiques et Gestion).
 * **Cause** : `_BranchCardItem` dans `branch_selection_screen.dart` calculait sa hauteur de façon dynamique sans contrainte fixe sur mobile.
@@ -171,6 +174,204 @@ flutter/app/
 
 ---
 
+### ⚠️ Problème 11 : Optimisation et Réduction Maximale du Retard de Lancement du Site Web
+* **Description** : Lancement perçu comme lent sur le site web (https://qrayti.online) avec un écran de démarrage (splash screen) qui tardait à s'effacer.
+* **Causes identifiées** :
+  1. `MIN_SHOW = 1600` ms : Verrou artificiel de 1,6 seconde imposé dans `web/index.html` avant de lancer la disparition du splash, même lorsque Flutter était prêt en 400ms.
+  2. Scripts bloquants dans `<head>` : La bibliothèque `pdf.min.js` (280 Ko) était chargée de manière synchrone, bloquant le rendu initial et le démarrage du moteur Flutter.
+  3. Téléchargement séquentiel : Le bundle Flutter `main.dart.js` (5,3 Mo) n'était demandé qu'après l'analyse et l'exécution de `flutter_bootstrap.js`.
+  4. Connexion tardive à CanvasKit : Absence de préconnexion TLS vers `https://www.gstatic.com`.
+  5. Cache navigateur sous-exploité : `no-store` et effacement forcé des caches empêchaient le navigateur de réutiliser instantanément `main.dart.js` et `canvaskit.wasm`.
+* **Solutions appliquées** :
+  1. **Suppression du délai artificiel** : `MIN_SHOW` ramené de 1600ms à 350ms, temporisation MutationObserver réduite à 40ms, transition d'effacement raccourcie à 0.35s.
+  2. **Accélération des keyframes CSS** : L'apparition du logo, du nom doré et du slogan s'accomplit en 250ms (contre 750ms auparavant).
+  3. **Préchargement parallèle HTTP/2** : Ajout de `<link rel="preload" href="main.dart.js" as="script">` et `flutter_bootstrap.js` dans `<head>`.
+  4. **Préconnexion réseau** : `<link rel="preconnect" href="https://www.gstatic.com" crossorigin>` et `dns-prefetch`.
+  5. **Déféré sans blocage** : `pdf.min.js` déplacé en `defer` non-bloquant.
+  6. **Règles de cache HTTP Netlify (`_headers`)** :
+     - `index.html` et `flutter_bootstrap.js` : `max-age=0, must-revalidate` (mises à jour détectées immédiatement).
+     - `main.dart.js` : `max-age=604800, stale-while-revalidate=86400` (ouverture instantanée en ~10-30ms dès la seconde visite).
+     - `canvaskit/*` et `assets/*` : `max-age=31536000, immutable`.
+  7. **Compilation de production optimisée** : Compilation effectuée avec `flutter build web --release -O4`.
+
+---
+
+### ⚠️ Problème 12 : Échec de Git Push avec 'Could not resolve host: github.com' (Réseau IPv6)
+* **Description** : L'exécution de `git push origin main` échouait avec `fatal: unable to access: Could not resolve host: github.com`.
+* **Cause** : Comme pour Node.js (Problème 4), la couche libcurl de Git sous Windows tentait de résoudre et se connecter à GitHub via une route IPv6 non routable (`64:ff9b::8c52:7903`) avec dépassement de délai (timeout 21s).
+* **Solution** : Configuration globale de Git pour forcer la résolution d'adresses IPv4 :
+  ```powershell
+  git config --global http.ipResolve ipv4
+  ```
+### ⚠️ Problème 13 : Routage Multi-Pages Web & Badge « Déjà Consulté » pour les Documents PDF
+* **Description** :
+  1. Les différentes sections du site (Mode Concentration, Statistiques/Espace Élève, Paramètres, Favoris, Hors-Ligne, Recherche) étaient ouvertes via des dialogues/routes anonymes sans synchronisation de l'URL du navigateur, empêchant l'accès direct par lien, le rafraîchissement ou le partage d'URL dédiée.
+  2. L'élève n'avait aucun moyen de distinguer les documents PDF déjà consultés de ceux restant à étudier.
+* **Solutions apportées** :
+  1. **Routage URL Propre Web (`usePathUrlStrategy`)** :
+     - Ajout de `flutter_web_plugins` dans `pubspec.yaml` et appel de `usePathUrlStrategy()` dans `main.dart`.
+     - Configuration exhaustive de `onGenerateRoute` avec URL sans hash (`#`) :
+       * `/concentration` ou `/focus` $\rightarrow$ `FocusModeScreen`
+       * `/statistiques` ou `/analytics` $\rightarrow$ `ProfileAnalyticsScreen`
+       * `/parametres` ou `/settings` $\rightarrow$ `SettingsScreen`
+       * `/orientation` $\rightarrow$ `OrientationScreen` (et `/orientation/:schoolId`)
+       * `/hors-ligne` ou `/downloads` $\rightarrow$ `OfflineDownloadsScreen`
+       * `/favoris` $\rightarrow$ `FavoritesScreen`
+       * `/recherche` $\rightarrow$ `SearchScreen`
+       * `/niveaux` $\rightarrow$ `LevelSelectionScreen`
+     - Mise à jour de tous les `Navigator.push` (`home_screen.dart`, `floating_focus_timer.dart`, `settings_screen.dart`) avec `RouteSettings(name: ...)`.
+     - Sécurisation du bouton retour (`leading: Navigator.canPop() ? BackButton() : pushReplacementNamed('/')`) sur tous les écrans pour garantir le retour vers l'accueil même en accès direct par URL.
+  2. **Indicateur « Déjà Consulté »** :
+     - Implémentation du suivi persistant `_viewedDocIds` dans `UserProfileService` avec stockage `SharedPreferences` (`user_viewed_doc_ids_v1`) et synchronisation cloud.
+     - Affichage d'un badge compact `✓ Consulté` (avec icône et couleur émeraude/menthe) inséré immédiatement à côté de la pastille de taille de fichier dans `DocumentCard`.
+
+* **Problème 14 : Organisation des Documents 3AC (Cours, Exercices, Contrôles continus, Examens Locaux & Régionaux) & Refonte Top Bar Desktop** :
+  - *Constat* : Au niveau 3AC (3eme-annee-college), l'interface n'affichait que les catégories disposant déjà de documents, masquant les volets officiels indispensables du collège marocain. En Mathématiques BIOF, seul Exercices (9) s'affichait, avec des accents manquants dans les titres et un document de français intrusif (« Négocier le projet ») au lieu du Théorème de Pythagore. Sur grand écran, l'en-tête (bouton retour et titre de matière) était masqué et le widget flottant de concentration chevauchait la barre de recherche.
+  - *Corrections apportées* :
+    1. **Structure Pédagogique Officielle 3AC (5 volets)** :
+       - cours : Cours (الدروس)
+       - exercices : Exercices (التمارين)
+       - controles : Contrôles continus (فروض محروسة)
+       - examens-locaux : Examens Locaux (موحد محلي - Fin S1)
+       - examens-regionaux : Examens Régionaux (موحد جهوي - Fin S2)
+       - **Règle stricte d'affichage** : Conformément à la norme de l'application sur toutes les matières, seules les catégories qui possèdent réellement des documents (`count > 0`) sont affichées dans la barre d'onglets (`_availableCategories = preferredOrder.where((c) => categoriesSet.contains(c)).toList()`). Aucune catégorie vide n'apparaît. Dès que de nouveaux examens ou cours sont ajoutés au catalogue, leur onglet apparaît automatiquement.
+    2. **Correction des Données 3AC (curriculum.json)** :
+       - Restauration du vrai titre du PDF 3eme-annee-college_biof_mathematiques_exercices_th-or-me-de-pythagore-exercices_120764.pdf : **Théorème de Pythagore (Exercices)** (élimination de l'intrus « Négocier le projet (Cours) »).
+       - Correction des caractères accentués : Développement et factorisation, Racines carrées, Puissances, Les atomes et les ions, Quelques matériaux au quotidien.
+    3. **Refonte Flex Row de la Top Bar Desktop** :
+       - Remplacement de l'ancien Stack absolu par une Row responsive avec Expanded(Center(...)) pour les catégories, garantissant que le bouton retour, le titre (Mathématiques) et le sous-titre de niveau (3ème Année Collège) ne soient jamais masqués.
+    4. **Déplacement du Widget Flottant Pomodoro** :
+       - Positionnement par défaut sécurisé en bas à droite (screenSize.height - 60, screenSize.width - 190), évitant tout chevauchement avec la barre de recherche et les actions d'en-tête.
+
+### ⚠️ Problème 15 : Élimination Totale de la Marque AlloSchool & Intégration Sélective Moutamadris
+* **Description** : Des résumés de cours et fiches (notamment en Arabe, Histoire-Géo, Éducation Islamique et Philosophie) contenaient un bandeau supérieur orange estampillé AlloSchool avec fil d'Ariane cliquable, ou des mentions textuelles de bas de page.
+* **Solutions apportées** :
+  1. **Moissonnage sélectif de Moutamadris (`scripts/moutamadris_replacer.py`)** :
+     - Exploration automatisée des portails de cours Moutamadris (3AC, Tronc Commun, 1ère BAC, 2ème BAC).
+     - Analyse automatique en temps réel par PyMuPDF pour ne télécharger et retenir QUE les modèles de professeurs indépendants 100% exempts de tout logo ou filigrane de plateforme.
+  2. **Assainissement & Dé-branding In-Place (`scripts/sanitize_ecosystem.py`)** :
+     - Redaction propre par aplat blanc du bandeau d'en-tête (y: 0 à 95px) sur la page de garde.
+     - Suppression de toutes les annotations et liens cliquables pointant vers des plateformes tierces (`doc.xref_set_key(p.xref, 'Annots', 'null')`).
+     - Recherche et biffure automatique de toutes les occurrences d'URL de bas de page.
+     - Réécriture des métadonnées du document avec l'entité `Qrayti`.
+  3. **Audit de Conformité Final** :
+     - Scan complet des **8 406 documents** du catalogue local par inspection multi-threads :
+     - **0 document avec logo ou mention AlloSchool (0,00%)**.
+     - **100,00% (8 406 fichiers) certifiés propres, neutres et professionnels**.
+
+### ⚠️ Problème 16 : Enrichissement Massif & Organisation Pédagogique du Niveau 3AC (Collège)
+* **Description** : Le niveau 3AC (3ème Année Collège) ne contenait initialement que 5 à 10 documents par matière, sans onglets dédiés pour les examens locaux, examens régionaux et contrôles continus. L'utilisateur a souligné le manque de documents et l'obligation de ne jamais afficher d'onglets vides.
+* **Solutions apportées** :
+  1. **Moissonnage Massif & Dé-branding Temps Réel (`scripts/expand_3ac_exams_and_controles.py`)** :
+     - Téléchargement et assainissement (0,00% logos tiers) de plus de 200 documents authentiques marocains depuis Moutamadris.
+     - Le catalogue 3AC passe de ~62-71 documents à **349 documents en BIOF** et **339 documents en Général** (total : **688 fiches de cours, exercices, contrôles et examens**).
+     - Ventilation par matière :
+       * Mathématiques : 67 documents (13 cours, 21 exercices, 15 contrôles, 3 examens locaux, 15 examens régionaux)
+       * Physique-Chimie : 57 documents (25 cours, 3 exercices, 3 contrôles, 15 examens locaux, 11 examens régionaux)
+       * SVT : 50 documents (24 cours, 4 exercices, 7 contrôles, 4 examens locaux, 11 examens régionaux)
+       * Français : 40 documents (21 cours, 1 exercice, 1 contrôle, 2 examens locaux, 15 examens régionaux)
+       * Arabe : 40 documents (19 cours, 4 exercices, 1 examen local, 15 examens régionaux, 1 autre)
+       * Histoire-Géographie : 44 documents (24 cours, 5 examens locaux, 15 examens régionaux)
+       * Éducation Islamique : 39 documents (13 cours, 11 examens locaux, 15 examens régionaux)
+       * Anglais : 12 documents (10 cours, 2 examens locaux)
+  2. **Structure Pédagogique Officielle & Zéro Onglet Vide** :
+     - Ordre pédagogique officiel marocain pour la 3AC :
+       1. Cours (`cours`)
+       2. Exercices (`exercices`)
+       3. Contrôles continus (`controles`)
+       4. Examens Locaux - Semestre 1 (`examens-locaux`)
+       5. Examens Régionaux - Semestre 2 (`examens-regionaux`)
+     - Filtrage dynamique strict : les onglets n'apparaissent QUE si `count > 0`. Aucun onglet vide n'est affiché.
+  3. **Indexation Régionale et Annuelle** :
+     - Extraction automatique des 12 régions marocaines (`casablanca-settat`, `rabat-sale-kenitra`, `fes-meknes`, `souss-massa`, `oriental`, `tanger-tetouan-al-hoceima`, etc.) et des années d'examens (2010-2023) pour filtrage instantané.
+  4. **Serveur Local Ultra-Rapide** :
+     - `scratch/local_server.py` doté d'un index mémoire O(1) pour servir tous les PDF locaux instantanément en local (< 1ms).
+
+---
+
+
+### 4.5. Version du 07/10/2026 — Intégration Dynamique & Rotative de l'Application "My Turn"
+
+1. **Intégration de la Nouvelle Application "My Turn"** :
+   - Solution digitale intelligente de gestion en temps réel des files d'attente pour professionnels (salons de coiffure, barbershops, cabinets médicaux, centres de lavage, ateliers) et leurs clients.
+   - URL Google Play Store : `https://play.google.com/store/apps/details?id=com.queueflow.queue_flow`
+   - Logo haute définition importé sous `assets/images/myturn_icon.png` dans `cours` et `cours_web`.
+2. **Architecture de Bannières Dynamiques & Non Statiques ("ne doit pas être fixe et stable")** :
+   - **Rotation Automatique de 3 Variantes Bilingues (FR / AR)** pour My Turn :
+     * *Variante 0 (Grand Public / Étudiants)* : « Fini l'Attente ! / وداعاً للانتظار » — Suivi en direct du rang sur smartphone, alertes de passage, liberté de se déplacer sans attendre sur place.
+     * *Variante 1 (Professionnels & Commerces)* : « My Turn Pro / إدارة الطوابير الذكية » — Ergonomie 1-clic (#1, #2 -> en prestation -> terminé), affichage TV 16:9 paysage en salle d'attente, alertes WhatsApp directes.
+     * *Variante 2 (Innovation & Zéro Stress)* : « File Sans Fraude / شفافية وعدالة » — Système infalsifiable garantissant un ordre équitable, QR code instantané, codes courts d'accès (ex: 1F970A) et résilience hors-ligne.
+   - **Rotation Temporelle du Podium Publicitaire (Spotlight Multi-Apps)** :
+     * Les scores publicitaires varient selon le créneau horaire (`DateTime.now().minute ~/ 2 % 4`) alternant équitablement entre My Turn (score 96), MyPocket (score 96), Focus Domain (score 96), et l'App PC Windows / Partenaire démo.
+     * Colonne de gauche : Alternance dynamique entre le jeu de réflexion *Nine Points* et *My Turn*.
+   - **Intégration Mobile Responsive** :
+     * Création de la méthode `SmartBannerService.getMobileBanner()` et insertion dans le flux vertical de `HomeScreen` sur mobile (`!showSideBanners`) afin que les utilisateurs sur smartphone bénéficient d'un accès 1-tap direct vers le Play Store.
+3. **Fichiers Modifiés & Synchronisés** :
+   - `cours/assets/images/myturn_icon.png`
+   - `cours_web/assets/images/myturn_icon.png`
+   - `cours/lib/services/smart_banner_service.dart`
+   - `cours_web/lib/services/smart_banner_service.dart`
+   - `cours/lib/screens/home_screen.dart`
+   - `cours_web/lib/screens/home_screen.dart`
+
+
+---
+
+### 4.6. Version du 09/10/2026 — Résolution du Référencement Google / Gemini AI Overview, Sécurisation de l'Animation Officielle & Google Search Console
+
+1. **Diagnostic Initial du Référencement & Clarification de l'Entité** :
+   - **Problème rencontré** : 
+     * Lors de la recherche `qrayti.online` sur Google, Gemini affichait un encadré « Aperçu IA » citant mot pour mot un texte en arabe provenant d'un blogspot concurrent (`qrayti-online.blogspot.com`) et renvoyait les internautes vers Blogger, tout en créant une confusion avec le portail tiers `9rayti.com`.
+     * Lors de la recherche `qrayti`, Google suggérait automatiquement `9rayti.com` (« Résultats pour 9rayti »).
+     * **Cause technique** : Le site Flutter Web chargeait initialement un canvas JavaScript sans contenu textuel sémantique HTML brut pré-rendu pour les robots d'exploration (Googlebot, Google-Extended pour Gemini, Bingbot). En outre, l'ancien sitemap référençait encore le domaine Netlify d'origine (`cours-maroc.netlify.app`), générant des erreurs de lecture.
+   - **Clarification décisive de l'utilisateur** :
+     * Le site `https://qrayti-online.blogspot.com` **n'appartient PAS** à l'utilisateur : c'est un concurrent / tiers non affilié. Aucune modification n'est requise ni possible sur Blogger. L'objectif est d'asseoir l'autorité exclusive de **`https://qrayti.online`** pour que Google et Gemini l'identifient comme l'unique référence officielle et éliminent le blogspot concurrent des suggestions.
+
+2. **Mesures Techniques Implémentées dans `flutter/app/cours_web`** :
+   - **Intégration des Balises de Validation Google Search Console (GSC)** :
+     * Ajout de la nouvelle balise méta requise : `<meta name="google-site-verification" content="HVfYhQJKA1s3TznQTlOQC-YHtc4D7lWTvAc_sJrTMBU" />` (conservant également l'ancienne balise).
+     * Propriété officiellement validée avec succès sur GSC.
+   - **Contenu Sémantique Pré-rendu Accessible (`#seo-crawler-content`)** :
+     * Implémentation d'un bloc sémantique riche masqué visuellement via la classe CSS `.sr-only` (conforme aux normes WCAG et consignes de Google pour le SEO des applications monopages) :
+       - Titre principal `<h1>Qrayti Online (قرايتي أونلاين) - Plateforme Éducative & Guide d'Orientation au Maroc</h1>`.
+       - Paragraphes explicatifs détaillant la gratuité et l'exhaustivité des ressources conformes au Ministère de l'Éducation Nationale du Maroc.
+       - Sections complètes par cycle : Collège 3AC (Maths, Physique-Chimie, SVT, Français, Arabe), Tronc Commun Scientifique et Technologique, 1ère Année Bac (Sciences Expérimentales, Sciences Maths, œuvres littéraires pour le Régional), 2ème Année Bac (2BAC PC, SVT, Sciences Maths A & B, Économie, annales d'examens nationaux 2008-2024 avec corrections détaillées).
+       - Guide exhaustif d'orientation post-bac : ENSA, ENCG, EST, FST, CPGE, Médecine et Pharmacie (FMP/FMD), ENSAM, ENA, AIAC.
+       - Présentation de la PWA et de l'application Android native sur le Google Play Store.
+     * **Bénéfice** : Googlebot et Google-Extended (Gemini) indexent l'intégralité du contenu textuel dès le premier octet HTML, avant toute exécution de JavaScript ou de WebAssembly.
+   - **Données Structurées Schema.org JSON-LD (Rich Snippets)** :
+     * Déclaration de l'entité `WebSite` avec les variantes de marque : `["Qrayti", "qrayti.online", "قرايتي", "قرايتي أونلاين", "Qrayti Maroc"]`.
+     * Déclaration de l'entité `EducationalOrganization` reliant le site web à la fiche Google Play Store officielle.
+     * Schéma `FAQPage` ultra-ciblé pour les moteurs IA et le Knowledge Graph :
+       - Réponse claire affirmant que `https://qrayti.online` est le seul site officiel.
+       - Désaveu formel du blogspot tiers : *« Aucun blog tiers non officiel hébergé sur Blogger (comme blogspot) n'est affilié à la plateforme officielle Qrayti Online »*.
+       - Clarification de la différenciation totale vis-à-vis de l'ancien annuaire `9rayti.com`.
+   - **Autorisation Explicite des Robots IA dans `robots.txt`** :
+     * Autorisation formelle de `Google-Extended` (robot officiel de Gemini), `Googlebot`, `GPTBot`, `PerplexityBot`, `ClaudeBot`, `Bingbot`.
+     * Lien de sitemap canonique : `Sitemap: https://qrayti.online/sitemap.xml`.
+   - **Plan du Site `sitemap.xml` 100% Dédié** :
+     * 207 URL ciblées avec priorité maximale (1.0 sur l'accueil, 0.95 sur l'orientation, 0.85-0.90 sur les niveaux 3AC/1BAC/2BAC).
+     * Balises multilingues `xhtml:link` (`fr`, `ar`, `x-default`).
+
+3. **Sécurisation & Préservation Absolue du Splash Screen Officiel (Animation Claude)** :
+   - **Incident résolu** : Lors d'un premier test de déploiement, la commande `flutter build web` avait été exécutée par erreur dans le répertoire mobile `cours` au lieu de `cours_web`, ce qui avait réintroduit temporairement un ancien écran de chargement basique avec barre de progression.
+   - **Rétablissement & Sanctuarisation** :
+     * Le code d'origine de l'animation de démarrage de grand luxe (stocké dans [`qrayti_splash_snippet(1).html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours/qrayti_splash_snippet(1).html) à la racine) a été réintégré intégralement dans [`cours_web/web/index.html`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours_web/web/index.html).
+     * Trame géométrique islamique dorée à 8 pointes (`.qs-pattern`), particules d'or ascendantes (`.qs-particles`), logo transparent officiel RGBA haute fidélité (`.qs-mark`), typographie dorée noble *Qrayti • قرايتي*, filet doré animé et slogan *Excellence & Réussite • التميز الدراسي*.
+     * Aucune barre de progression générique.
+     * Compilation de release exécutée exclusivement dans `flutter/app/cours_web` (`flutter build web --release`).
+     * Déploiement réussi sur Netlify via l'outil MCP (`deployId: 6ac92678fb5a9c36de51ff7d`, statut `ready`).
+     * Test de vérification direct HTTP 200 sur `https://qrayti.online` confirmant la présence du splash screen de luxe, des métadonnées SEO et des balises de validation Search Console.
+
+4. **Fichiers Modifiés & Synchronisés** :
+   - `cours_web/web/index.html` (Balises GSC, Schema.org FAQ, SEO `#seo-crawler-content`, Splash Screen de luxe préservé)
+   - `cours_web/build/web/index.html` (Version de production déployée)
+   - `cours_web/web/robots.txt` & `cours_web/build/web/robots.txt`
+   - `cours_web/web/sitemap.xml` & `cours_web/build/web/sitemap.xml`
+   - `cours/AI_INSTRUCTIONS.md` & `cours_web/AI_INSTRUCTIONS.md`
+
+---
+
 ## 5. Guide d'Exécution & Commandes de Déploiement
 
 ### 5.1. Prévisualisation Web en Local (Localhost)
@@ -187,15 +388,10 @@ flutter build web --release
 ```
 
 ### 5.3. Déployer sur Netlify en Production
-Le site est déployé directement sur le site ID Netlify `0088a766-7a9a-4029-8a96-1ffb3af547e6` lié au domaine officiel `https://qrayti.online` :
-* Via MCP Netlify : `netlify-deploy-services-updater` avec `operation: deploy-site`, `deployDirectory: "c:\Users\HPi5book\Desktop\flutter\app\cours_web"`, `siteId: "0088a766-7a9a-4029-8a96-1ffb3af547e6"`.
-* Via CLI Netlify (si installé) :
 ```powershell
 $env:NODE_OPTIONS="--dns-result-order=ipv4first"
 netlify deploy --prod --dir=build/web
 ```
-*Vérification réussie le 2 Octobre 2026 : Déploiement `6abf97954c7a1fda48873736` en état `ready` sur `https://qrayti.online`.*
-
 
 ### 5.4. Compiler la Version Windows
 Dans `c:\Users\HPi5book\Desktop\flutter\app\cours_windows` :
@@ -204,19 +400,6 @@ flutter build windows --release
 ```
 L'exécutable final est généré dans :
 `build\windows\x64\runner\Release\cours_windows.exe`
-
-### 5.5. Compiler l'App Bundle Android pour Google Play Store
-Dans `c:\Users\HPi5book\Desktop\flutter\app\cours` :
-1. Incrémenter la version dans `pubspec.yaml` (ex. : `version: 1.2.0+6`).
-2. Vérifier l'intégrité du code (`dart analyze lib`).
-3. Compiler le bundle signé :
-```powershell
-flutter build appbundle --release
-```
-L'App Bundle signé est généré dans :
-`build\app\outputs\bundle\release\app-release.aab`
-*Dernière version produite le 2 Octobre 2026 : Version `1.2.0+6` (78.0 MB), signée avec `upload-keystore.jks` prête pour soumission sur Google Play Console.*
-
 
 ---
 

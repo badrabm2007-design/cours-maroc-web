@@ -387,12 +387,80 @@ class CurriculumService extends ChangeNotifier {
     return subjectsList;
   }
 
-  SubjectItem? getSubjectById(String subjectId) {
-    final list = getCurrentSubjects();
+  List<SubjectItem> getSubjectsForLevelAndBranch(String levelId, [String? branchId]) {
+    if (_rawCurriculumData == null) return [];
+    final levels = _rawCurriculumData!['levels'] as Map<String, dynamic>?;
+    if (levels == null) return [];
+    final levelBranches = levels[levelId] as Map<String, dynamic>?;
+    if (levelBranches == null) return [];
+
+    final effectiveBranch = (branchId != null && levelBranches.containsKey(branchId))
+        ? branchId
+        : levelBranches.keys.first;
+
+    final cacheKey = '$levelId/$effectiveBranch';
+    if (_cacheByBranch.containsKey(cacheKey)) {
+      return _cacheByBranch[cacheKey]!;
+    }
+
+    final branchSubjects = levelBranches[effectiveBranch] as Map<String, dynamic>?;
+    if (branchSubjects == null) return [];
+
+    const preferredOrder = [
+      'economie-generale',
+      'comptabilite',
+      'organisation-entreprises',
+      'droit',
+      'informatique',
+      'informatique-gestion',
+      'mathematiques',
+      'physique-chimie',
+      'svt',
+      'philosophie',
+      'anglais',
+      'histoire-geographie',
+      'francais',
+      'arabe',
+      'education-islamique',
+    ];
+
+    final sortedKeys = branchSubjects.keys.toList()
+      ..sort((a, b) {
+        final idxA = preferredOrder.indexOf(a);
+        final idxB = preferredOrder.indexOf(b);
+        if (idxA != -1 && idxB != -1) return idxA.compareTo(idxB);
+        if (idxA != -1) return -1;
+        if (idxB != -1) return 1;
+        return a.compareTo(b);
+      });
+
+    final List<SubjectItem> subjectsList = [];
+    for (final key in sortedKeys) {
+      final rawDocs = branchSubjects[key] as List<dynamic>? ?? [];
+      final docs = rawDocs
+          .map((d) => DocumentItem.fromJson(d as Map<String, dynamic>))
+          .toList();
+
+      final meta = SubjectMeta.get(key);
+      subjectsList.add(SubjectItem(meta: meta, documents: docs));
+    }
+
+    _cacheByBranch[cacheKey] = subjectsList;
+    return subjectsList;
+  }
+
+  SubjectItem? getSubjectById(String subjectId, {String? levelId, String? branchId}) {
+    final list = levelId != null
+        ? getSubjectsForLevelAndBranch(levelId, branchId)
+        : getCurrentSubjects();
     try {
       return list.firstWhere((s) => s.id == subjectId);
     } catch (_) {
-      return null;
+      try {
+        return getCurrentSubjects().firstWhere((s) => s.id == subjectId);
+      } catch (_) {
+        return null;
+      }
     }
   }
 

@@ -93,6 +93,49 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
   }
 
   String _effectiveDocCategory(DocumentItem doc) {
+    if (_effectiveLevelId == '3eme-annee-college') {
+      final cat = doc.category.toLowerCase();
+      final title = '${doc.title} ${doc.name}'.toLowerCase();
+      if (cat == 'examens-locaux' ||
+          cat == 'locaux' ||
+          title.contains('local') ||
+          title.contains('محلي') ||
+          title.contains('locaux')) {
+        return 'examens-locaux';
+      }
+      if (cat == 'examens-regionaux' ||
+          cat == 'regionaux' ||
+          title.contains('région') ||
+          title.contains('region') ||
+          title.contains('جهوي')) {
+        return 'examens-regionaux';
+      }
+      if (cat == 'examens') {
+        if (doc.semester == 'semestre-1') return 'examens-locaux';
+        return 'examens-regionaux';
+      }
+      if (cat == 'controles' ||
+          title.contains('contrôle') ||
+          title.contains('controle') ||
+          title.contains('فرض')) {
+        return 'controles';
+      }
+      if (cat == 'resumes' ||
+          cat == 'cours' ||
+          title.contains('cours') ||
+          title.contains('درس') ||
+          title.contains('ملخص')) {
+        return 'cours';
+      }
+      if (cat == 'exercices' ||
+          title.contains('exercice') ||
+          title.contains('سلسلة') ||
+          title.contains('تمارين')) {
+        return 'exercices';
+      }
+      return doc.category;
+    }
+
     if (doc.category == 'examens') {
       if (_isOfficialExamSubject(_effectiveLevelId, widget.subject.meta.id)) {
         return 'examens';
@@ -114,43 +157,66 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
       categoriesSet.add(_effectiveDocCategory(doc));
     }
 
-    // Only include 'examens' if this subject officially has regional (1BAC) or national (2BAC) exams
-    // AND actually has exam documents available!
-    final hasOfficialExams =
-        _isOfficialExamSubject(_effectiveLevelId, widget.subject.meta.id);
-    final hasExamDocuments = widget.subject.documents
-        .any((d) => _effectiveDocCategory(d) == 'examens');
+    if (_effectiveLevelId == '3eme-annee-college') {
+      // 3AC : ordre pédagogique officiel mais UNIQUEMENT pour les catégories disposant de documents existants
+      const preferredOrder3Ac = [
+        'cours',
+        'exercices',
+        'controles',
+        'examens-locaux',
+        'examens-regionaux',
+      ];
+      _availableCategories =
+          preferredOrder3Ac.where((c) => categoriesSet.contains(c)).toList();
 
-    if (hasOfficialExams && hasExamDocuments) {
-      categoriesSet.add('examens');
-    } else {
-      categoriesSet.remove('examens');
-    }
-
-    // Preferred pedagogical order:
-    // 1. Cours
-    // 2. Résumés
-    // 3. Exercices
-    // 4. Contrôles continus
-    // 5. Régionaux / Nationaux (examens)
-    const preferredOrder = [
-      'cours',
-      'resumes',
-      'exercices',
-      'controles',
-      'examens',
-    ];
-    _availableCategories =
-        preferredOrder.where((c) => categoriesSet.contains(c)).toList();
-
-    for (final c in categoriesSet) {
-      if (!_availableCategories.contains(c)) {
-        _availableCategories.add(c);
+      for (final c in categoriesSet) {
+        if (!_availableCategories.contains(c)) {
+          _availableCategories.add(c);
+        }
       }
-    }
 
-    if (_availableCategories.isEmpty) {
-      _availableCategories = ['cours'];
+      if (_availableCategories.isEmpty) {
+        _availableCategories = ['cours'];
+      }
+    } else {
+      // Only include 'examens' if this subject officially has regional (1BAC) or national (2BAC) exams
+      // AND actually has exam documents available!
+      final hasOfficialExams =
+          _isOfficialExamSubject(_effectiveLevelId, widget.subject.meta.id);
+      final hasExamDocuments = widget.subject.documents
+          .any((d) => _effectiveDocCategory(d) == 'examens');
+
+      if (hasOfficialExams && hasExamDocuments) {
+        categoriesSet.add('examens');
+      } else {
+        categoriesSet.remove('examens');
+      }
+
+      // Preferred pedagogical order:
+      // 1. Cours
+      // 2. Résumés
+      // 3. Exercices
+      // 4. Contrôles continus
+      // 5. Régionaux / Nationaux (examens)
+      const preferredOrder = [
+        'cours',
+        'resumes',
+        'exercices',
+        'controles',
+        'examens',
+      ];
+      _availableCategories =
+          preferredOrder.where((c) => categoriesSet.contains(c)).toList();
+
+      for (final c in categoriesSet) {
+        if (!_availableCategories.contains(c)) {
+          _availableCategories.add(c);
+        }
+      }
+
+      if (_availableCategories.isEmpty) {
+        _availableCategories = ['cours'];
+      }
     }
 
     int initialIndex = 0;
@@ -254,7 +320,14 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
       case 'exercices':
         return langService.tr('tab_exercices');
       case 'controles':
+        if (_effectiveLevelId == '3eme-annee-college') {
+          return langService.isArabic ? 'فروض محروسة' : 'Contrôles';
+        }
         return langService.tr('tab_controles');
+      case 'examens-locaux':
+        return langService.isArabic ? 'موحد محلي' : 'Examens Locaux';
+      case 'examens-regionaux':
+        return langService.isArabic ? 'موحد جهوي' : 'Examens Régionaux';
       case 'examens':
         if (_effectiveLevelId == '1ere-bac') {
           return langService.tr('tab_regionaux');
@@ -281,6 +354,10 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
         return Icons.edit_note_rounded;
       case 'controles':
         return Icons.assignment_rounded;
+      case 'examens-locaux':
+        return Icons.school_rounded;
+      case 'examens-regionaux':
+        return Icons.workspace_premium_rounded;
       case 'examens':
         if (_effectiveLevelId == '1ere-bac') {
           return Icons.workspace_premium_rounded;
@@ -443,24 +520,30 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
       if (_effectiveDocCategory(doc) != category) return false;
 
       // When in examens tab, filter by session & corrigé
-      if (category == 'examens') {
+      if (category == 'examens' ||
+          category == 'examens-locaux' ||
+          category == 'examens-regionaux') {
         if (_onlyCorriges && !doc.isCorrige) return false;
         if (_effectiveLevelId == '2eme-bac' && _selectedExamSession != 'all') {
           if (!_docMatchesExamSession(doc, _selectedExamSession)) return false;
-        } else if (_effectiveLevelId == '3eme-annee-college') {
-          if (!_docMatches3AcExamType(doc, _selected3AcExamType)) return false;
         }
       }
 
-      // Semester filter (only applied to regular school year categories, not annual exams)
+      // Semester filter (only applied to regular school year categories, not annual exams or 3AC exam tabs)
       // When searching, search across both semesters so student finds what they need
-      if (_searchQuery.isEmpty && category != 'examens') {
+      if (_searchQuery.isEmpty &&
+          category != 'examens' &&
+          category != 'examens-locaux' &&
+          category != 'examens-regionaux') {
         if (doc.semester != _selectedSemester) return false;
       }
 
-      // Corrigé filter (for exercices and controles)
+      // Corrigé filter (for exercices, controles, examens)
       if (_onlyCorriges &&
-          (category == 'exercices' || category == 'controles')) {
+          (category == 'exercices' ||
+              category == 'controles' ||
+              category == 'examens-locaux' ||
+              category == 'examens-regionaux')) {
         if (!doc.isCorrige) return false;
       }
 
@@ -572,9 +655,13 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
     final currentCategoryIndex =
         _tabController.index.clamp(0, _availableCategories.length - 1);
     final currentCategory = _availableCategories[currentCategoryIndex];
-    final isExamTab = currentCategory == 'examens';
-    final showCorrigesFilter =
-        currentCategory == 'exercices' || currentCategory == 'controles';
+    final isExamTab = currentCategory == 'examens' ||
+        currentCategory == 'examens-locaux' ||
+        currentCategory == 'examens-regionaux';
+    final showCorrigesFilter = currentCategory == 'exercices' ||
+        currentCategory == 'controles' ||
+        currentCategory == 'examens-locaux' ||
+        currentCategory == 'examens-regionaux';
 
     final allCategoryDocs = widget.subject.documents
         .where((d) => _effectiveDocCategory(d) == currentCategory)
@@ -599,173 +686,150 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
       appBar: AppBar(
         toolbarHeight: isDesktop ? 64 : null,
         automaticallyImplyLeading: !isDesktop,
-        titleSpacing: isDesktop ? 0 : null,
+        titleSpacing: isDesktop ? 16 : null,
         leading: isDesktop
             ? null
             : IconButton(
                 icon: const Icon(Icons.arrow_back_rounded),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pushReplacementNamed('/');
+                  }
+                },
               ),
         title: isDesktop
             ? SizedBox(
                 width: double.infinity,
                 height: 64,
-                child: Stack(
-                  alignment: Alignment.center,
+                child: Row(
                   children: [
-                    // 1. Left: Back Button + Subject Title
-                    Positioned(
-                      left: 8,
-                      child: Row(
+                    // 1. Left: Back Button + Subject Title & Level
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_rounded),
+                      tooltip: 'Retour',
+                      onPressed: () {
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        } else {
+                          Navigator.of(context).pushReplacementNamed('/');
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 4),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 240),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back_rounded),
-                            onPressed: () => Navigator.of(context).pop(),
+                          Text(
+                            primaryTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: isDark ? Colors.white : const Color(0xFF0F172A),
+                            ),
                           ),
-                          const SizedBox(width: 4),
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 240),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  primaryTitle,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Text(
-                                  secondaryTitle,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 11.5,
-                                    color: color,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                          Text(
+                            secondaryTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              color: color,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(width: 12),
 
-                    // 2. Center: Categories Selector (Always at the absolute center of the screen)
-                    Center(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? const Color(0xFF131D2E)
-                                : const Color(0xFFE9ECEF),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
+                    // 2. Center: Categories Selector
+                    Expanded(
+                      child: Center(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
                               color: isDark
-                                  ? const Color(0xFF1E2E48)
-                                  : const Color(0xFFDEE2E6),
+                                  ? const Color(0xFF131D2E)
+                                  : const Color(0xFFE9ECEF),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: isDark
+                                    ? const Color(0xFF1E2E48)
+                                    : const Color(0xFFDEE2E6),
+                              ),
                             ),
-                          ),
-                          padding: const EdgeInsets.all(3),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children:
-                                List.generate(_availableCategories.length, (i) {
-                              final cat = _availableCategories[i];
-                              final totalCount = _getEffectiveTotalCount(cat);
-                              final filteredCount =
-                                  _getFilteredDocuments(cat).length;
-                              final currentIdx = _tabController.index.clamp(
-                                  0, _availableCategories.length - 1);
-                              final isSelected = currentIdx == i;
+                            padding: const EdgeInsets.all(3),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children:
+                                  List.generate(_availableCategories.length, (i) {
+                                final cat = _availableCategories[i];
+                                final totalCount = _getEffectiveTotalCount(cat);
+                                final filteredCount =
+                                    _getFilteredDocuments(cat).length;
+                                final currentIdx = _tabController.index.clamp(
+                                    0, _availableCategories.length - 1);
+                                final isSelected = currentIdx == i;
 
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  right: i < _availableCategories.length - 1
-                                      ? 4.0
-                                      : 0.0,
-                                ),
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(9),
-                                  onTap: () {
-                                    _tabController.animateTo(i);
-                                    setState(() {});
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
-                                    curve: Curves.easeInOut,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: isSelected ? color : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(9),
-                                      boxShadow: isSelected
-                                          ? [
-                                              BoxShadow(
-                                                color: color.withValues(alpha: 0.35),
-                                                blurRadius: 4,
-                                                offset: const Offset(0, 1.5),
-                                              ),
-                                            ]
-                                          : null,
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          _getCategoryIcon(cat),
-                                          size: 15,
-                                          color: isSelected
-                                              ? Colors.white
-                                              : (isDark
-                                                  ? Colors.white70
-                                                  : const Color(0xFF495057)),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Text(
-                                          _getCategoryLabel(cat, langService),
-                                          style: TextStyle(
-                                            fontSize: 12.5,
-                                            fontWeight: isSelected
-                                                ? FontWeight.w700
-                                                : FontWeight.w600,
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    right: i < _availableCategories.length - 1
+                                        ? 4.0
+                                        : 0.0,
+                                  ),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(9),
+                                    onTap: () {
+                                      _tabController.animateTo(i);
+                                      setState(() {});
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: const Duration(milliseconds: 200),
+                                      curve: Curves.easeInOut,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: isSelected ? color : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(9),
+                                        boxShadow: isSelected
+                                            ? [
+                                                BoxShadow(
+                                                  color: color.withValues(alpha: 0.35),
+                                                  blurRadius: 4,
+                                                  offset: const Offset(0, 1.5),
+                                                ),
+                                              ]
+                                            : null,
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            _getCategoryIcon(cat),
+                                            size: 15,
                                             color: isSelected
                                                 ? Colors.white
                                                 : (isDark
                                                     ? Colors.white70
-                                                    : const Color(
-                                                        0xFF495057)),
+                                                    : const Color(0xFF495057)),
                                           ),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 5, vertical: 1.5),
-                                          decoration: BoxDecoration(
-                                            color: isSelected
-                                                ? Colors.white.withValues(alpha: 0.25)
-                                                : (isDark
-                                                    ? Colors.white10
-                                                    : Colors.black.withValues(
-                                                        alpha: 0.07)),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          child: Text(
-                                            hasFilterActive &&
-                                                    filteredCount != totalCount
-                                                ? '$filteredCount/$totalCount'
-                                                : '$totalCount',
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            _getCategoryLabel(cat, langService),
                                             style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12.5,
+                                              fontWeight: isSelected
+                                                  ? FontWeight.w700
+                                                  : FontWeight.w600,
                                               color: isSelected
                                                   ? Colors.white
                                                   : (isDark
@@ -774,83 +838,112 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
                                                           0xFF495057)),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(width: 5),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5, vertical: 1.5),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? Colors.white.withValues(alpha: 0.25)
+                                                  : (isDark
+                                                      ? Colors.white10
+                                                      : Colors.black.withValues(
+                                                          alpha: 0.07)),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                            child: Text(
+                                              hasFilterActive &&
+                                                      filteredCount != totalCount
+                                                  ? '$filteredCount/$totalCount'
+                                                  : '$totalCount',
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w700,
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : (isDark
+                                                        ? Colors.white70
+                                                        : const Color(
+                                                            0xFF495057)),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(width: 12),
 
                     // 3. Right: Search Bar
-                    Positioned(
-                      right: 16,
-                      child: SizedBox(
-                        width: 250,
-                        height: 38,
-                        child: TextField(
-                          controller: _searchController,
-                          onChanged: (val) {
-                            setState(() {
-                              _searchQuery = val.trim();
-                            });
-                          },
-                          style: const TextStyle(fontSize: 13),
-                          decoration: InputDecoration(
-                            hintText: isExamTab
-                                ? langService.tr('search_hint_exam')
-                                : langService.tr('search_hint_subject'),
-                            hintStyle: TextStyle(
-                              fontSize: 12,
-                              color: isDark ? Colors.white38 : Colors.black38,
+                    SizedBox(
+                      width: 210,
+                      height: 38,
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: (val) {
+                          setState(() {
+                            _searchQuery = val.trim();
+                          });
+                        },
+                        style: const TextStyle(fontSize: 13),
+                        decoration: InputDecoration(
+                          hintText: isExamTab
+                              ? langService.tr('search_hint_exam')
+                              : langService.tr('search_hint_subject'),
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                            color: isDark ? Colors.white38 : Colors.black38,
+                          ),
+                          prefixIcon: const Icon(Icons.search_rounded, size: 18),
+                          prefixIconConstraints:
+                              const BoxConstraints(minWidth: 34, minHeight: 34),
+                          suffixIcon: _searchQuery.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear_rounded, size: 16),
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(
+                                      minWidth: 32, minHeight: 32),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    setState(() {
+                                      _searchQuery = '';
+                                    });
+                                  },
+                                )
+                              : null,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 8),
+                          filled: true,
+                          fillColor: isDark
+                              ? const Color(0xFF18233C)
+                              : const Color(0xFFF1F5F9),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: isDark
+                                  ? const Color(0xFF2A3756)
+                                  : const Color(0xFFCBD5E1),
                             ),
-                            prefixIcon: const Icon(Icons.search_rounded, size: 18),
-                            prefixIconConstraints:
-                                const BoxConstraints(minWidth: 34, minHeight: 34),
-                            suffixIcon: _searchQuery.isNotEmpty
-                                ? IconButton(
-                                    icon: const Icon(Icons.clear_rounded, size: 16),
-                                    padding: EdgeInsets.zero,
-                                    constraints: const BoxConstraints(
-                                        minWidth: 32, minHeight: 32),
-                                    onPressed: () {
-                                      _searchController.clear();
-                                      setState(() {
-                                        _searchQuery = '';
-                                      });
-                                    },
-                                  )
-                                : null,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 8),
-                            filled: true,
-                            fillColor: isDark
-                                ? const Color(0xFF18233C)
-                                : const Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: isDark
-                                    ? const Color(0xFF2A3756)
-                                    : const Color(0xFFCBD5E1),
-                              ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: isDark
+                                  ? const Color(0xFF2A3756)
+                                  : const Color(0xFFCBD5E1),
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: isDark
-                                    ? const Color(0xFF2A3756)
-                                    : const Color(0xFFCBD5E1),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: color, width: 1.5),
-                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: color, width: 1.5),
                           ),
                         ),
                       ),
@@ -2307,12 +2400,97 @@ class _SubjectDetailScreenState extends State<SubjectDetailScreen>
 
   Widget _buildDocumentList(List<DocumentItem> docs, Color accentColor,
       bool isDark, int totalCategoryDocs, String category) {
+    final langService = context.watch<AppLanguageService>();
     if (category == 'examens' && _effectiveLevelId == '1ere-bac') {
       return _buildRegionalAccordionList(
           docs, accentColor, isDark, totalCategoryDocs);
     }
 
     if (docs.isEmpty) {
+      if (category == 'examens-locaux') {
+        return Center(
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.school_rounded,
+                  size: 64,
+                  color: accentColor.withValues(alpha: 0.4),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  langService.isArabic
+                      ? 'الامتحانات الموحدة المحلية (3 إعدادي)'
+                      : 'Examens Normalisés Locaux (3AC)',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: isDark ? Colors.white : const Color(0xFF0F172A),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  langService.isArabic
+                      ? 'نماذج الامتحانات الموحدة المحلية لدورة يناير مع التصحيح ستكون متوفرة قريباً.'
+                      : 'Les épreuves des examens locaux de fin du 1er semestre (session janvier) et leurs corrigés seront disponibles très prochainement.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: isDark ? Colors.white60 : Colors.grey.shade600,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      if (category == 'examens-regionaux') {
+        return Center(
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.workspace_premium_rounded,
+                  size: 64,
+                  color: accentColor.withValues(alpha: 0.4),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  langService.isArabic
+                      ? 'الامتحانات الموحدة الجهوية (3 إعدادي)'
+                      : 'Examens Normalisés Régionaux (3AC)',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: isDark ? Colors.white : const Color(0xFF0F172A),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  langService.isArabic
+                      ? 'أرشيف الامتحانات الجهوية الرسمية لشهادة السلك الإعدادي لجميع الأكاديميات الجهوية سيكون متوفراً قريباً.'
+                      : 'Les annales des examens régionaux officiels de toutes les académies du Royaume (session juin) seront disponibles très prochainement.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: isDark ? Colors.white60 : Colors.grey.shade600,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
       if (category == 'examens') {
         final is1Bac = _effectiveLevelId == '1ere-bac';
         return RefreshIndicator(

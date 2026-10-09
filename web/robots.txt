@@ -1,3 +1,29 @@
 User-agent: *
 Allow: /
-Sitemap: https://cours-maroc.netlify.app/sitemap.xml
+Sitemap: https://qrayti.online/sitemap.xml
+
+# Google Search & Gemini AI Engine
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic / Claude
+User-agent: ClaudeBot
+Allow: /
+
+# Microsoft Bing & Copilot
+User-agent: Bingbot
+Allow: /

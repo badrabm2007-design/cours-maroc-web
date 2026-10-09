@@ -141,6 +141,14 @@ class ProfileAnalyticsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.of(context).canPop()
+            ? const BackButton()
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                tooltip: isArabic ? 'رجوع' : 'Retour',
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/'),
+              ),
         title: Text(
           isArabic ? 'فضاء التلميذ والإحصائيات' : 'Espace Élève & Statistiques',
           style: const TextStyle(fontWeight: FontWeight.w700),

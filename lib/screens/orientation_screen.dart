@@ -80,6 +80,14 @@ class _OrientationScreenState extends State<OrientationScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.of(context).canPop()
+            ? const BackButton()
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                tooltip: isAr ? 'رجوع' : 'Retour',
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/'),
+              ),
         titleSpacing: 12,
         title: Text(
           isAr ? 'دليل التوجيه بعد البكالوريا' : 'Orientation & Post-Bac Maroc',

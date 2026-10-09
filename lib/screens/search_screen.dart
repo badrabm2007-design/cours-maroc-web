@@ -57,6 +57,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.of(context).canPop()
+            ? const BackButton()
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded),
+                tooltip: 'Retour',
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/'),
+              ),
         titleSpacing: 0,
         title: TextField(
           controller: _controller,

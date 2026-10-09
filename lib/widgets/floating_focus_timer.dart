@@ -165,11 +165,12 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
     final screenSize = MediaQuery.of(context).size;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Stable default position: docked harmoniously in the top header row at Y=10
-    // Horizontally positioned safely in the open space before the right utility actions
+    // Stable default position: docked comfortably at bottom-right
+    // Never conflicts with top navigation, title or search bar on any screen
     if (_persistedPosition == null) {
-      final double defaultX = (screenSize.width - _badgeWidth - 270.0).clamp(20.0, screenSize.width - _badgeWidth - 16.0);
-      _persistedPosition = Offset(defaultX, 10.0);
+      final double defaultX = (screenSize.width - _badgeWidth - 24.0).clamp(16.0, screenSize.width - _badgeWidth - 16.0);
+      final double defaultY = (screenSize.height - _badgeHeight - 24.0).clamp(16.0, screenSize.height - _badgeHeight - 16.0);
+      _persistedPosition = Offset(defaultX, defaultY);
     }
 
     // Keep clamped inside screen bounds if window was resized
@@ -353,7 +354,10 @@ class _FloatingFocusTimerBadgeState extends State<FloatingFocusTimerBadge> {
   void _openFocusScreen(BuildContext context) {
     final navContext = FocusTimerService.navigatorKey.currentContext ?? context;
     Navigator.of(navContext).push(
-      MaterialPageRoute(builder: (_) => const FocusModeScreen()),
+      MaterialPageRoute(
+        settings: const RouteSettings(name: '/concentration'),
+        builder: (_) => const FocusModeScreen(),
+      ),
     );
   }
 }

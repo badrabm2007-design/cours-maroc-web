@@ -16,6 +16,7 @@ enum BannerType {
   ninePoints,
   focusDomain,
   myPocket,
+  myTurn,
   windowsApp,
   androidAppPreview,
   adSenseTest,
@@ -73,6 +74,8 @@ class SmartBannerService {
       'https://play.google.com/store/apps/details?id=com.ninepoints.damee&hl=fr';
   static const String focusDomainYouTubeUrl =
       'https://www.youtube.com/channel/UCx_51Vr3-E_MZPQY49UUCRw';
+  static const String myTurnPlayStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.queueflow.queue_flow';
 
   // Matrice officielle marocaine des matières majeures par niveau et filière
   static const Map<String, List<String>> _branchCoreSubjects = {
@@ -534,29 +537,39 @@ class SmartBannerService {
       }
     }
 
-    // 3. Nine Points (Jeu de réflexion sur Google Play - Idéal pour la détente)
-    items.add(SmartBannerItem(
-      id: 'nine_points_game',
-      type: BannerType.ninePoints,
-      score: (levelId == 'tronc-commun' || levelId == '3eme-annee-college') ? 85.0 : 65.0,
-      title: 'Nine Points',
-      titleAr: 'لعبة ناين بوينتس',
-      subtitle: 'Dames & Stratégie Traditionnelle',
-      subtitleAr: 'لعبة الدامة والذكاء الذهني',
-      description: 'Défiez vos amis et stimulez votre esprit logique entre deux séances de cours.',
-      descriptionAr: 'اختبر ذكاءك واستراتيجيتك وتحد أصدقاءك في فترات الاستراحة.',
-      buttonLabel: 'Jouer sur Google Play',
-      buttonLabelAr: 'تثبيت من Google Play',
-      badgeText: 'Pause Détente',
-      badgeTextAr: 'استراحة ذكاء',
-      badgeColor: const Color(0xFFEA580C),
-      primaryColor: const Color(0xFFC2410C),
-      assetImagePath: 'assets/images/ninepoints_icon.jpg',
-      onTap: () {
-        userProfile.recordBannerClick(bannerId: 'nine_points_game', bannerType: 'ninePoints');
-        _launchExternalUrl(ninePointsPlayStoreUrl);
-      },
-    ));
+    // 3. Pause Détente / Utility dynamique (Nine Points ou My Turn selon la rotation)
+    final bool showMyTurnOnLeft = (DateTime.now().minute % 2 == 1);
+    if (showMyTurnOnLeft) {
+      items.add(_buildMyTurnBanner(
+        context: context,
+        userProfile: userProfile,
+        variantIndex: 0,
+        score: (levelId == 'tronc-commun' || levelId == '3eme-annee-college') ? 85.0 : 68.0,
+      ));
+    } else {
+      items.add(SmartBannerItem(
+        id: 'nine_points_game',
+        type: BannerType.ninePoints,
+        score: (levelId == 'tronc-commun' || levelId == '3eme-annee-college') ? 85.0 : 65.0,
+        title: 'Nine Points',
+        titleAr: 'لعبة ناين بوينتس',
+        subtitle: 'Dames & Stratégie Traditionnelle',
+        subtitleAr: 'لعبة الدامة والذكاء الذهني',
+        description: 'Défiez vos amis et stimulez votre esprit logique entre deux séances de cours.',
+        descriptionAr: 'اختبر ذكاءك واستراتيجيتك وتحد أصدقاءك في فترات الاستراحة.',
+        buttonLabel: 'Jouer sur Google Play',
+        buttonLabelAr: 'تثبيت من Google Play',
+        badgeText: 'Pause Détente',
+        badgeTextAr: 'استراحة ذكاء',
+        badgeColor: const Color(0xFFEA580C),
+        primaryColor: const Color(0xFFC2410C),
+        assetImagePath: 'assets/images/ninepoints_icon.jpg',
+        onTap: () {
+          userProfile.recordBannerClick(bannerId: 'nine_points_game', bannerType: 'ninePoints');
+          _launchExternalUrl(ninePointsPlayStoreUrl);
+        },
+      ));
+    }
 
     // Si on a moins de 3 cartes, ajouter une bannière AdSense démo
     if (items.length < 3) {
@@ -565,6 +578,116 @@ class SmartBannerService {
 
     items.sort((a, b) => b.score.compareTo(a.score));
     return items.take(3).toList();
+  }
+
+  /// Bannières dynamiques My Turn selon une rotation d'accroches (Grand Public, Pro / Salons, Tech & QR)
+  static SmartBannerItem _buildMyTurnBanner({
+    required BuildContext context,
+    required UserProfileService userProfile,
+    int? variantIndex,
+    double score = 88.0,
+  }) {
+    final int variant = variantIndex ?? (DateTime.now().minute % 3);
+
+    String title;
+    String titleAr;
+    String subtitle;
+    String subtitleAr;
+    String description;
+    String descriptionAr;
+    String buttonLabel;
+    String buttonLabelAr;
+    String badgeText;
+    String badgeTextAr;
+    Color badgeColor;
+    Color primaryColor;
+    IconData icon;
+
+    switch (variant) {
+      case 0:
+        // Axe Grand Public / Étudiants : Gain de temps & Liberté d'attente
+        title = 'My Turn - Fini l\'Attente !';
+        titleAr = 'ماي تورن - وداعاً للانتظار';
+        subtitle = 'Suivi de File Digitale en Direct';
+        subtitleAr = 'تتبع طابورك في الوقت الفعلي';
+        description =
+            'Suivez votre rang en direct depuis votre smartphone. Recevez une alerte quand votre tour approche et attendez où vous voulez !';
+        descriptionAr =
+            'تابع ترتيبك في الطابور مباشرة من هاتفك، وتوصل بتنبيه عند اقتراب دورك دون البقاء عالقاً في قاعة الانتظار.';
+        buttonLabel = 'Télécharger sur Google Play';
+        buttonLabelAr = 'تثبيت من Google Play';
+        badgeText = 'Temps Réel';
+        badgeTextAr = 'مباشر • ذكي';
+        badgeColor = const Color(0xFF0284C7);
+        primaryColor = const Color(0xFF0369A1);
+        icon = Icons.access_time_filled_rounded;
+        break;
+
+      case 1:
+        // Axe Professionnels : Salons de coiffure, Barbershops, Cabinets, Ateliers
+        title = 'My Turn Pro - Files Digitales';
+        titleAr = 'ماي تورن - إدارة الطوابير الذكية';
+        subtitle = 'Pour Barbershops, Salons & Cabinets';
+        subtitleAr = 'للصالونات، العيادات والمحلات';
+        description =
+            'Adieu registres papier et désordre ! Ergonomie 1-clic, affichage TV 16:9, alertes WhatsApp et mode hors-ligne inclus.';
+        descriptionAr =
+            'وداعاً للسجلات الورقية! إدارة بنقرة واحدة، شاشة عرض تلفزيونية 16:9، وتنبيهات واتساب فورية لزبنائك.';
+        buttonLabel = 'Découvrir My Turn Pro';
+        buttonLabelAr = 'اكتشف My Turn للمهنيين';
+        badgeText = 'Solution Pro';
+        badgeTextAr = 'للمهنيين';
+        badgeColor = const Color(0xFF0D9488);
+        primaryColor = const Color(0xFF0F766E);
+        icon = Icons.storefront_rounded;
+        break;
+
+      default: // case 2
+        // Axe Innovation, QR Code, PWA & Zéro Fraude
+        title = 'My Turn - File Sans Fraude';
+        titleAr = 'ماي تورن - شفافية وعدالة';
+        subtitle = 'Rejoignez en 1 Clic par QR Code';
+        subtitleAr = 'انضمام فوري عبر رمز QR';
+        description =
+            'Système numérique équitable et infalsifiable. Codes d\'accès courts, accès Web PWA instantané et synchro avec ou sans internet.';
+        descriptionAr =
+            'نظام رقمي شفاف يضمن أسبقية المرور، أكواد قصيرة، ومزامنة تلقائية في الخلفية مع أو بدون إنترنت.';
+        buttonLabel = 'Essayer Gratuitement';
+        buttonLabelAr = 'تجربة مجانية الآن';
+        badgeText = 'Nouveau • 1-Clic';
+        badgeTextAr = 'جديد • نقرة واحدة';
+        badgeColor = const Color(0xFF2563EB);
+        primaryColor = const Color(0xFF1D4ED8);
+        icon = Icons.qr_code_scanner_rounded;
+        break;
+    }
+
+    return SmartBannerItem(
+      id: 'myturn_app_v$variant',
+      type: BannerType.myTurn,
+      score: score,
+      title: title,
+      titleAr: titleAr,
+      subtitle: subtitle,
+      subtitleAr: subtitleAr,
+      description: description,
+      descriptionAr: descriptionAr,
+      buttonLabel: buttonLabel,
+      buttonLabelAr: buttonLabelAr,
+      badgeText: badgeText,
+      badgeTextAr: badgeTextAr,
+      badgeColor: badgeColor,
+      primaryColor: primaryColor,
+      icon: icon,
+      assetImagePath: 'assets/images/myturn_icon.png',
+      onTap: () {
+        userProfile.recordBannerClick(
+          bannerId: 'myturn_app_v$variant',
+          bannerType: 'myTurn',
+        );
+        _launchExternalUrl(myTurnPlayStoreUrl);
+      },
+    );
   }
 
   /// Évalue et retourne les bannières de la colonne droite (Écosystème & Apps - 2 à 3 cartes)
@@ -579,13 +702,35 @@ class SmartBannerService {
     final levelId = curriculum.selectedLevelId;
     final List<SmartBannerItem> items = [];
 
-    // 1. Focus Domain YouTube Channel (Priorité accrue si Pomodoro actif)
-    double focusDomainScore = 70.0;
+    // Facteur de rotation dynamique (change toutes les 2 minutes pour éviter toute rigidité)
+    final int nowMinute = DateTime.now().minute;
+    final int rotationSlot = (nowMinute ~/ 2) % 4;
+    final int myTurnVariantIndex = nowMinute % 3;
+
+    // 1. My Turn (Gestion intelligente et digitale des files d'attente)
+    double myTurnScore = 86.0;
+    if (rotationSlot == 0) {
+      myTurnScore = 96.0; // Spotlight vedette n°1 du créneau 0
+    } else if (rotationSlot == 2) {
+      myTurnScore = 91.0;
+    }
+    items.add(_buildMyTurnBanner(
+      context: context,
+      userProfile: userProfile,
+      variantIndex: myTurnVariantIndex,
+      score: myTurnScore,
+    ));
+
+    // 2. Focus Domain YouTube Channel (Priorité accrue si Pomodoro actif ou créneau 2)
+    double focusDomainScore = 72.0;
     if (focusTimer.isRunning || focusTimer.remainingSeconds < focusTimer.totalFocusSecondsInTechnique) {
       focusDomainScore += 25.0;
     }
+    if (rotationSlot == 2) {
+      focusDomainScore += 24.0; // Spotlight vedette n°1 du créneau 2
+    }
     if (levelId == '2eme-bac' || levelId == '1ere-bac') {
-      focusDomainScore += 10.0;
+      focusDomainScore += 8.0;
     }
 
     items.add(SmartBannerItem(
@@ -611,8 +756,11 @@ class SmartBannerService {
       },
     ));
 
-    // 2. MyPocket (Gestion de Budget & Épargne sur Google Play)
-    final double myPocketScore = (levelId == '2eme-bac') ? 85.0 : 72.0;
+    // 3. MyPocket (Gestion de Budget & Épargne sur Google Play)
+    double myPocketScore = (levelId == '2eme-bac') ? 85.0 : 74.0;
+    if (rotationSlot == 1) {
+      myPocketScore += 22.0; // Spotlight vedette n°1 du créneau 1
+    }
     items.add(SmartBannerItem(
       id: 'mypocket_app',
       type: BannerType.myPocket,
@@ -636,12 +784,16 @@ class SmartBannerService {
       },
     ));
 
-    // 3. Application PC Windows (uniquement sur le Web) / Espace Concentration (sur Windows natif)
+    // 4. Application PC Windows (uniquement sur le Web) / Espace Concentration (sur Windows natif)
+    double windowsScore = 75.0;
+    if (rotationSlot == 3) {
+      windowsScore += 18.0; // Spotlight vedette n°1 du créneau 3
+    }
     if (kIsWeb) {
       items.add(SmartBannerItem(
         id: 'windows_app_pc',
         type: BannerType.windowsApp,
-        score: 75.0,
+        score: windowsScore,
         title: 'App PC Windows',
         titleAr: 'تطبيق ويندوز للكمبيوتر',
         subtitle: 'Qrayti pour Windows',
@@ -664,7 +816,7 @@ class SmartBannerService {
       items.add(SmartBannerItem(
         id: 'pomodoro_tech_guide',
         type: BannerType.focusDomain,
-        score: 75.0,
+        score: windowsScore,
         title: 'Espace Concentration',
         titleAr: 'فضاء التركيز والدراسة',
         subtitle: 'Technique Pomodoro & Rythmes',
@@ -690,11 +842,92 @@ class SmartBannerService {
       ));
     }
 
-    // 4. Bannière Test Google AdSense (Format démo rotatif pour tester la monétisation)
-    final int sessionVariant = DateTime.now().minute % 3;
-    items.add(_buildAdSenseVariant(variantIndex: sessionVariant));
+    // 5. Bannière Test Google AdSense (Format démo rotatif pour tester la monétisation)
+    double adSenseScore = 48.0;
+    if (rotationSlot == 3) {
+      adSenseScore += 30.0;
+    }
+    final int sessionVariant = nowMinute % 3;
+    final adSenseItem = _buildAdSenseVariant(variantIndex: sessionVariant);
+    items.add(SmartBannerItem(
+      id: adSenseItem.id,
+      type: adSenseItem.type,
+      score: adSenseScore,
+      title: adSenseItem.title,
+      titleAr: adSenseItem.titleAr,
+      subtitle: adSenseItem.subtitle,
+      subtitleAr: adSenseItem.subtitleAr,
+      description: adSenseItem.description,
+      descriptionAr: adSenseItem.descriptionAr,
+      buttonLabel: adSenseItem.buttonLabel,
+      buttonLabelAr: adSenseItem.buttonLabelAr,
+      badgeText: adSenseItem.badgeText,
+      badgeTextAr: adSenseItem.badgeTextAr,
+      badgeColor: adSenseItem.badgeColor,
+      primaryColor: adSenseItem.primaryColor,
+      icon: adSenseItem.icon,
+      onTap: adSenseItem.onTap,
+    ));
 
     items.sort((a, b) => b.score.compareTo(a.score));
     return items.take(3).toList();
+  }
+
+  /// Retourne la bannière vedette dynamique pour les écrans mobiles / tablettes compactes
+  static SmartBannerItem getMobileBanner({
+    required BuildContext context,
+    required CurriculumService curriculum,
+    required UserProfileService userProfile,
+    required FocusTimerService focusTimer,
+    required AppLanguageService langService,
+    required VoidCallback onWindowsDownload,
+  }) {
+    final int nowMinute = DateTime.now().minute;
+    final int mobileCycle = (nowMinute ~/ 2) % 3;
+
+    switch (mobileCycle) {
+      case 0:
+        // My Turn - Accroche Grand Public / Temps Réel
+        return _buildMyTurnBanner(
+          context: context,
+          userProfile: userProfile,
+          variantIndex: nowMinute % 3,
+          score: 98.0,
+        );
+
+      case 1:
+        // MyPocket - Gestion de budget étudiant
+        return SmartBannerItem(
+          id: 'mypocket_app_mobile',
+          type: BannerType.myPocket,
+          score: 92.0,
+          title: 'MyPocket',
+          titleAr: 'ماي بوكيت - مصاريفي',
+          subtitle: 'Gestion de Budget & Épargne',
+          subtitleAr: 'تنظيم المصاريف والمدخرات',
+          description: 'Suivez vos dépenses quotidiennes et gérez votre budget étudiant en toute simplicité.',
+          descriptionAr: 'تطبيق ذكي لتنظيم مصروفك اليومي وإدارة ميزانيتك بكل سهولة.',
+          buttonLabel: 'Installer sur Google Play',
+          buttonLabelAr: 'تثبيت من Google Play',
+          badgeText: 'Recommandé',
+          badgeTextAr: 'تطبيق موصى به',
+          badgeColor: const Color(0xFF7C3AED),
+          primaryColor: const Color(0xFF6D28D9),
+          assetImagePath: 'assets/images/mypocket_icon.jpg',
+          onTap: () {
+            userProfile.recordBannerClick(bannerId: 'mypocket_app', bannerType: 'myPocket');
+            _launchExternalUrl(myPocketPlayStoreUrl);
+          },
+        );
+
+      default: // case 2
+        // My Turn - Accroche Professionnels / Salons & Commerces
+        return _buildMyTurnBanner(
+          context: context,
+          userProfile: userProfile,
+          variantIndex: 1,
+          score: 95.0,
+        );
+    }
   }
 }
