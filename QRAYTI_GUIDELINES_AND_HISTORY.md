@@ -403,11 +403,28 @@ L'exécutable final est généré dans :
 
 ---
 
-## 6. Consignes Spécifiques pour les Prochaines Mises à Jour
+## 7. Mise à Jour Critique : Synchronisation Google Drive & Assainissement des PDFs (10/10/2026)
 
-* **Gestion du Catalogue 3AC** : Si de nouveaux documents PDF 3AC sont ajoutés, utilisez le script [`cours/scripts/upload_local_to_drive.py`](file:///c:/Users/HPi5book/Desktop/flutter/app/cours/scripts/upload_local_to_drive.py) pour les téléverser sur Google Drive et les enregistrer dans `registry.json` et `curriculum.json`.
-* **Cohérence Multi-Projets** : Toute modification apportée au catalogue `curriculum.json` ou aux widgets partagés (`floating_focus_timer.dart`, `pdf_viewer_screen.dart`) doit être répliquée sur les 3 projets (`cours`, `cours_web`, `cours_windows`).
-* **Respect de la Demande Utilisateur** : Toujours demander l'autorisation de l'utilisateur avant d'exécuter un push vers GitHub ou un déploiement public si l'utilisateur est en cours de prévisualisation locale.
+### 7.1. Contexte & Diagnostic des Problèmes Antérieurs
+* **Absence des nouveaux documents 3AC sur le site** : L'analyse a révélé que les 556 documents 3AC ajoutés précédemment possédaient des identifiants temporaires locaux (`local_3ac_...`) et des URLs fictives (`https://qrayti.online/api/pdf?id=...`). Ces fichiers n'avaient jamais été téléversés sur Google Drive.
+* **Persistance des logos AlloSchool sur le site** : Bien que certains fichiers aient été nettoyés sur le disque local, ils n'avaient pas été réinjectés sur Google Drive via l'API, ce qui faisait que le site web et l'application mobile téléchargeaient toujours les anciens fichiers PDF hébergés sur Drive.
+* **Décalage du catalogue distant** : Le catalogue distant hébergé sur Google Drive (`1HXG24aQmnvxj5pl19b7OdqNvQcJSzeyG`) datait du 14 septembre 2026 et écrasait ou bloquait la mise à jour des 20 824 documents.
+
+### 7.2. Actions Opérées & Résultats
+1. **Connexion OAuth Google Drive Réussie** : Authentification complète sous le compte `babadre2007@gmail.com` avec jeton auto-rafraîchi (`token.json`).
+2. **Nettoyage & Remplacement en Place des 131 Anciens Documents 3AC** : Remplacement direct via l'API Google Drive (`PATCH uploadType=media`) des 131 fichiers existants par leurs versions locales assainies (sans bannières, logos, ou liens AlloSchool). Les liens d'origine restent inchangés mais le contenu servi est 100% propre.
+3. **Téléversement de 373 Fichiers Uniques 3AC** : Envoi de l'intégralité des nouveaux fichiers 3AC vers le dossier partagé public `1nqW5Jc5UJXqULOpVMLM3j_5Z9fEprCyl`.
+4. **Mise à Jour Intégrale de `curriculum.json`** :
+   - 556 références 3AC associées à de vrais IDs Google Drive et vrais liens `https://drive.google.com/uc?id={id}&export=download`.
+   - Total catalogue porté à **20 824 documents** (version 101).
+   - Zéro ID fictif `local_3ac_` restant.
+5. **Nouveau Fichier Catalogue Distant sur Google Drive** :
+   - Fichier créé et partagé publiquement sous l'ID : **`1wk2wzvtp_onc9mavEWtsXQXuWB34ETQH`**.
+   - `catalogDriveFileId` mis à jour dans `curriculum_service.dart`.
+6. **Réinitialisation Forcée du Cache Navigateur** :
+   - `qrayti_catalog_v` incrémenté à `101` dans `web/index.html`.
+   - Purge automatique de `flutter.cached_curriculum_catalog_json_v1` au chargement de la page pour tous les utilisateurs.
 
 ---
 *Document rédigé et certifié pour le projet Qrayti. Tout modèle IA intervenant ultérieurement doit le maintenir à jour.*
+
