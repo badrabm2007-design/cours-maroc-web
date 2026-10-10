@@ -409,7 +409,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 28),
 
-          // 4. About App
+          // 4. Feedback & Support Section
+          _buildSectionHeader(
+            context: context,
+            title: langService.tr('feedback_section_title'),
+            icon: Icons.rate_review_outlined,
+            isDark: isDark,
+          ),
+          const SizedBox(height: 10),
+          _buildFeedbackCard(context, isDark, langService, curriculum),
+          const SizedBox(height: 28),
+
+          // 5. About App
           _buildSectionHeader(
             context: context,
             title: langService.tr('settings_about'),
@@ -535,6 +546,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Flexible(
                           child: Text(
                             langService.tr('official_source_label'),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF0F5132),
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                InkWell(
+                  onTap: () async {
+                    final uri = Uri.parse('https://qrayti.online/privacy/');
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri, mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.privacy_tip_outlined, size: 14, color: Color(0xFF0F5132)),
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            langService.tr('feedback_privacy_link'),
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -758,6 +800,399 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
+    );
+  }
+
+  Widget _buildFeedbackCard(
+    BuildContext context,
+    bool isDark,
+    AppLanguageService langService,
+    CurriculumService curriculum,
+  ) {
+    final isAr = langService.isArabic;
+
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF162032) : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark ? const Color(0xFF1F2E45) : const Color(0xFFE2E8F0),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF0F5132), Color(0xFF10B981)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF10B981).withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.chat_bubble_outline_rounded, color: Colors.white, size: 22),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      langService.tr('feedback_card_title'),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      isAr ? 'واتساب : 0700-769996 • بريد : qrayticontact@gmail.com' : 'WhatsApp : +212 700-769996 • Email : qrayticontact@gmail.com',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: isDark ? const Color(0xFFFBBF24) : const Color(0xFFD97706),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            langService.tr('feedback_card_desc'),
+            style: TextStyle(
+              fontSize: 13,
+              height: 1.45,
+              color: isDark ? Colors.white70 : const Color(0xFF64748B),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Direct Action Buttons
+          Row(
+            children: [
+              // WhatsApp Direct Button
+              Expanded(
+                child: FilledButton.icon(
+                  icon: const Icon(Icons.chat_rounded, size: 18),
+                  label: const Text(
+                    'WhatsApp',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                  ),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF25D366),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () => _openFeedbackModal(context, langService, curriculum, channel: 'whatsapp'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              // Email Direct Button
+              Expanded(
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.email_outlined, size: 18),
+                  label: const Text(
+                    'E-mail',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: isDark ? Colors.white : const Color(0xFF0F5132),
+                    side: BorderSide(
+                      color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () => _openFeedbackModal(context, langService, curriculum, channel: 'email'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openFeedbackModal(
+    BuildContext context,
+    AppLanguageService langService,
+    CurriculumService curriculum, {
+    required String channel,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isAr = langService.isArabic;
+    final auth = context.read<AuthService>();
+
+    int selectedRating = 5;
+    String selectedType = 'review';
+    final nameController = TextEditingController(
+      text: auth.currentUser?.displayName ?? '',
+    );
+    final messageController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (modalContext, setModalState) {
+            return Container(
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: MediaQuery.of(modalContext).viewInsets.bottom + 24,
+              ),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF0F172A) : Colors.white,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Handle bar
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.white24 : Colors.black12,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Icon(
+                          channel == 'whatsapp' ? Icons.chat_rounded : Icons.email_rounded,
+                          color: channel == 'whatsapp' ? const Color(0xFF25D366) : const Color(0xFF0F5132),
+                          size: 24,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            channel == 'whatsapp'
+                                ? (isAr ? 'إرسال عبر واتساب (0700-769996)' : 'Contacter sur WhatsApp (+212 700-769996)')
+                                : (isAr ? 'إرسال عبر البريد الإلكتروني' : 'Envoyer un E-mail (qrayticontact@gmail.com)'),
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Type Selector
+                    Text(
+                      langService.tr('feedback_type_label'),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _buildTypeChip('review', langService.tr('feedback_type_review'), selectedType, (val) {
+                          setModalState(() => selectedType = val);
+                        }, isDark),
+                        _buildTypeChip('question', langService.tr('feedback_type_question'), selectedType, (val) {
+                          setModalState(() => selectedType = val);
+                        }, isDark),
+                        _buildTypeChip('request', langService.tr('feedback_type_request'), selectedType, (val) {
+                          setModalState(() => selectedType = val);
+                        }, isDark),
+                        _buildTypeChip('suggestion', langService.tr('feedback_type_suggestion'), selectedType, (val) {
+                          setModalState(() => selectedType = val);
+                        }, isDark),
+                        _buildTypeChip('bug', langService.tr('feedback_type_bug'), selectedType, (val) {
+                          setModalState(() => selectedType = val);
+                        }, isDark),
+                      ],
+                    ),
+
+                    if (selectedType == 'review') ...[
+                      const SizedBox(height: 16),
+                      Text(
+                        langService.tr('feedback_rating_label'),
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: List.generate(5, (index) {
+                          final star = index + 1;
+                          return IconButton(
+                            icon: Icon(
+                              star <= selectedRating ? Icons.star_rounded : Icons.star_border_rounded,
+                              color: const Color(0xFFF59E0B),
+                              size: 32,
+                            ),
+                            onPressed: () => setModalState(() => selectedRating = star),
+                          );
+                        }),
+                      ),
+                    ],
+
+                    const SizedBox(height: 14),
+                    // Name field
+                    TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: langService.tr('feedback_name_label'),
+                        prefixIcon: const Icon(Icons.person_outline_rounded, size: 20),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Message field
+                    TextFormField(
+                      controller: messageController,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        hintText: langService.tr('feedback_message_label'),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        contentPadding: const EdgeInsets.all(14),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+
+                    // Submit button
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        icon: Icon(channel == 'whatsapp' ? Icons.send_rounded : Icons.mail_rounded),
+                        label: Text(
+                          channel == 'whatsapp' ? langService.tr('feedback_send_whatsapp') : langService.tr('feedback_send_email'),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: channel == 'whatsapp' ? const Color(0xFF25D366) : const Color(0xFF0F5132),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                        onPressed: () async {
+                          final name = nameController.text.trim().isEmpty
+                              ? (isAr ? 'تلميذ في قرايتي' : 'Élève Qrayti')
+                              : nameController.text.trim();
+                          final level = curriculum.shortLevelAndBranchCode;
+                          final msg = messageController.text.trim();
+
+                          String typeLabel;
+                          switch (selectedType) {
+                            case 'review':
+                              typeLabel = 'Avis ($selectedRating/5 ⭐)';
+                              break;
+                            case 'question':
+                              typeLabel = 'Question sur un cours';
+                              break;
+                            case 'request':
+                              typeLabel = 'Demande de document';
+                              break;
+                            case 'suggestion':
+                              typeLabel = 'Suggestion d\'amélioration';
+                              break;
+                            case 'bug':
+                              typeLabel = 'Signalement de problème';
+                              break;
+                            default:
+                              typeLabel = 'Message';
+                          }
+
+                          Navigator.of(sheetContext).pop();
+
+                          if (channel == 'whatsapp') {
+                            final text = '🎓 *Message Qrayti Online*\n'
+                                '━━━━━━━━━━━━━━━━━━━━\n'
+                                '📌 *Objet* : $typeLabel\n'
+                                '👤 *De* : $name\n'
+                                '📚 *Niveau* : $level\n'
+                                '${selectedType == 'review' ? '⭐ *Note* : $selectedRating / 5\n' : ''}'
+                                '━━━━━━━━━━━━━━━━━━━━\n'
+                                '📝 *Message* :\n$msg';
+
+                            final url = 'https://wa.me/212700769996?text=${Uri.encodeComponent(text)}';
+                            final uri = Uri.parse(url);
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(uri, mode: LaunchMode.externalApplication);
+                            }
+                          } else {
+                            final subject = '[Qrayti - $typeLabel] $name ($level)';
+                            final body = 'Bonjour l\'équipe Qrayti,\n\n'
+                                'Objet : $typeLabel\n'
+                                'Élève : $name\n'
+                                'Niveau : $level\n'
+                                '${selectedType == 'review' ? 'Évaluation : $selectedRating / 5 étoiles\n' : ''}\n'
+                                'Message :\n$msg\n\n'
+                                '---\nEnvoyé depuis Qrayti Online (qrayti.online)';
+
+                            final uri = Uri.parse('mailto:qrayticontact@gmail.com?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}');
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(uri, mode: LaunchMode.externalApplication);
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildTypeChip(
+    String type,
+    String label,
+    String selectedType,
+    ValueChanged<String> onSelected,
+    bool isDark,
+  ) {
+    final isSelected = type == selectedType;
+    return ChoiceChip(
+      label: Text(
+        label,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          color: isSelected ? Colors.white : (isDark ? Colors.white70 : const Color(0xFF334155)),
+        ),
+      ),
+      selected: isSelected,
+      selectedColor: const Color(0xFF0F5132),
+      checkmarkColor: Colors.white,
+      onSelected: (_) => onSelected(type),
     );
   }
 }
