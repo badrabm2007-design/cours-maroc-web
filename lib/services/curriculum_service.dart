@@ -9,7 +9,7 @@ class CurriculumService extends ChangeNotifier {
   static const String _levelPrefKey = 'selected_level_id';
   static const String _branchPrefKey = 'selected_branch_id';
   static const String _remoteCatalogUrlPrefKey = 'remote_catalog_url_override_v1';
-  static const String catalogDriveFileId = '1HXG24aQmnvxj5pl19b7OdqNvQcJSzeyG';
+  static const String catalogDriveFileId = '1wk2wzvtp_onc9mavEWtsXQXuWB34ETQH';
   static const String defaultRemoteCatalogUrl =
       'https://drive.usercontent.google.com/download?id=$catalogDriveFileId&export=download&authuser=0&confirm=t';
   static const List<String> defaultRemoteCatalogUrls = [
